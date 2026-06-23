@@ -1,0 +1,143 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Domains\Resume\Repositories\ResumeRepositoryInterface;
+use App\Domains\Template\Repositories\TemplateRepositoryInterface;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+
+class FrontendController extends Controller
+{
+    public function __construct(
+        protected ResumeRepositoryInterface $resumeRepository,
+        protected TemplateRepositoryInterface $templateRepository
+    ) {}
+
+    // Guest Auth Views
+    public function login()
+    {
+        if (auth()->check()) {
+            return redirect()->route('dashboard');
+        }
+        return view('auth.login');
+    }
+
+    public function register()
+    {
+        if (auth()->check()) {
+            return redirect()->route('dashboard');
+        }
+        return view('auth.register');
+    }
+
+    public function forgotPassword()
+    {
+        if (auth()->check()) {
+            return redirect()->route('dashboard');
+        }
+        return view('auth.forgot-password');
+    }
+
+    // Protected Views
+    public function dashboard(Request $request)
+    {
+        $resumes = $this->resumeRepository->getUserResumes(auth()->id());
+        
+        // Calculate basic stats for user feedback dashboard
+        $totalResumes = $resumes->count();
+        $averageScore = $resumes->avg('score') ?? 0;
+        $totalExports = $resumes->sum(fn($r) => $r->versions()->count()); // Simple heuristic for activity
+
+        return view('dashboard', [
+            'resumes' => $resumes,
+            'stats' => [
+                'total_resumes' => $totalResumes,
+                'average_score' => round($averageScore),
+                'total_exports' => $totalExports
+            ]
+        ]);
+    }
+
+    public function templates()
+    {
+        $templates = $this->templateRepository->allActive();
+        return view('templates.index', ['templates' => $templates]);
+    }
+
+    public function builder(string $id)
+    {
+        $resume = $this->resumeRepository->findById($id);
+
+        if (!$resume) {
+            abort(404, 'Resume not found.');
+        }
+        
+        // Authorize access
+        if ($resume->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized access to resume.');
+        }
+
+        $templates = $this->templateRepository->allActive();
+        
+        // Structure sections nicely by section_type
+        $sections = $resume->sections->keyBy('section_type');
+
+        return view('resumes.builder', [
+            'resume' => $resume,
+            'templates' => $templates,
+            'sections' => $sections,
+        ]);
+    }
+
+    public function preview(string $id)
+    {
+        $resume = $this->resumeRepository->findById($id);
+
+        if (!$resume) {
+            abort(404, 'Resume not found.');
+        }
+
+        // Authorize access
+        if ($resume->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized access to resume.');
+        }
+
+        return view('resumes.preview', ['resume' => $resume]);
+    }
+
+    public function shared(string $id)
+    {
+        $resume = $this->resumeRepository->findById($id);
+
+        if (!$resume) {
+            abort(404, 'Resume not found.');
+        }
+
+        // Public preview has no auth check
+        return view('resumes.preview', [
+            'resume' => $resume,
+            'isShared' => true
+        ]);
+    }
+
+    public function aiFeedback(string $id)
+    {
+        $resume = $this->resumeRepository->findById($id);
+
+        if (!$resume) {
+            abort(404, 'Resume not found.');
+        }
+
+        if ($resume->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized access to resume.');
+        }
+
+        $reviews = $resume->aiReviews()->orderBy('created_at', 'desc')->get();
+
+        return view('resumes.ai-feedback', [
+            'resume' => $resume,
+            'reviews' => $reviews,
+        ]);
+    }
+}

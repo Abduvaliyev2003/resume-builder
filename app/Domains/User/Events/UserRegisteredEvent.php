@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Domains\User\Events;
+
+use App\Domains\User\Models\User;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+
+class UserRegisteredEvent
+{
+    use Dispatchable, SerializesModels;
+
+    public function __construct(
+        public readonly User $user
+    ) {}
+}
