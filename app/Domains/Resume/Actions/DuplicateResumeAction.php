@@ -16,6 +16,10 @@ class DuplicateResumeAction
     {
         return DB::transaction(function () use ($resumeId) {
             $original = $this->resumeRepository->findById($resumeId);
+
+            if (!$original) {
+                throw new \InvalidArgumentException('Resume not found.');
+            }
             
             $duplicated = $this->resumeRepository->create([
                 'user_id' => $original->user_id,

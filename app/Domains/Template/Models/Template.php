@@ -3,7 +3,6 @@
 namespace App\Domains\Template\Models;
 
 use App\Shared\Traits\HasUUID;
-use App\Shared\Enums\TemplateStyle;
 use Illuminate\Database\Eloquent\Model;
 use App\Domains\Resume\Models\Resume;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -25,7 +24,7 @@ class Template extends Model
     protected function casts(): array
     {
         return [
-            'style' => TemplateStyle::class,
+            'style' => 'string',
             'structure' => 'array',
             'is_active' => 'boolean',
         ];

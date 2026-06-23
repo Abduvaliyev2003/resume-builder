@@ -33,7 +33,18 @@ class FileController extends Controller
         }
 
         $fileType = FileType::from($request->validated('file_type'));
-        $file = $this->fileService->exportResume($id, $fileType);
+
+        try {
+            $file = $this->fileService->exportResume($id, $fileType);
+        } catch (\InvalidArgumentException $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        } catch (\Throwable $e) {
+            report($e);
+
+            return response()->json([
+                'message' => 'Failed to generate the requested file.',
+            ], 500);
+        }
 
         return response()->json([
             'message' => 'File exported successfully.',

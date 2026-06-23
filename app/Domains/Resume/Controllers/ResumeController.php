@@ -116,7 +116,12 @@ class ResumeController extends Controller
             return response()->json(['message' => 'This action is unauthorized.'], 403);
         }
 
-        $duplicated = $this->resumeService->duplicateResume($id);
+        try {
+            $duplicated = $this->resumeService->duplicateResume($id);
+        } catch (\InvalidArgumentException $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
+
         $duplicated->load(['sections', 'template', 'versions']);
 
         return response()->json([

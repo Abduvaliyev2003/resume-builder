@@ -83,7 +83,7 @@
                             sections: [
                                 {
                                     section_type: 'contact',
-                                    content: { name: '', title: '', email: '', phone: '', address: '' },
+                                    content: { name: '', title: '', email: '', phone: '', address: '', photo: '' },
                                     order_index: 1
                                 },
                                 {

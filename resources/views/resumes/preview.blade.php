@@ -87,15 +87,15 @@
         $accentColor = $resume->template?->structure['colors']['accent'] ?? '#60a5fa';
 
         $fontStyle = 'font-family: Inter, sans-serif;';
-        if ($templateStyle === \App\Shared\Enums\TemplateStyle::PROFESSIONAL) {
+        if ($templateStyle === 'professional') {
             $fontStyle = 'font-family: Outfit, sans-serif;';
-        } elseif ($templateStyle === \App\Shared\Enums\TemplateStyle::VERTICAL) {
+        } elseif ($templateStyle === 'vertical') {
             $fontStyle = 'font-family: Roboto, sans-serif;';
-        } elseif ($templateStyle === \App\Shared\Enums\TemplateStyle::ELEGANT) {
+        } elseif ($templateStyle === 'elegant') {
             $fontStyle = 'font-family: Merriweather, serif;';
-        } elseif ($templateStyle === \App\Shared\Enums\TemplateStyle::MODERN) {
+        } elseif ($templateStyle === 'modern') {
             $fontStyle = 'font-family: Nunito, sans-serif;';
-        } elseif ($templateStyle === \App\Shared\Enums\TemplateStyle::LUXURIOUS) {
+        } elseif ($templateStyle === 'luxurious') {
             $fontStyle = 'font-family: Playfair Display, serif;';
         }
     @endphp
@@ -109,8 +109,12 @@
                 <!-- Left circular header / Accent Column -->
                 <div class="w-1/3 border-r border-slate-100 pr-6 flex flex-col gap-4">
                     <div class="pb-4 border-b border-slate-100">
-                        <div class="w-16 h-16 rounded-full bg-blue-900 text-white flex items-center justify-center font-extrabold text-xl mb-4">
-                            <span>{{ !empty($contact['name']) ? substr($contact['name'], 0, 1) : 'J' }}</span>
+                        <div class="w-16 h-16 rounded-full bg-blue-900 text-white flex items-center justify-center font-extrabold text-xl mb-4 overflow-hidden">
+                            @if(!empty($contact['photo']))
+                                <img src="{{ $contact['photo'] }}" alt="Profile photo" class="w-full h-full object-cover">
+                            @else
+                                <span>{{ !empty($contact['name']) ? substr($contact['name'], 0, 1) : 'J' }}</span>
+                            @endif
                         </div>
                         <h2 class="font-extrabold text-blue-950 text-base">{{ $contact['name'] ?? 'Your Name' }}</h2>
                         <p class="text-xs text-blue-700 font-semibold mt-0.5">{{ $contact['title'] ?? 'Job Title' }}</p>
@@ -209,10 +213,15 @@
                         <h2 class="text-2xl font-bold">{{ $contact['name'] ?? 'Your Name' }}</h2>
                         <p class="text-slate-300 font-semibold">{{ $contact['title'] ?? 'Job Title' }}</p>
                     </div>
-                    <div class="text-right text-[11px] text-slate-350 flex flex-col gap-0.5">
-                        <p><i class="fa-regular fa-envelope mr-1.5"></i>{{ $contact['email'] ?? '' }}</p>
-                        <p><i class="fa-solid fa-phone mr-1.5"></i>{{ $contact['phone'] ?? '' }}</p>
-                        <p><i class="fa-solid fa-location-dot mr-1.5"></i>{{ $contact['address'] ?? '' }}</p>
+                    <div class="flex items-center gap-3">
+                        <div class="text-right text-[11px] text-slate-350 flex flex-col gap-0.5">
+                            <p><i class="fa-regular fa-envelope mr-1.5"></i>{{ $contact['email'] ?? '' }}</p>
+                            <p><i class="fa-solid fa-phone mr-1.5"></i>{{ $contact['phone'] ?? '' }}</p>
+                            <p><i class="fa-solid fa-location-dot mr-1.5"></i>{{ $contact['address'] ?? '' }}</p>
+                        </div>
+                        @if(!empty($contact['photo']))
+                            <img src="{{ $contact['photo'] }}" alt="Profile photo" class="w-16 h-16 rounded-xl object-cover border border-white/20">
+                        @endif
                     </div>
                 </div>
 
@@ -293,8 +302,15 @@
                 
                 <div class="flex-1 flex flex-col gap-5">
                     <div class="pb-4 border-b">
-                        <h2 class="text-2xl font-black text-slate-900">{{ $contact['name'] ?? '' }}</h2>
-                        <p class="font-bold text-sm tracking-wide" style="color: {{ $primaryColor }}">{{ $contact['title'] ?? '' }}</p>
+                        <div class="flex justify-between items-start gap-4">
+                            <div>
+                                <h2 class="text-2xl font-black text-slate-900">{{ $contact['name'] ?? '' }}</h2>
+                                <p class="font-bold text-sm tracking-wide" style="color: {{ $primaryColor }}">{{ $contact['title'] ?? '' }}</p>
+                            </div>
+                            @if(!empty($contact['photo']))
+                                <img src="{{ $contact['photo'] }}" alt="Profile photo" class="w-16 h-16 rounded-xl object-cover border border-slate-200">
+                            @endif
+                        </div>
                         
                         <div class="flex flex-wrap gap-4 mt-3 text-[11px] text-slate-500">
                             <span><i class="fa-regular fa-envelope mr-1.5" style="color: {{ $primaryColor }}"></i>{{ $contact['email'] ?? '' }}</span>
@@ -363,15 +379,20 @@
         @else
             <!-- FALLBACK DEFAULT STYLES -->
             <div class="flex flex-col gap-6">
-                <div class="border-b pb-4 flex justify-between items-start">
+                <div class="border-b pb-4 flex justify-between items-start gap-4">
                     <div>
                         <h2 class="text-3xl font-extrabold text-slate-900">{{ $contact['name'] ?? 'Your Name' }}</h2>
                         <p class="text-primary-650 font-bold text-sm">{{ $contact['title'] ?? 'Title' }}</p>
                     </div>
-                    <div class="text-right text-[11px] text-slate-500 flex flex-col gap-0.5">
-                        <p>{{ $contact['email'] ?? '' }}</p>
-                        <p>{{ $contact['phone'] ?? '' }}</p>
-                        <p>{{ $contact['address'] ?? '' }}</p>
+                    <div class="flex items-start gap-3">
+                        <div class="text-right text-[11px] text-slate-500 flex flex-col gap-0.5">
+                            <p>{{ $contact['email'] ?? '' }}</p>
+                            <p>{{ $contact['phone'] ?? '' }}</p>
+                            <p>{{ $contact['address'] ?? '' }}</p>
+                        </div>
+                        @if(!empty($contact['photo']))
+                            <img src="{{ $contact['photo'] }}" alt="Profile photo" class="w-16 h-16 rounded-xl object-cover border border-slate-200">
+                        @endif
                     </div>
                 </div>
 

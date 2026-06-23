@@ -18,6 +18,10 @@ class RunATSAnalysisAction
     public function execute(string $resumeId): AIReview
     {
         $resume = $this->resumeRepository->findById($resumeId);
+
+        if (!$resume) {
+            throw new \InvalidArgumentException('Resume not found.');
+        }
         
         $resumeData = [
             'title' => $resume->title,

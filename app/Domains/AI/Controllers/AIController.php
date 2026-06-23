@@ -54,7 +54,11 @@ class AIController extends Controller
     {
         $this->getAuthorizedResume($id, $request);
 
-        $review = $action->execute($id);
+        try {
+            $review = $action->execute($id);
+        } catch (\InvalidArgumentException $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
 
         return response()->json([
             'message' => 'ATS analysis completed.',
@@ -66,7 +70,11 @@ class AIController extends Controller
     {
         $this->getAuthorizedResume($id, $request);
 
-        $review = $action->execute($id);
+        try {
+            $review = $action->execute($id);
+        } catch (\InvalidArgumentException $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
 
         return response()->json([
             'message' => 'Missing sections analysis completed.',
@@ -78,11 +86,15 @@ class AIController extends Controller
     {
         $this->getAuthorizedResume($id, $request);
 
-        $target = $action->execute(
-            $id,
-            $request->validated('job_title'),
-            $request->validated('job_description')
-        );
+        try {
+            $target = $action->execute(
+                $id,
+                $request->validated('job_title'),
+                $request->validated('job_description')
+            );
+        } catch (\InvalidArgumentException $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
 
         return response()->json([
             'message' => 'Job match analysis completed.',

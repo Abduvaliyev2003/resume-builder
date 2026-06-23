@@ -11,6 +11,7 @@ use App\Domains\User\Services\UserService;
 use App\Domains\User\Resources\UserResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -49,8 +50,13 @@ class AuthController extends Controller
         if ($request->user() && $request->user()->currentAccessToken()) {
             $request->user()->currentAccessToken()->delete();
         }
-        
-        auth()->logout();
+
+        Auth::guard('web')->logout();
+
+        if ($request->hasSession()) {
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
 
         return response()->json([
             'message' => 'Logged out successfully.',

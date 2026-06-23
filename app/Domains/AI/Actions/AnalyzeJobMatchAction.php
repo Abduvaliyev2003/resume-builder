@@ -18,6 +18,10 @@ class AnalyzeJobMatchAction
     public function execute(string $resumeId, string $jobTitle, string $jobDescription): JobTarget
     {
         $resume = $this->resumeRepository->findById($resumeId);
+
+        if (!$resume) {
+            throw new \InvalidArgumentException('Resume not found.');
+        }
         
         $resumeData = [
             'title' => $resume->title,

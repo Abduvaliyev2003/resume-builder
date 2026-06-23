@@ -12,7 +12,7 @@ class TemplateResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'style' => $this->style->value,
+            'style' => $this->style,
             'description' => $this->description,
             'structure' => $this->structure,
             'is_active' => $this->is_active,

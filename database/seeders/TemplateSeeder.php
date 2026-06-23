@@ -123,9 +123,10 @@ class TemplateSeeder extends Seeder
 
         foreach ($templates as $t) {
             Template::updateOrCreate(
-                ['style' => $t['style']],
+                ['style' => $t['style']->value],
                 [
                     'name' => $t['name'],
+                    'style' => $t['style']->value,
                     'description' => $t['description'],
                     'structure' => $t['structure'],
                     'is_active' => true,

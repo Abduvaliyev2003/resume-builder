@@ -50,6 +50,17 @@ class ExportResumeAction
 
     protected function generateResumeFileContent($resume, FileType $fileType): string
     {
+        $text = $this->generateResumeTextContent($resume);
+
+        if ($fileType === FileType::PDF) {
+            return $this->generatePdfContent($text);
+        }
+
+        return $text;
+    }
+
+    protected function generateResumeTextContent($resume): string
+    {
         $output = "==================================================\n";
         $output .= "               " . strtoupper($resume->title) . "               \n";
         $output .= "==================================================\n\n";
@@ -76,5 +87,71 @@ class ExportResumeAction
         $output .= "Generated at: " . now()->toDateTimeString() . "\n";
 
         return $output;
+    }
+
+    protected function generatePdfContent(string $text): string
+    {
+        $lines = [];
+
+        foreach (preg_split("/\r\n|\n|\r/", $text) as $line) {
+            $line = trim(preg_replace('/\s+/', ' ', $line));
+
+            if ($line === '') {
+                $lines[] = '';
+                continue;
+            }
+
+            foreach (str_split($line, 92) as $chunk) {
+                $lines[] = $chunk;
+            }
+        }
+
+        $lines = array_slice($lines, 0, 56);
+        $streamLines = ['BT', '/F1 10 Tf', '50 790 Td', '14 TL'];
+
+        foreach ($lines as $index => $line) {
+            if ($index > 0) {
+                $streamLines[] = 'T*';
+            }
+
+            $streamLines[] = '(' . $this->escapePdfText($line) . ') Tj';
+        }
+
+        $streamLines[] = 'ET';
+        $stream = implode("\n", $streamLines);
+
+        $objects = [
+            "1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n",
+            "2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n",
+            "3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>\nendobj\n",
+            "4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n",
+            "5 0 obj\n<< /Length " . strlen($stream) . " >>\nstream\n{$stream}\nendstream\nendobj\n",
+        ];
+
+        $pdf = "%PDF-1.4\n";
+        $offsets = [0];
+
+        foreach ($objects as $object) {
+            $offsets[] = strlen($pdf);
+            $pdf .= $object;
+        }
+
+        $xrefOffset = strlen($pdf);
+        $pdf .= "xref\n0 " . (count($objects) + 1) . "\n";
+        $pdf .= "0000000000 65535 f \n";
+
+        for ($i = 1; $i <= count($objects); $i++) {
+            $pdf .= sprintf("%010d 00000 n \n", $offsets[$i]);
+        }
+
+        $pdf .= "trailer\n<< /Size " . (count($objects) + 1) . " /Root 1 0 R >>\n";
+        $pdf .= "startxref\n{$xrefOffset}\n%%EOF\n";
+
+        return $pdf;
+    }
+
+    protected function escapePdfText(string $text): string
+    {
+        return str_replace(['\\', '(', ')'], ['\\\\', '\\(', '\\)'], $text);
     }
 }

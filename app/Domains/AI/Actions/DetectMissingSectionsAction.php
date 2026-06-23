@@ -18,6 +18,11 @@ class DetectMissingSectionsAction
     public function execute(string $resumeId): AIReview
     {
         $resume = $this->resumeRepository->findById($resumeId);
+
+        if (!$resume) {
+            throw new \InvalidArgumentException('Resume not found.');
+        }
+
         $sectionTypes = $resume->sections->pluck('section_type')->toArray();
 
         $result = $this->aiService->detectMissingSections($sectionTypes);

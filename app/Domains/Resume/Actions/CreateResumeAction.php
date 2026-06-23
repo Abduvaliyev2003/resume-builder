@@ -5,6 +5,7 @@ namespace App\Domains\Resume\Actions;
 use App\Domains\Resume\DTOs\ResumeDTO;
 use App\Domains\Resume\Models\Resume;
 use App\Domains\Resume\Repositories\ResumeRepositoryInterface;
+use App\Domains\Template\Repositories\TemplateRepositoryInterface;
 use App\Domains\Resume\Events\ResumeCreatedEvent;
 use Illuminate\Support\Facades\DB;
 
@@ -12,6 +13,7 @@ class CreateResumeAction
 {
     public function __construct(
         protected ResumeRepositoryInterface $resumeRepository,
+        protected TemplateRepositoryInterface $templateRepository,
         protected CalculateResumeScoreAction $calculateScoreAction
     ) {}
 
@@ -20,7 +22,7 @@ class CreateResumeAction
         return DB::transaction(function () use ($userId, $dto) {
             $resume = $this->resumeRepository->create([
                 'user_id' => $userId,
-                'template_id' => $dto->template_id,
+                'template_id' => $dto->template_id ?? $this->templateRepository->allActive()->first()?->id,
                 'title' => $dto->title,
                 'score' => 0,
             ]);

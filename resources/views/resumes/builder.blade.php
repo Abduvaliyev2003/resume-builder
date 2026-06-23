@@ -41,7 +41,7 @@
                         </button>
                         <div x-show="open" @click.away="open = false" x-cloak class="absolute left-0 mt-1.5 w-48 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-705 rounded-xl shadow-lg z-50 py-1.5 text-xs text-slate-700 dark:text-slate-350">
                             @foreach($templates as $tpl)
-                                <button @click="switchTemplate('{{ $tpl->id }}', '{{ $tpl->style }}'); open = false" 
+                                <button @click="switchTemplate(@js($tpl->id), @js($tpl->style)); open = false" 
                                         :class="templateId === '{{ $tpl->id }}' ? 'bg-primary-50 dark:bg-primary-950/20 text-primary-600 font-bold' : ''"
                                         class="w-full text-left px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-750 transition">
                                     {{ $tpl->name }}
@@ -87,6 +87,23 @@
                 <div class="grid grid-cols-2 gap-4">
                     <x-input label="Full Name" name="c_name" placeholder="John Doe" model="contact.name" @input="triggerAutoSave()" />
                     <x-input label="Professional Title" name="c_title" placeholder="Backend Engineer" model="contact.title" @input="triggerAutoSave()" />
+                </div>
+                <div class="flex items-center gap-4 p-4 rounded-2xl border border-slate-100 dark:border-slate-850 bg-slate-50/50 dark:bg-slate-900/40">
+                    <div class="w-16 h-16 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 overflow-hidden flex items-center justify-center text-slate-400 shrink-0">
+                        <template x-if="contact.photo">
+                            <img :src="contact.photo" alt="Profile photo" class="w-full h-full object-cover">
+                        </template>
+                        <template x-if="!contact.photo">
+                            <i class="fa-solid fa-user text-xl"></i>
+                        </template>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <label for="c_photo" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Profile Photo</label>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <input id="c_photo" type="file" accept="image/*" @change="handlePhotoUpload($event)" class="block w-full text-xs text-slate-500 file:mr-3 file:px-3 file:py-1.5 file:rounded-lg file:border-0 file:bg-primary-50 file:text-primary-700 file:font-bold hover:file:bg-primary-100">
+                            <button type="button" x-show="contact.photo" x-cloak @click="removePhoto()" class="text-xs font-bold text-rose-600 hover:text-rose-700">Remove photo</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <x-input label="Email Address" name="c_email" type="email" placeholder="john@example.com" model="contact.email" @input="triggerAutoSave()" />
@@ -160,11 +177,11 @@
                             </button>
 
                             <div class="grid grid-cols-2 gap-4 pr-6">
-                                <x-input label="Company Name" :name="'job_company_' + index" placeholder="Google" x-model="job.company" @input="triggerAutoSave()" />
-                                <x-input label="Job Role / Position" :name="'job_role_' + index" placeholder="Software Engineer" x-model="job.role" @input="triggerAutoSave()" />
+                                <x-input label="Company Name" name="job_company" placeholder="Google" x-model="job.company" @input="triggerAutoSave()" />
+                                <x-input label="Job Role / Position" name="job_role" placeholder="Software Engineer" x-model="job.role" @input="triggerAutoSave()" />
                             </div>
                             <div class="grid grid-cols-2 gap-4">
-                                <x-input label="Duration (Dates)" :name="'job_duration_' + index" placeholder="Jan 2024 - Present" x-model="job.duration" @input="triggerAutoSave()" />
+                                <x-input label="Duration (Dates)" name="job_duration" placeholder="Jan 2024 - Present" x-model="job.duration" @input="triggerAutoSave()" />
                                 <div></div>
                             </div>
                             
@@ -203,11 +220,11 @@
                             </button>
 
                             <div class="grid grid-cols-2 gap-4 pr-6">
-                                <x-input label="School / University" :name="'edu_school_' + index" placeholder="Stanford University" x-model="edu.school" @input="triggerAutoSave()" />
-                                <x-input label="Degree / Program" :name="'edu_degree_' + index" placeholder="B.S. Computer Science" x-model="edu.degree" @input="triggerAutoSave()" />
+                                <x-input label="School / University" name="edu_school" placeholder="Stanford University" x-model="edu.school" @input="triggerAutoSave()" />
+                                <x-input label="Degree / Program" name="edu_degree" placeholder="B.S. Computer Science" x-model="edu.degree" @input="triggerAutoSave()" />
                             </div>
                             <div class="grid grid-cols-2 gap-4">
-                                <x-input label="Graduation Year" :name="'edu_year_' + index" placeholder="2024" x-model="edu.year" @input="triggerAutoSave()" />
+                                <x-input label="Graduation Year" name="edu_year" placeholder="2024" x-model="edu.year" @input="triggerAutoSave()" />
                                 <div></div>
                             </div>
                         </div>
@@ -236,10 +253,10 @@
                             </button>
 
                             <div class="grid grid-cols-2 gap-4 pr-6">
-                                <x-input label="Project Title" :name="'proj_title_' + index" placeholder="E-commerce Engine" x-model="proj.title" @input="triggerAutoSave()" />
-                                <x-input label="Technologies Used" :name="'proj_tech_' + index" placeholder="Laravel, Vue, Tailwind" x-model="proj.technologies" @input="triggerAutoSave()" />
+                                <x-input label="Project Title" name="proj_title" placeholder="E-commerce Engine" x-model="proj.title" @input="triggerAutoSave()" />
+                                <x-input label="Technologies Used" name="proj_tech" placeholder="Laravel, Vue, Tailwind" x-model="proj.technologies" @input="triggerAutoSave()" />
                             </div>
-                            <x-textarea label="Project Description" :name="'proj_desc_' + index" placeholder="Highlight project features, links, or architecture details..." x-model="proj.description" rows="2" @input="triggerAutoSave()" />
+                            <x-textarea label="Project Description" name="proj_desc" placeholder="Highlight project features, links, or architecture details..." x-model="proj.description" rows="2" @input="triggerAutoSave()" />
                         </div>
                     </template>
                     <template x-if="projects.items.length === 0">
@@ -269,8 +286,13 @@
                     <div class="w-1/3 border-r border-slate-100 pr-4 flex flex-col gap-4">
                         <div class="pb-4 border-b border-slate-100">
                             <!-- Circular styled curved block -->
-                            <div class="w-14 h-14 rounded-full bg-blue-900 text-white flex items-center justify-center font-extrabold text-lg mb-3">
-                                <span x-text="contact.name ? contact.name.charAt(0) : 'J'"></span>
+                            <div class="w-14 h-14 rounded-full bg-blue-900 text-white flex items-center justify-center font-extrabold text-lg mb-3 overflow-hidden">
+                                <template x-if="contact.photo">
+                                    <img :src="contact.photo" alt="Profile photo" class="w-full h-full object-cover">
+                                </template>
+                                <template x-if="!contact.photo">
+                                    <span x-text="contact.name ? contact.name.charAt(0) : 'J'"></span>
+                                </template>
                             </div>
                             <h2 class="font-extrabold text-blue-950 text-base" x-text="contact.name || 'Your Name'"></h2>
                             <p class="text-xs text-blue-700 font-semibold mt-0.5" x-text="contact.title || 'Job Title'"></p>
@@ -360,10 +382,15 @@
                             <h2 class="text-xl font-extrabold" x-text="contact.name || 'Your Name'"></h2>
                             <p class="text-slate-300 font-semibold" x-text="contact.title || 'Job Title'"></p>
                         </div>
-                        <div class="text-right text-[11px] text-slate-300 flex flex-col gap-0.5">
-                            <p><i class="fa-regular fa-envelope mr-1.5"></i><span x-text="contact.email"></span></p>
-                            <p><i class="fa-solid fa-phone mr-1.5"></i><span x-text="contact.phone"></span></p>
-                            <p><i class="fa-solid fa-location-dot mr-1.5"></i><span x-text="contact.address"></span></p>
+                        <div class="flex items-center gap-3">
+                            <div class="text-right text-[11px] text-slate-300 flex flex-col gap-0.5">
+                                <p><i class="fa-regular fa-envelope mr-1.5"></i><span x-text="contact.email"></span></p>
+                                <p><i class="fa-solid fa-phone mr-1.5"></i><span x-text="contact.phone"></span></p>
+                                <p><i class="fa-solid fa-location-dot mr-1.5"></i><span x-text="contact.address"></span></p>
+                            </div>
+                            <template x-if="contact.photo">
+                                <img :src="contact.photo" alt="Profile photo" class="w-14 h-14 rounded-xl object-cover border border-white/20">
+                            </template>
                         </div>
                     </div>
 
@@ -440,9 +467,14 @@
                     <div class="w-2.5 h-full rounded-full bg-red-850 flex-shrink-0"></div>
                     
                     <div class="flex-1 flex flex-col gap-5">
-                        <div class="pb-4 border-b">
-                            <h2 class="text-2xl font-black text-slate-900" x-text="contact.name || 'Your Name'"></h2>
-                            <p class="text-red-700 font-bold text-sm tracking-wide" x-text="contact.title || 'Job Title'"></p>
+                        <div class="pb-4 border-b flex justify-between gap-4">
+                            <div>
+                                <h2 class="text-2xl font-black text-slate-900" x-text="contact.name || 'Your Name'"></h2>
+                                <p class="text-red-700 font-bold text-sm tracking-wide" x-text="contact.title || 'Job Title'"></p>
+                            </div>
+                            <template x-if="contact.photo">
+                                <img :src="contact.photo" alt="Profile photo" class="w-16 h-16 rounded-xl object-cover border border-slate-200">
+                            </template>
                             
                             <div class="flex flex-wrap gap-4 mt-3 text-[11px] text-slate-500">
                                 <span><i class="fa-regular fa-envelope mr-1.5 text-red-700"></i><span x-text="contact.email"></span></span>
@@ -504,15 +536,20 @@
             <!-- FALLBACK/OTHER STYLES RENDER AS GENERIC DOUBLE COLUMN -->
             <template x-if="['circular', 'professional', 'vertical'].indexOf(selectedStyle) === -1">
                 <div class="flex flex-col gap-6">
-                    <div class="border-b pb-4 flex justify-between items-start">
+                    <div class="border-b pb-4 flex justify-between items-start gap-4">
                         <div>
                             <h2 class="text-2xl font-bold text-slate-900" x-text="contact.name || 'Your Name'"></h2>
                             <p class="text-primary-600 font-bold" x-text="contact.title || 'Job Title'"></p>
                         </div>
-                        <div class="text-right text-[11px] text-slate-500">
-                            <p x-text="contact.email"></p>
-                            <p x-text="contact.phone"></p>
-                            <p x-text="contact.address"></p>
+                        <div class="flex items-start gap-3">
+                            <div class="text-right text-[11px] text-slate-500">
+                                <p x-text="contact.email"></p>
+                                <p x-text="contact.phone"></p>
+                                <p x-text="contact.address"></p>
+                            </div>
+                            <template x-if="contact.photo">
+                                <img :src="contact.photo" alt="Profile photo" class="w-14 h-14 rounded-xl object-cover border border-slate-200">
+                            </template>
                         </div>
                     </div>
 
@@ -673,6 +710,15 @@
 @endsection
 
 @section('scripts')
+@php
+    $builderSelectedStyle = $resume->template?->style ?? 'professional';
+    $builderContact = $sections->get('contact')?->content ?? ['name' => '', 'title' => '', 'email' => '', 'phone' => '', 'address' => '', 'photo' => ''];
+    $builderSummary = $sections->get('summary')?->content ?? ['text' => ''];
+    $builderSkills = $sections->get('skills')?->content ?? ['list' => []];
+    $builderExperience = $sections->get('experience')?->content ?? ['items' => []];
+    $builderEducation = $sections->get('education')?->content ?? ['items' => []];
+    $builderProjects = $sections->get('projects')?->content ?? ['items' => []];
+@endphp
 <script>
     requireAuth();
 
@@ -703,18 +749,18 @@
 
     function resumeBuilder() {
         return {
-            resumeId: @json($resume->id),
-            title: @json($resume->title),
-            templateId: @json($resume->template_id),
-            selectedStyle: @json($resume->template?->style?->value ?? 'professional'),
+            resumeId: @js($resume->id),
+            title: @js($resume->title),
+            templateId: @js($resume->template_id),
+            selectedStyle: @js($builderSelectedStyle),
             
             // Sections data
-            contact: @json($sections['contact']?->content ?? ['name' => '', 'title' => '', 'email' => '', 'phone' => '', 'address' => '']),
-            summary: @json($sections['summary']?->content ?? ['text' => '']),
-            skills: @json($sections['skills']?->content ?? ['list' => []]),
-            experience: @json($sections['experience']?->content ?? ['items' => []]),
-            education: @json($sections['education']?->content ?? ['items' => []]),
-            projects: @json($sections['projects']?->content ?? ['items' => []]),
+            contact: @js($builderContact),
+            summary: @js($builderSummary),
+            skills: @js($builderSkills),
+            experience: @js($builderExperience),
+            education: @js($builderEducation),
+            projects: @js($builderProjects),
 
             activeTab: 'contact',
             saveStatus: 'Saved',
@@ -735,6 +781,39 @@
                 if (!this.experience.items) this.experience.items = [];
                 if (!this.education.items) this.education.items = [];
                 if (!this.projects.items) this.projects.items = [];
+                if (typeof this.contact.photo === 'undefined') this.contact.photo = '';
+            },
+
+            handlePhotoUpload(event) {
+                const file = event.target.files?.[0];
+
+                if (!file) return;
+
+                if (!file.type.startsWith('image/')) {
+                    showToast('Please choose an image file.', 'warning');
+                    event.target.value = '';
+                    return;
+                }
+
+                if (file.size > 1024 * 1024) {
+                    showToast('Photo must be under 1 MB.', 'warning');
+                    event.target.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = () => {
+                    this.contact.photo = reader.result;
+                    this.triggerAutoSave();
+                };
+                reader.readAsDataURL(file);
+            },
+
+            removePhoto() {
+                this.contact.photo = '';
+                const input = document.getElementById('c_photo');
+                if (input) input.value = '';
+                this.triggerAutoSave();
             },
 
             getTemplateName() {
@@ -872,7 +951,7 @@
     // AI copilot controller
     function aiCopilot() {
         return {
-            resumeId: @json($resume->id),
+            resumeId: @js($resume->id),
             subTab: 'ats',
             loading: false,
             atsResult: null,
