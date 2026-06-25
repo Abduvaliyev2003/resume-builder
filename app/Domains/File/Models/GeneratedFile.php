@@ -7,10 +7,12 @@ use App\Shared\Enums\FileType;
 use App\Domains\Resume\Models\Resume;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GeneratedFile extends Model
 {
     use HasUUID;
+    use SoftDeletes;
 
     protected $table = 'generated_files';
 
