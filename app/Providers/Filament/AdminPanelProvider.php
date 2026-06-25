@@ -2,6 +2,10 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\ResumeCreationChart;
+use App\Filament\Widgets\TopTemplatesChart;
+use App\Filament\Widgets\UserGrowthChart;
+use App\Filament\Widgets\UserStatsWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -38,8 +42,12 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
+                // AccountWidget::class,
+                // FilamentInfoWidget::class,
+                UserStatsWidget::class,
+                UserGrowthChart::class,
+                ResumeCreationChart::class,
+                TopTemplatesChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,

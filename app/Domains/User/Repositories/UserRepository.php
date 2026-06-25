@@ -5,7 +5,11 @@ namespace App\Domains\User\Repositories;
 use App\Domains\User\Models\User;
 
 class UserRepository implements UserRepositoryInterface
-{
+{   
+    public  function allUsers(): array
+    {
+        return User::all()->toArray();
+    }
     public function create(array $data): User
     {
         return User::create($data);
