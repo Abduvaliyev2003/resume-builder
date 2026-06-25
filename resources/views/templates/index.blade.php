@@ -83,7 +83,7 @@
                             sections: [
                                 {
                                     section_type: 'contact',
-                                    content: { name: '', title: '', email: '', phone: '', address: '', photo: '' },
+                                    content: { name: '', title: '', email: '', phone: '', phone_country: '+998', address: '', photo: '' },
                                     order_index: 1
                                 },
                                 {
@@ -107,9 +107,14 @@
                                     order_index: 5
                                 },
                                 {
-                                    section_type: 'projects',
+                                    section_type: 'certifications',
                                     content: { items: [] },
                                     order_index: 6
+                                },
+                                {
+                                    section_type: 'languages',
+                                    content: { items: [] },
+                                    order_index: 7
                                 }
                             ]
                         })

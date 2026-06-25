@@ -4,6 +4,7 @@ namespace App\Domains\File\Actions;
 
 use App\Domains\File\Models\GeneratedFile;
 use App\Domains\File\Repositories\FileRepositoryInterface;
+use App\Domains\File\Services\ResumePdfService;
 use App\Domains\Resume\Repositories\ResumeRepositoryInterface;
 use App\Domains\File\Events\ResumeExportedEvent;
 use App\Shared\Enums\FileType;
@@ -14,7 +15,8 @@ class ExportResumeAction
 {
     public function __construct(
         protected FileRepositoryInterface $fileRepository,
-        protected ResumeRepositoryInterface $resumeRepository
+        protected ResumeRepositoryInterface $resumeRepository,
+        protected ResumePdfService $resumePdfService
     ) {}
 
     public function execute(string $resumeId, FileType $fileType): GeneratedFile
@@ -50,13 +52,11 @@ class ExportResumeAction
 
     protected function generateResumeFileContent($resume, FileType $fileType): string
     {
-        $text = $this->generateResumeTextContent($resume);
-
         if ($fileType === FileType::PDF) {
-            return $this->generatePdfContent($text);
+            return $this->resumePdfService->generate($resume);
         }
 
-        return $text;
+        return $this->generateResumeTextContent($resume);
     }
 
     protected function generateResumeTextContent($resume): string
@@ -69,13 +69,7 @@ class ExportResumeAction
             $output .= "--- " . strtoupper($section->section_type) . " ---\n";
             
             if (is_array($section->content)) {
-                foreach ($section->content as $key => $value) {
-                    if (is_array($value)) {
-                        $output .= "- " . ucfirst($key) . ": " . json_encode($value) . "\n";
-                    } else {
-                        $output .= "- " . ucfirst($key) . ": " . $value . "\n";
-                    }
-                }
+                $output .= $this->formatSectionContent($section->content);
             } else {
                 $output .= $section->content . "\n";
             }
@@ -87,6 +81,59 @@ class ExportResumeAction
         $output .= "Generated at: " . now()->toDateTimeString() . "\n";
 
         return $output;
+    }
+
+    protected function formatSectionContent(array $content): string
+    {
+        $output = '';
+
+        foreach ($content as $key => $value) {
+            if (in_array($key, ['photo', 'phone_country'], true)) {
+                continue;
+            }
+
+            if (is_array($value)) {
+                if ($key === 'items') {
+                    foreach ($value as $index => $item) {
+                        if (!is_array($item)) {
+                            continue;
+                        }
+
+                        $output .= '- Item ' . ($index + 1) . "\n";
+
+                        foreach ($item as $itemKey => $itemValue) {
+                            if ($this->isPrintableValue($itemValue)) {
+                                $output .= '  ' . ucfirst(str_replace('_', ' ', $itemKey)) . ': ' . $itemValue . "\n";
+                            }
+                        }
+                    }
+
+                    continue;
+                }
+
+                if ($key === 'list') {
+                    $printable = array_values(array_filter($value, fn($item) => $this->isPrintableValue($item)));
+                    if (!empty($printable)) {
+                        $output .= '- ' . implode(', ', $printable) . "\n";
+                    }
+
+                    continue;
+                }
+
+                continue;
+            }
+
+            if ($this->isPrintableValue($value)) {
+                $output .= '- ' . ucfirst(str_replace('_', ' ', $key)) . ': ' . $value . "\n";
+            }
+        }
+
+        return $output;
+    }
+
+    protected function isPrintableValue(mixed $value): bool
+    {
+        return is_scalar($value) && trim((string) $value) !== '';
     }
 
     protected function generatePdfContent(string $text): string

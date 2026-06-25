@@ -79,7 +79,8 @@
         $skills = $sections['skills']?->content ?? [];
         $experience = $sections['experience']?->content ?? [];
         $education = $sections['education']?->content ?? [];
-        $projects = $sections['projects']?->content ?? [];
+        $certifications = $sections['certifications']?->content ?? [];
+        $languages = $sections['languages']?->content ?? [];
 
         $templateStyle = $resume->template?->style;
         $layout = $resume->template?->structure['layout'] ?? 'single-column';
@@ -187,15 +188,15 @@
                         </div>
                     @endif
 
-                    @if(!empty($projects['items']))
+                    @if(!empty($certifications['items']))
                         <div>
-                            <h4 class="font-extrabold text-blue-950 uppercase border-b pb-1 mb-2 text-[12px]">Projects</h4>
+                            <h4 class="font-extrabold text-blue-950 uppercase border-b pb-1 mb-2 text-[12px]">Certifications</h4>
                             <div class="flex flex-col gap-3">
-                                @foreach($projects['items'] as $project)
+                                @foreach($certifications['items'] as $certificate)
                                     <div>
-                                        <strong class="text-blue-950 text-[11px]">{{ $project['title'] ?? '' }}</strong>
-                                        <p class="text-[10px] font-semibold text-blue-800">{{ $project['technologies'] ?? '' }}</p>
-                                        <p class="text-slate-600 text-[11px] mt-1">{{ $project['description'] ?? '' }}</p>
+                                        <strong class="text-blue-950 text-[11px]">{{ $certificate['name'] ?? '' }}</strong>
+                                        <p class="text-[10px] font-semibold text-blue-800">{{ $certificate['organization'] ?? '' }}</p>
+                                        <p class="text-slate-600 text-[11px] mt-1">{{ $certificate['issue_date'] ?? '' }}</p>
                                     </div>
                                 @endforeach
                             </div>
@@ -276,15 +277,15 @@
                             </div>
                         @endif
 
-                        @if(!empty($projects['items']))
+                        @if(!empty($certifications['items']))
                             <div>
-                                <h4 class="font-bold text-slate-900 border-b pb-1.5 mb-2 uppercase text-xs">Projects</h4>
+                                <h4 class="font-bold text-slate-900 border-b pb-1.5 mb-2 uppercase text-xs">Certifications</h4>
                                 <div class="flex flex-col gap-3">
-                                    @foreach($projects['items'] as $project)
+                                    @foreach($certifications['items'] as $certificate)
                                         <div>
-                                            <strong class="text-slate-900 text-[11px]">{{ $project['title'] ?? '' }}</strong>
-                                            <p class="text-[10px] text-slate-500">{{ $project['technologies'] ?? '' }}</p>
-                                            <p class="text-slate-600 text-[11px] mt-1">{{ $project['description'] ?? '' }}</p>
+                                            <strong class="text-slate-900 text-[11px]">{{ $certificate['name'] ?? '' }}</strong>
+                                            <p class="text-[10px] text-slate-500">{{ $certificate['organization'] ?? '' }}</p>
+                                            <p class="text-slate-600 text-[11px] mt-1">{{ $certificate['issue_date'] ?? '' }}</p>
                                         </div>
                                     @endforeach
                                 </div>
@@ -305,7 +306,7 @@
                         <div class="flex justify-between items-start gap-4">
                             <div>
                                 <h2 class="text-2xl font-black text-slate-900">{{ $contact['name'] ?? '' }}</h2>
-                                <p class="font-bold text-sm tracking-wide" style="color: {{ $primaryColor }}">{{ $contact['title'] ?? '' }}</p>
+                                <p class="font-bold text-sm tracking-wide" style="color: {{ $primaryColor }}">{{ $contact ?? '' }}</p>
                             </div>
                             @if(!empty($contact['photo']))
                                 <img src="{{ $contact['photo'] }}" alt="Profile photo" class="w-16 h-16 rounded-xl object-cover border border-slate-200">
@@ -358,15 +359,15 @@
                             </div>
                         @endif
 
-                        @if(!empty($projects['items']))
+                        @if(!empty($certifications['items']))
                             <div>
-                                <h4 class="font-bold text-slate-900 uppercase text-xs tracking-wider mb-2" style="color: {{ $primaryColor }}">Projects</h4>
+                                <h4 class="font-bold text-slate-900 uppercase text-xs tracking-wider mb-2" style="color: {{ $primaryColor }}">Certifications</h4>
                                 <div class="flex flex-col gap-3">
-                                    @foreach($projects['items'] as $project)
+                                    @foreach($certifications['items'] as $certificate)
                                         <div class="pl-3 border-l-2 border-slate-200">
-                                            <strong class="text-slate-900 text-[11px]">{{ $project['title'] ?? '' }}</strong>
-                                            <p class="text-[10px] font-semibold" style="color: {{ $primaryColor }}">{{ $project['technologies'] ?? '' }}</p>
-                                            <p class="text-slate-600 text-[11px] mt-1">{{ $project['description'] ?? '' }}</p>
+                                            <strong class="text-slate-900 text-[11px]">{{ $certificate['name'] ?? '' }}</strong>
+                                            <p class="text-[10px] font-semibold" style="color: {{ $primaryColor }}">{{ $certificate['organization'] ?? '' }}</p>
+                                            <p class="text-slate-600 text-[11px] mt-1">{{ $certificate['issue_date'] ?? '' }}</p>
                                         </div>
                                     @endforeach
                                 </div>
@@ -437,15 +438,15 @@
                         </div>
                     @endif
 
-                    @if(!empty($projects['items']))
+                    @if(!empty($certifications['items']))
                         <div>
-                            <h4 class="font-bold text-slate-900 uppercase border-b pb-1 mb-3">Projects</h4>
+                            <h4 class="font-bold text-slate-900 uppercase border-b pb-1 mb-3">Certifications</h4>
                             <div class="flex flex-col gap-3">
-                                @foreach($projects['items'] as $project)
+                                @foreach($certifications['items'] as $certificate)
                                     <div>
-                                        <strong class="text-slate-900">{{ $project['title'] ?? '' }}</strong>
-                                        <p class="text-xs text-primary-600 font-semibold">{{ $project['technologies'] ?? '' }}</p>
-                                        <p class="text-slate-600 mt-1">{{ $project['description'] ?? '' }}</p>
+                                        <strong class="text-slate-900">{{ $certificate['name'] ?? '' }}</strong>
+                                        <p class="text-xs text-primary-600 font-semibold">{{ $certificate['organization'] ?? '' }}</p>
+                                        <p class="text-slate-600 mt-1">{{ $certificate['issue_date'] ?? '' }}</p>
                                     </div>
                                 @endforeach
                             </div>

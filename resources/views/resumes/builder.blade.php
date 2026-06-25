@@ -50,6 +50,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="mt-2 flex flex-wrap items-center gap-3 text-xs">
+                    <span class="font-semibold text-slate-500">Draft:</span>
+                    <span x-text="saveStatus" :class="hasUnsavedChanges ? 'text-amber-600' : 'text-emerald-600'" class="font-bold"></span>
+                    <span class="text-slate-300">|</span>
+                    <span class="font-semibold text-slate-500">Complete:</span>
+                    <span x-text="completionPercent + '%'" class="font-bold text-primary-600"></span>
+                    <span class="text-slate-300">|</span>
+                    <span class="font-semibold text-slate-500">Score:</span>
+                    <span x-text="resumeScore + '%'" class="font-bold text-emerald-600"></span>
+                </div>
             </div>
 
             <!-- Quick Actions -->
@@ -80,6 +90,26 @@
 
         <!-- Tab Contents Wrapper (Scrollable area) -->
         <div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 rounded-2xl border border-slate-100 dark:border-slate-850 bg-slate-50/60 dark:bg-slate-900/40 p-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Target Job Role</label>
+                    <select x-model="jobRole" @change="applyJobRole()" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition duration-150">
+                        <option value="">Select role</option>
+                        <template x-for="role in jobRoles" :key="role.name">
+                            <option :value="role.name" x-text="role.name"></option>
+                        </template>
+                    </select>
+                </div>
+                <div x-show="selectedRole" x-cloak class="text-xs text-slate-600 dark:text-slate-400">
+                    <div class="font-bold text-slate-800 dark:text-slate-200 mb-1">AI Suggestions</div>
+                    <p x-text="selectedRole?.summary"></p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <template x-for="skill in (selectedRole?.skills || [])">
+                            <button type="button" @click="addSuggestedSkill(skill)" class="px-2 py-1 rounded-md bg-primary-50 text-primary-700 font-bold" x-text="skill"></button>
+                        </template>
+                    </div>
+                </div>
+            </div>
             
             <!-- CONTACT DETAILS TAB -->
             <div x-show="activeTab === 'contact'" class="flex flex-col gap-5">
@@ -107,7 +137,17 @@
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <x-input label="Email Address" name="c_email" type="email" placeholder="john@example.com" model="contact.email" @input="triggerAutoSave()" />
-                    <x-input label="Phone Number" name="c_phone" placeholder="+1 (555) 019-2834" model="contact.phone" @input="triggerAutoSave()" />
+                    <div>
+                        <label for="c_phone" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Phone Number</label>
+                        <div class="flex gap-2">
+                            <select x-model="contact.phone_country" @change="applyPhoneCountry()" class="w-32 px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition duration-150 text-sm">
+                                <template x-for="country in phoneCountries" :key="country.code">
+                                    <option :value="country.code" x-text="country.label"></option>
+                                </template>
+                            </select>
+                            <input id="c_phone" name="c_phone" type="tel" x-model="contact.phone" @input="triggerAutoSave()" placeholder="+998 90 123 45 67" class="flex-1 min-w-0 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition duration-150">
+                        </div>
+                    </div>
                 </div>
                 <x-input label="Location/Address" name="c_address" placeholder="San Francisco, CA" model="contact.address" @input="triggerAutoSave()" />
             </div>
@@ -235,32 +275,69 @@
                 </div>
             </div>
 
-            <!-- PROJECTS TAB -->
-            <div x-show="activeTab === 'projects'" class="flex flex-col gap-5">
+            <!-- CERTIFICATIONS TAB -->
+            <div x-show="activeTab === 'certifications'" class="flex flex-col gap-5">
                 <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-850 pb-2">
-                    <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200">Side Projects</h3>
-                    <button type="button" @click="addProject()" class="text-xs font-bold text-primary-600 hover:text-primary-700 flex items-center gap-1">
-                        <i class="fa-solid fa-plus"></i> Add Project
+                    <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200">Certifications</h3>
+                    <button type="button" @click="addCertificate()" class="text-xs font-bold text-primary-600 hover:text-primary-700 flex items-center gap-1">
+                        <i class="fa-solid fa-plus"></i> Add Certificate
                     </button>
                 </div>
 
                 <div class="flex flex-col gap-6">
-                    <template x-for="(proj, index) in projects.items" :key="index">
+                    <template x-for="(cert, index) in certifications.items" :key="index">
                         <div class="p-5 border border-slate-100 dark:border-slate-850 bg-slate-50/30 dark:bg-slate-900/30 rounded-2xl flex flex-col gap-4 relative">
                             <!-- Remove button -->
-                            <button type="button" @click="projects.items.splice(index, 1); triggerAutoSave();" class="absolute top-4 right-4 text-slate-400 hover:text-rose-500 transition">
+                            <button type="button" @click="certifications.items.splice(index, 1); triggerAutoSave();" class="absolute top-4 right-4 text-slate-400 hover:text-rose-500 transition">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
 
                             <div class="grid grid-cols-2 gap-4 pr-6">
-                                <x-input label="Project Title" name="proj_title" placeholder="E-commerce Engine" x-model="proj.title" @input="triggerAutoSave()" />
-                                <x-input label="Technologies Used" name="proj_tech" placeholder="Laravel, Vue, Tailwind" x-model="proj.technologies" @input="triggerAutoSave()" />
+                                <x-input label="Certificate Name" name="cert_name" placeholder="AWS Certified Developer" x-model="cert.name" @input="triggerAutoSave()" />
+                                <x-input label="Organization" name="cert_org" placeholder="Amazon Web Services" x-model="cert.organization" @input="triggerAutoSave()" />
                             </div>
-                            <x-textarea label="Project Description" name="proj_desc" placeholder="Highlight project features, links, or architecture details..." x-model="proj.description" rows="2" @input="triggerAutoSave()" />
+                            <div class="grid grid-cols-2 gap-4 pr-6">
+                                <x-input label="Issue Date" name="cert_issue_date" type="month" x-model="cert.issue_date" @input="triggerAutoSave()" />
+                                <x-input label="Credential ID" name="cert_credential_id" placeholder="Optional" x-model="cert.credential_id" @input="triggerAutoSave()" />
+                            </div>
                         </div>
                     </template>
-                    <template x-if="projects.items.length === 0">
-                        <div class="text-center py-6 text-slate-400 text-xs italic">No project records added yet.</div>
+                    <template x-if="certifications.items.length === 0">
+                        <div class="text-center py-6 text-slate-400 text-xs italic">No certificate records added yet.</div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- LANGUAGES TAB -->
+            <div x-show="activeTab === 'languages'" class="flex flex-col gap-5">
+                <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-850 pb-2">
+                    <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200">Languages</h3>
+                    <button type="button" @click="addLanguage()" class="text-xs font-bold text-primary-600 hover:text-primary-700 flex items-center gap-1">
+                        <i class="fa-solid fa-plus"></i> Add Language
+                    </button>
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <template x-for="(lang, index) in languages.items" :key="index">
+                        <div class="p-5 border border-slate-100 dark:border-slate-850 bg-slate-50/30 dark:bg-slate-900/30 rounded-2xl grid grid-cols-2 gap-4 relative">
+                            <button type="button" @click="languages.items.splice(index, 1); triggerAutoSave();" class="absolute top-4 right-4 text-slate-400 hover:text-rose-500 transition">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                            <x-input label="Language" name="language" placeholder="English" x-model="lang.language" @input="triggerAutoSave()" />
+                            <div class="pr-6">
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Level</label>
+                                <select x-model="lang.level" @change="triggerAutoSave()" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition duration-150">
+                                    <option>Native</option>
+                                    <option>Fluent</option>
+                                    <option>Advanced</option>
+                                    <option>Intermediate</option>
+                                    <option>Beginner</option>
+                                </select>
+                            </div>
+                        </div>
+                    </template>
+                    <template x-if="languages.items.length === 0">
+                        <div class="text-center py-6 text-slate-400 text-xs italic">No languages added yet.</div>
                     </template>
                 </div>
             </div>
@@ -358,13 +435,13 @@
                             </div>
                         </div>
                         <div>
-                            <h4 class="font-extrabold text-blue-950 uppercase border-b pb-1 mb-2 text-[12px]">Projects</h4>
+                            <h4 class="font-extrabold text-blue-950 uppercase border-b pb-1 mb-2 text-[12px]">Certifications</h4>
                             <div class="flex flex-col gap-3">
-                                <template x-for="project in projects.items">
+                                <template x-for="certificate in certifications.items">
                                     <div>
-                                        <strong class="text-blue-950 text-[11px]" x-text="project.title"></strong>
-                                        <p class="text-[10px] font-semibold text-blue-800" x-text="project.technologies"></p>
-                                        <p class="text-slate-650 text-[11px] mt-1" x-text="project.description"></p>
+                                        <strong class="text-blue-950 text-[11px]" x-text="certificate.name"></strong>
+                                        <p class="text-[10px] font-semibold text-blue-800" x-text="certificate.organization"></p>
+                                        <p class="text-slate-650 text-[11px] mt-1" x-text="certificate.issue_date"></p>
                                     </div>
                                 </template>
                             </div>
@@ -444,13 +521,13 @@
                             </div>
 
                             <div>
-                                <h4 class="font-bold text-slate-900 border-b pb-1.5 mb-2 uppercase text-xs">Projects</h4>
+                                <h4 class="font-bold text-slate-900 border-b pb-1.5 mb-2 uppercase text-xs">Certifications</h4>
                                 <div class="flex flex-col gap-3">
-                                    <template x-for="project in projects.items">
+                                    <template x-for="certificate in certifications.items">
                                         <div>
-                                            <strong class="text-slate-900 text-[11px]" x-text="project.title"></strong>
-                                            <p class="text-[10px] text-slate-500" x-text="project.technologies"></p>
-                                            <p class="text-slate-600 text-[11px] mt-1" x-text="project.description"></p>
+                                            <strong class="text-slate-900 text-[11px]" x-text="certificate.name"></strong>
+                                            <p class="text-[10px] text-slate-500" x-text="certificate.organization"></p>
+                                            <p class="text-slate-600 text-[11px] mt-1" x-text="certificate.issue_date"></p>
                                         </div>
                                     </template>
                                 </div>
@@ -517,13 +594,13 @@
                                 </div>
                             </div>
                             <div>
-                                <h4 class="font-bold text-slate-900 uppercase text-xs tracking-wider text-red-800 mb-2">Projects</h4>
+                                <h4 class="font-bold text-slate-900 uppercase text-xs tracking-wider text-red-800 mb-2">Certifications</h4>
                                 <div class="flex flex-col gap-3">
-                                    <template x-for="project in projects.items">
+                                    <template x-for="certificate in certifications.items">
                                         <div class="pl-3 border-l-2 border-slate-200">
-                                            <strong class="text-slate-900 text-[11px]" x-text="project.title"></strong>
-                                            <p class="text-[10px] text-red-700 font-semibold" x-text="project.technologies"></p>
-                                            <p class="text-slate-600 text-[11px] mt-1" x-text="project.description"></p>
+                                            <strong class="text-slate-900 text-[11px]" x-text="certificate.name"></strong>
+                                            <p class="text-[10px] text-red-700 font-semibold" x-text="certificate.organization"></p>
+                                            <p class="text-slate-600 text-[11px] mt-1" x-text="certificate.issue_date"></p>
                                         </div>
                                     </template>
                                 </div>
@@ -589,13 +666,13 @@
                             </div>
                         </div>
                         <div>
-                            <h4 class="font-bold text-slate-900 uppercase border-b pb-1 mb-3">Projects</h4>
+                            <h4 class="font-bold text-slate-900 uppercase border-b pb-1 mb-3">Certifications</h4>
                             <div class="flex flex-col gap-3">
-                                <template x-for="project in projects.items">
+                                <template x-for="certificate in certifications.items">
                                     <div>
-                                        <strong class="text-slate-900" x-text="project.title"></strong>
-                                        <p class="text-xs text-primary-600" x-text="project.technologies"></p>
-                                        <p class="text-slate-600 mt-1" x-text="project.description"></p>
+                                        <strong class="text-slate-900" x-text="certificate.name"></strong>
+                                        <p class="text-xs text-primary-600" x-text="certificate.organization"></p>
+                                        <p class="text-slate-600 mt-1" x-text="certificate.issue_date"></p>
                                     </div>
                                 </template>
                             </div>
@@ -712,12 +789,13 @@
 @section('scripts')
 @php
     $builderSelectedStyle = $resume->template?->style ?? 'professional';
-    $builderContact = $sections->get('contact')?->content ?? ['name' => '', 'title' => '', 'email' => '', 'phone' => '', 'address' => '', 'photo' => ''];
+    $builderContact = $sections->get('contact')?->content ?? ['name' => '', 'title' => '', 'email' => '', 'phone' => '', 'phone_country' => '+998', 'address' => '', 'photo' => ''];
     $builderSummary = $sections->get('summary')?->content ?? ['text' => ''];
     $builderSkills = $sections->get('skills')?->content ?? ['list' => []];
     $builderExperience = $sections->get('experience')?->content ?? ['items' => []];
     $builderEducation = $sections->get('education')?->content ?? ['items' => []];
-    $builderProjects = $sections->get('projects')?->content ?? ['items' => []];
+    $builderCertifications = $sections->get('certifications')?->content ?? ['items' => []];
+    $builderLanguages = $sections->get('languages')?->content ?? ['items' => []];
 @endphp
 <script>
     requireAuth();
@@ -741,7 +819,8 @@
             ...(state.skills?.list || []),
             ...(state.experience?.items || []).flatMap((job) => [job.company, job.role, job.duration, job.description]),
             ...(state.education?.items || []).flatMap((edu) => [edu.school, edu.degree, edu.year]),
-            ...(state.projects?.items || []).flatMap((project) => [project.title, project.technologies, project.description]),
+            ...(state.certifications?.items || []).flatMap((certificate) => [certificate.name, certificate.organization, certificate.issue_date, certificate.credential_id]),
+            ...(state.languages?.items || []).flatMap((language) => [language.language, language.level]),
         ];
 
         return parts.filter(Boolean).join('\n');
@@ -760,11 +839,46 @@
             skills: @js($builderSkills),
             experience: @js($builderExperience),
             education: @js($builderEducation),
-            projects: @js($builderProjects),
+            certifications: @js($builderCertifications),
+            languages: @js($builderLanguages),
 
             activeTab: 'contact',
             saveStatus: 'Saved',
             saveTimeout: null,
+            autoSaveInterval: null,
+            hasUnsavedChanges: false,
+            jobRole: '',
+            selectedRole: null,
+            jobRoles: [
+                { name: 'Backend Developer', skills: ['PHP', 'Laravel', 'PostgreSQL', 'Redis', 'Docker', 'REST API'], summary: 'Backend Developer with experience building scalable web applications using Laravel and PostgreSQL.', experience: 'Built REST APIs, optimized database queries, and integrated Redis caching for high-traffic services.' },
+                { name: 'Frontend Developer', skills: ['JavaScript', 'Vue', 'React', 'Tailwind CSS', 'API Integration'], summary: 'Frontend Developer focused on responsive interfaces, reusable components, and accessible user experiences.', experience: 'Developed interactive dashboards and integrated frontend workflows with REST APIs.' },
+                { name: 'Full Stack Developer', skills: ['Laravel', 'Vue', 'PostgreSQL', 'Docker', 'CI/CD'], summary: 'Full Stack Developer experienced in delivering complete web products from database design to polished UI.', experience: 'Delivered end-to-end features across backend APIs, database schemas, and frontend components.' },
+                { name: 'Mobile Developer', skills: ['Flutter', 'React Native', 'Firebase', 'REST API', 'App Store'], summary: 'Mobile Developer building performant cross-platform apps with clean architecture and API integrations.', experience: 'Implemented mobile authentication, offline storage, and push notification workflows.' },
+                { name: 'DevOps Engineer', skills: ['Docker', 'Kubernetes', 'CI/CD', 'AWS', 'Linux', 'Monitoring'], summary: 'DevOps Engineer experienced in deployment automation, cloud infrastructure, and reliable production systems.', experience: 'Built CI/CD pipelines and improved deployment reliability with containerized infrastructure.' },
+                { name: 'QA Engineer', skills: ['Manual Testing', 'Automation', 'Selenium', 'API Testing', 'Bug Tracking'], summary: 'QA Engineer focused on test planning, automation, and improving release quality.', experience: 'Created regression test suites and validated API behavior across release cycles.' },
+                { name: 'Data Analyst', skills: ['SQL', 'Excel', 'Power BI', 'Python', 'Data Visualization'], summary: 'Data Analyst turning business data into actionable reports and clear visual insights.', experience: 'Built dashboards and analyzed operational datasets to support business decisions.' },
+                { name: 'Data Scientist', skills: ['Python', 'Machine Learning', 'Pandas', 'SQL', 'Statistics'], summary: 'Data Scientist experienced in modeling, experimentation, and insight generation from complex datasets.', experience: 'Built predictive models and evaluated performance using statistical validation.' },
+                { name: 'Product Manager', skills: ['Roadmap', 'User Research', 'Agile', 'Analytics', 'Stakeholder Management'], summary: 'Product Manager aligning user needs, business goals, and engineering execution.', experience: 'Led product discovery, prioritized roadmap items, and coordinated cross-functional delivery.' },
+                { name: 'UI/UX Designer', skills: ['Figma', 'Wireframing', 'User Research', 'Design Systems', 'Prototyping'], summary: 'UI/UX Designer crafting user-centered flows, polished interfaces, and scalable design systems.', experience: 'Designed prototypes and improved usability through research-driven iteration.' },
+                { name: 'Graphic Designer', skills: ['Adobe Photoshop', 'Illustrator', 'Branding', 'Typography', 'Layout'], summary: 'Graphic Designer creating visual identities, marketing assets, and consistent brand systems.', experience: 'Produced campaign assets and refined brand visuals across digital channels.' },
+                { name: 'Cybersecurity Specialist', skills: ['Network Security', 'SIEM', 'Vulnerability Assessment', 'Incident Response'], summary: 'Cybersecurity Specialist protecting systems through monitoring, assessment, and incident response.', experience: 'Performed vulnerability assessments and improved security monitoring workflows.' },
+                { name: 'System Administrator', skills: ['Linux', 'Windows Server', 'Networking', 'Backups', 'Monitoring'], summary: 'System Administrator maintaining secure, stable, and well-monitored IT infrastructure.', experience: 'Managed servers, backups, user access, and operational monitoring.' },
+                { name: 'Business Analyst', skills: ['Requirements', 'Process Mapping', 'SQL', 'Stakeholder Interviews', 'Documentation'], summary: 'Business Analyst translating business needs into clear requirements and actionable improvements.', experience: 'Mapped workflows, documented requirements, and supported delivery teams with analysis.' },
+            ],
+            phoneCountries: [
+                { code: '+998', label: 'UZ +998' },
+                { code: '+1', label: 'US +1' },
+                { code: '+44', label: 'UK +44' },
+                { code: '+49', label: 'DE +49' },
+                { code: '+33', label: 'FR +33' },
+                { code: '+7', label: 'RU/KZ +7' },
+                { code: '+82', label: 'KR +82' },
+                { code: '+86', label: 'CN +86' },
+                { code: '+91', label: 'IN +91' },
+                { code: '+971', label: 'AE +971' },
+                { code: '+966', label: 'SA +966' },
+                { code: '+90', label: 'TR +90' },
+            ],
             
             tabs: [
                 { id: 'contact', name: 'Contact', icon: 'fa-regular fa-address-card' },
@@ -772,7 +886,8 @@
                 { id: 'skills', name: 'Skills', icon: 'fa-solid fa-code' },
                 { id: 'experience', name: 'Experience', icon: 'fa-solid fa-briefcase' },
                 { id: 'education', name: 'Education', icon: 'fa-solid fa-graduation-cap' },
-                { id: 'projects', name: 'Projects', icon: 'fa-solid fa-diagram-project' }
+                { id: 'certifications', name: 'Certificates', icon: 'fa-solid fa-certificate' },
+                { id: 'languages', name: 'Languages', icon: 'fa-solid fa-language' }
             ],
 
             init() {
@@ -780,8 +895,32 @@
                 if (!this.skills.list) this.skills.list = [];
                 if (!this.experience.items) this.experience.items = [];
                 if (!this.education.items) this.education.items = [];
-                if (!this.projects.items) this.projects.items = [];
+                if (!this.certifications.items) this.certifications.items = [];
+                if (!this.languages.items) this.languages.items = [];
                 if (typeof this.contact.photo === 'undefined') this.contact.photo = '';
+                if (!this.contact.phone_country) this.contact.phone_country = this.detectPhoneCountry(this.contact.phone);
+                this.autoSaveInterval = setInterval(() => {
+                    if (this.hasUnsavedChanges) this.saveData();
+                }, 10000);
+                window.addEventListener('beforeunload', (event) => {
+                    if (!this.hasUnsavedChanges) return;
+                    event.preventDefault();
+                    event.returnValue = '';
+                });
+            },
+
+            detectPhoneCountry(phone) {
+                const value = (phone || '').trim();
+                const match = this.phoneCountries.find((country) => value.startsWith(country.code));
+                return match ? match.code : '+998';
+            },
+
+            applyPhoneCountry() {
+                const code = this.contact.phone_country || '+998';
+                const current = (this.contact.phone || '').trim();
+                const withoutCode = current.replace(/^\+\d{1,4}\s*/, '');
+                this.contact.phone = `${code}${withoutCode ? ' ' + withoutCode : ' '}`;
+                this.triggerAutoSave();
             },
 
             handlePhotoUpload(event) {
@@ -853,8 +992,33 @@
                 this.triggerAutoSave();
             },
 
-            addProject() {
-                this.projects.items.push({ title: '', technologies: '', description: '' });
+            addCertificate() {
+                this.certifications.items.push({ name: '', organization: '', issue_date: '', credential_id: '' });
+                this.triggerAutoSave();
+            },
+
+            addLanguage() {
+                this.languages.items.push({ language: '', level: 'Intermediate' });
+                this.triggerAutoSave();
+            },
+
+            addSuggestedSkill(skill) {
+                if (!this.skills.list.includes(skill)) {
+                    this.skills.list.push(skill);
+                    this.triggerAutoSave();
+                }
+            },
+
+            applyJobRole() {
+                this.selectedRole = this.jobRoles.find((role) => role.name === this.jobRole) || null;
+                if (!this.selectedRole) return;
+                if (!this.summary.text) this.summary.text = this.selectedRole.summary;
+                this.selectedRole.skills.forEach((skill) => {
+                    if (!this.skills.list.includes(skill)) this.skills.list.push(skill);
+                });
+                if (this.experience.items.length === 0) {
+                    this.experience.items.push({ company: '', role: this.selectedRole.name, duration: '', start_date: '', end_date: '', is_present: false, description: this.selectedRole.experience });
+                }
                 this.triggerAutoSave();
             },
 
@@ -865,7 +1029,8 @@
             },
 
             triggerAutoSave() {
-                this.saveStatus = 'Saving...';
+                this.saveStatus = 'Unsaved';
+                this.hasUnsavedChanges = true;
                 
                 if (this.saveTimeout) clearTimeout(this.saveTimeout);
                 
@@ -885,7 +1050,8 @@
                             { section_type: 'skills', content: this.skills, order_index: 3 },
                             { section_type: 'experience', content: this.experience, order_index: 4 },
                             { section_type: 'education', content: this.education, order_index: 5 },
-                            { section_type: 'projects', content: this.projects, order_index: 6 }
+                            { section_type: 'certifications', content: this.certifications, order_index: 6 },
+                            { section_type: 'languages', content: this.languages, order_index: 7 }
                         ]
                     };
 
@@ -898,9 +1064,30 @@
                     if (!response.ok) throw new Error('Auto-save failed.');
                     
                     this.saveStatus = 'Saved';
+                    this.hasUnsavedChanges = false;
                 } catch (e) {
                     this.saveStatus = 'Failed to save';
                 }
+            },
+
+            get completionPercent() {
+                const checks = [
+                    this.contact.name,
+                    this.contact.email,
+                    this.contact.phone,
+                    this.summary.text,
+                    this.skills.list.length > 0,
+                    this.experience.items.length > 0,
+                    this.education.items.length > 0,
+                    this.certifications.items.length > 0,
+                    this.languages.items.length > 0,
+                    this.templateId,
+                ];
+                return Math.round((checks.filter(Boolean).length / checks.length) * 100);
+            },
+
+            get resumeScore() {
+                return Math.min(100, Math.round(this.completionPercent * 0.75 + Math.min(this.skills.list.length * 3, 15) + Math.min(this.experience.items.length * 5, 10)));
             },
 
             openAIModal() {

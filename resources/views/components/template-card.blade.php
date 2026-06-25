@@ -10,42 +10,78 @@
         $accentColor = $template->structure['colors']['accent'] ?? '#60a5fa';
     @endphp
     
-    <div class="relative h-44 rounded-xl bg-slate-100 dark:bg-slate-950 p-4 mb-4 border border-slate-200/50 dark:border-slate-800/50 overflow-hidden flex flex-col gap-2 transition duration-300 group-hover:scale-[1.02]">
+    <div class="relative h-52 rounded-xl bg-slate-100 dark:bg-slate-950 p-4 mb-4 border border-slate-200/50 dark:border-slate-800/50 overflow-hidden transition duration-300 group-hover:scale-[1.02]">
         
         <!-- Hover Zoom In Overlay -->
         <div class="absolute inset-0 bg-primary-600/5 dark:bg-primary-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none duration-300"></div>
+        <div class="absolute top-2 right-2 z-10 rounded-md bg-white/90 dark:bg-slate-900/90 px-2 py-1 text-[10px] font-black uppercase tracking-wide text-slate-500 shadow-sm">
+            {{ $template->style }}
+        </div>
 
         <!-- Render Layout Preview CSS Mockups -->
         @if($layout === 'left-curved-sidebar')
-            <div class="flex h-full gap-2">
-                <div class="w-1/3 rounded-l-lg rounded-br-2xl h-full" style="background-color: {{ $primaryColor }}"></div>
-                <div class="flex-1 flex flex-col gap-1.5">
-                    <div class="h-4 bg-slate-300 dark:bg-slate-700 w-2/3 rounded-sm"></div>
-                    <div class="h-2 bg-slate-200 dark:bg-slate-800 w-full rounded-sm"></div>
-                    <div class="h-2 bg-slate-200 dark:bg-slate-800 w-5/6 rounded-sm"></div>
+            <div class="mx-auto h-full max-w-[150px] bg-white dark:bg-slate-900 shadow-sm border border-slate-200/70 dark:border-slate-800 flex">
+                <div class="w-1/3 p-2 text-white" style="background-color: {{ $primaryColor }}">
+                    <div class="w-7 h-7 rounded-full bg-white/25 mb-3"></div>
+                    <div class="h-1.5 bg-white/70 rounded mb-1"></div>
+                    <div class="h-1 bg-white/40 rounded mb-4"></div>
+                    <div class="space-y-1">
+                        <div class="h-1 bg-white/50 rounded"></div>
+                        <div class="h-1 bg-white/50 rounded w-4/5"></div>
+                        <div class="h-1 bg-white/50 rounded w-3/5"></div>
+                    </div>
+                </div>
+                <div class="flex-1 p-2">
+                    <div class="h-2.5 rounded w-3/4 mb-2" style="background-color: {{ $accentColor }}"></div>
+                    <div class="space-y-1 mb-3">
+                        <div class="h-1 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                        <div class="h-1 bg-slate-200 dark:bg-slate-700 rounded w-5/6"></div>
+                    </div>
+                    <div class="h-px bg-slate-200 dark:bg-slate-700 mb-2"></div>
+                    <div class="space-y-1">
+                        <div class="h-1.5 bg-slate-300 dark:bg-slate-600 rounded w-1/2"></div>
+                        <div class="h-1 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                        <div class="h-1 bg-slate-200 dark:bg-slate-700 rounded w-4/5"></div>
+                    </div>
                 </div>
             </div>
         @elseif($layout === 'header-banner-split')
-            <div class="flex flex-col h-full gap-2">
-                <div class="h-8 rounded-lg w-full" style="background-color: {{ $primaryColor }}"></div>
-                <div class="flex-1 flex gap-2">
-                    <div class="w-1/2 flex flex-col gap-1.5">
-                        <div class="h-2 bg-slate-300 dark:bg-slate-700 w-2/3 rounded-sm"></div>
-                        <div class="h-1.5 bg-slate-200 dark:bg-slate-800 w-full rounded-sm"></div>
+            <div class="mx-auto h-full max-w-[150px] bg-white dark:bg-slate-900 shadow-sm border border-slate-200/70 dark:border-slate-800 p-2">
+                <div class="h-9 rounded-md w-full mb-3 flex items-center justify-between px-2" style="background-color: {{ $primaryColor }}">
+                    <div class="space-y-1 flex-1">
+                        <div class="h-1.5 bg-white/80 rounded w-2/3"></div>
+                        <div class="h-1 bg-white/40 rounded w-1/2"></div>
                     </div>
-                    <div class="w-1/2 flex flex-col gap-1.5">
-                        <div class="h-2 bg-slate-300 dark:bg-slate-700 w-2/3 rounded-sm"></div>
-                        <div class="h-1.5 bg-slate-200 dark:bg-slate-800 w-full rounded-sm"></div>
+                    <div class="w-7 h-7 rounded-md bg-white/20"></div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="space-y-1">
+                        <div class="h-1.5 bg-slate-300 dark:bg-slate-600 rounded w-2/3"></div>
+                        <div class="h-1 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                        <div class="h-1 bg-slate-200 dark:bg-slate-700 rounded w-5/6"></div>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="h-1.5 bg-slate-300 dark:bg-slate-600 rounded w-2/3"></div>
+                        <div class="h-1 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                        <div class="h-1 bg-slate-200 dark:bg-slate-700 rounded w-4/5"></div>
                     </div>
                 </div>
             </div>
         @elseif($layout === 'left-vertical-stripe')
-            <div class="flex h-full gap-2">
-                <div class="w-1.5 h-full rounded-full" style="background-color: {{ $primaryColor }}"></div>
-                <div class="flex-1 flex flex-col gap-1.5">
-                    <div class="h-4 bg-slate-300 dark:bg-slate-700 w-1/2 rounded-sm"></div>
-                    <div class="h-2 bg-slate-200 dark:bg-slate-800 w-full rounded-sm"></div>
-                    <div class="h-2 bg-slate-200 dark:bg-slate-800 w-3/4 rounded-sm"></div>
+            <div class="mx-auto h-full max-w-[150px] bg-white dark:bg-slate-900 shadow-sm border border-slate-200/70 dark:border-slate-800 p-3 flex gap-2">
+                <div class="w-1.5 rounded-full" style="background-color: {{ $primaryColor }}"></div>
+                <div class="flex-1">
+                    <div class="h-3 bg-slate-300 dark:bg-slate-600 w-2/3 rounded mb-1.5"></div>
+                    <div class="h-1.5 rounded w-1/2 mb-3" style="background-color: {{ $accentColor }}"></div>
+                    <div class="space-y-1 mb-3">
+                        <div class="h-1 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                        <div class="h-1 bg-slate-200 dark:bg-slate-700 rounded w-4/5"></div>
+                    </div>
+                    <div class="h-px bg-slate-200 dark:bg-slate-700 mb-2"></div>
+                    <div class="space-y-1">
+                        <div class="h-1 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                        <div class="h-1 bg-slate-200 dark:bg-slate-700 rounded w-3/4"></div>
+                    </div>
                 </div>
             </div>
         @elseif($layout === 'asymmetrical-header')
@@ -61,12 +97,20 @@
             </div>
         @else
             <!-- Standard Sidebar / Grid Mockup -->
-            <div class="flex h-full gap-2">
-                <div class="w-1/4 rounded-lg h-full bg-slate-250 dark:bg-slate-800/80"></div>
-                <div class="flex-1 flex flex-col gap-1.5">
-                    <div class="h-4 rounded-sm w-3/4" style="background-color: {{ $primaryColor }}"></div>
-                    <div class="h-2 bg-slate-200 dark:bg-slate-800 w-full rounded-sm"></div>
-                    <div class="h-2 bg-slate-200 dark:bg-slate-800 w-5/6 rounded-sm"></div>
+            <div class="mx-auto h-full max-w-[150px] bg-white dark:bg-slate-900 shadow-sm border border-slate-200/70 dark:border-slate-800 p-3">
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <div class="h-3 bg-slate-300 dark:bg-slate-600 rounded w-16 mb-1"></div>
+                        <div class="h-1.5 rounded w-12" style="background-color: {{ $primaryColor }}"></div>
+                    </div>
+                    <div class="w-8 h-8 rounded-lg bg-slate-200 dark:bg-slate-700"></div>
+                </div>
+                <div class="space-y-1.5">
+                    <div class="h-1 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                    <div class="h-1 bg-slate-200 dark:bg-slate-700 rounded w-5/6"></div>
+                    <div class="h-px bg-slate-200 dark:bg-slate-700 my-2"></div>
+                    <div class="h-1.5 rounded w-1/2" style="background-color: {{ $accentColor }}"></div>
+                    <div class="h-1 bg-slate-200 dark:bg-slate-700 rounded"></div>
                 </div>
             </div>
         @endif
