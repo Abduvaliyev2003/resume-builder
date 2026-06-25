@@ -10,7 +10,16 @@ class TemplateForm
     {
         return $schema
             ->components([
-                //
+                //TextInput::make('name');
+
+TextInput::make('slug'),
+
+FileUpload::make('preview_image')
+    ->image(),
+
+Textarea::make('description'),
+
+Toggle::make('is_active'),
             ]);
     }
 }

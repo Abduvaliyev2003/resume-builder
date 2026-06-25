@@ -10,7 +10,26 @@ class UserForm
     {
         return $schema
             ->components([
-                //
+                   TextInput::make('name')
+    ->required()
+    ->maxLength(255),
+
+TextInput::make('email')
+    ->email()
+    ->required(),
+
+TextInput::make('password')
+    ->password()
+    ->dehydrateStateUsing(fn ($state) => filled($state) ? bcrypt($state) : null)
+    ->dehydrated(fn ($state) => filled($state)),
+
+Select::make('role')
+    ->options([
+        'admin' => 'Admin',
+        'user' => 'User',
+    ]),
+
+Toggle::make('is_active'),
             ]);
     }
 }
