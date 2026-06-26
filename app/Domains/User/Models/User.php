@@ -10,10 +10,11 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Domains\Resume\Models\Resume;
 use App\Domains\Analytics\Models\ActivityLog;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasUUID;
+    use HasApiTokens, HasFactory, Notifiable, HasUUID, HasRoles;
 
     protected $table = 'users';
 
