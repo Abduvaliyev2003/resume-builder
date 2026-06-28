@@ -11,7 +11,7 @@ use App\Domains\Analytics\Controllers\AnalyticsController;
 // Public Auth routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-
+Route::post('/telegram/login', [AuthController::class, 'telegramLogin']);
 // Public Template routes
 Route::get('/templates', [TemplateController::class, 'index']);
 Route::get('/templates/{id}', [TemplateController::class, 'show']);
@@ -24,6 +24,11 @@ Route::middleware('auth:sanctum')->group(function () {
     // Auth profile
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
+    
+
+    Route::post('/telegram/logout', [AuthController::class, 'telegramLogout']);
+
+    Route::get('/telegram/me', [AuthController::class, 'telegramMe']);
 
     // Resumes CRUD & Duplication
     Route::get('/resumes', [ResumeController::class, 'index']);

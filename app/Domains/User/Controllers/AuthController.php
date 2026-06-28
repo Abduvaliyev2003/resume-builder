@@ -9,6 +9,9 @@ use App\Domains\User\DTOs\UserRegisterDTO;
 use App\Domains\User\DTOs\UserLoginDTO;
 use App\Domains\User\Services\UserService;
 use App\Domains\User\Resources\UserResource;
+use App\Domains\User\Requests\TelegramLoginRequest;
+use App\Domains\User\DTOs\TelegramLoginDTO;
+use App\Domains\User\Services\TelegramAuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +19,8 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     public function __construct(
-        protected UserService $userService
+        protected UserService $userService,
+        protected TelegramAuthService $telegramAuthService,
     ) {}
 
     public function register(RegisterRequest $request): JsonResponse
@@ -69,4 +73,87 @@ class AuthController extends Controller
             'user' => new UserResource($request->user()),
         ]);
     }
+
+    public function telegramLogin(
+        TelegramLoginRequest $request,
+    ): JsonResponse {
+
+        $dto = TelegramLoginDTO::fromArray(
+            $request->validated()
+        );
+
+        $result = $this->telegramAuthService
+            ->login($dto);
+
+        return response()->json([
+
+            'message' => 'Telegram login successful.',
+
+            'user' => new UserResource(
+                $result['user']
+            ),
+
+            'token' => $result['token'],
+
+        ]);
+    }
+
+    public function telegramLogout(
+        Request $request,
+    ): JsonResponse {
+
+        $request->validate([
+
+            'telegram_id' => [
+                'required',
+                'integer',
+            ],
+
+        ]);
+
+        $this->telegramAuthService
+            ->logout(
+                $request->integer('telegram_id')
+            );
+
+        return response()->json([
+
+            'message' => 'Telegram logout successful.',
+
+        ]);
+    }
+    
+    public function telegramMe(
+    Request $request,
+): JsonResponse {
+
+    $request->validate([
+
+        'telegram_id' => [
+            'required',
+            'integer',
+        ],
+
+    ]);
+
+    $user = $this->telegramAuthService
+        ->me(
+            $request->integer('telegram_id')
+        );
+
+    if (! $user) {
+
+        return response()->json([
+
+            'message' => 'Session not found.'
+
+        ],404);
+    }
+
+    return response()->json([
+
+        'user' => new UserResource($user)
+
+    ]);
+}
 }

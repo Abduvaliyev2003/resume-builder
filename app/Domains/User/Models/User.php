@@ -11,6 +11,7 @@ use App\Domains\Resume\Models\Resume;
 use App\Domains\Analytics\Models\ActivityLog;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -50,5 +51,10 @@ class User extends Authenticatable
     public function activityLogs(): HasMany
     {
         return $this->hasMany(ActivityLog::class, 'user_id');
+    }
+
+    public function telegramSession(): HasOne
+    {
+        return $this->hasOne(TelegramSession::class);
     }
 }
