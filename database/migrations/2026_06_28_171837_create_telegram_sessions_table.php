@@ -21,8 +21,8 @@ return new class extends Migration
             $table->bigInteger('telegram_id')->unique();
 
             $table->string('telegram_username')->nullable();
-
-            $table->string('access_token');
+            $table->string('telegram_first_name')->nullable();
+            $table->string('telegram_last_name')->nullable();
 
             $table->timestamp('last_login_at')->nullable();
 
