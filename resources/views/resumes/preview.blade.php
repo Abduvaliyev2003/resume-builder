@@ -8,11 +8,11 @@
     @media print {
         nav, .action-bar { display: none !important; }
         body { background-color: white !important; }
-        .resume-sheet { 
-            border: none !important; 
-            box-shadow: none !important; 
-            padding: 0 !important; 
-            margin: 0 !important; 
+        .resume-sheet {
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
         }
     }
 </style>
@@ -20,7 +20,7 @@
 
 @section('content')
 <div x-data="resumePreview()" class="flex flex-col gap-6">
-    
+
     <!-- Top Action Bar (hidden on printing) -->
     <div class="action-bar bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-center gap-3">
@@ -102,7 +102,7 @@
     @endphp
 
     <div class="resume-sheet max-w-4xl mx-auto w-full bg-white text-slate-900 shadow-xl rounded-3xl border border-slate-200/50 p-12 select-text text-[13px] leading-relaxed" style="{{ $fontStyle }}">
-        
+
         <!-- Render layout by layout type -->
         @if($layout === 'left-curved-sidebar')
             <!-- CIRCULAR -->
@@ -125,7 +125,7 @@
                         <p><i class="fa-solid fa-phone mr-1.5 text-blue-900"></i>{{ $contact['phone'] ?? 'Phone' }}</p>
                         <p><i class="fa-solid fa-location-dot mr-1.5 text-blue-900"></i>{{ $contact['address'] ?? 'Location' }}</p>
                     </div>
-                    
+
                     @if(!empty($skills['list']))
                         <div class="mt-4">
                             <h4 class="font-extrabold text-[12px] text-blue-950 uppercase mb-2">Skills</h4>
@@ -145,26 +145,27 @@
                         </div>
                     @endif
                 </div>
-                
+
                 <!-- Right details column -->
                 <div class="flex-1 flex flex-col gap-6">
                     <div>
                         <h4 class="font-extrabold text-blue-950 uppercase border-b pb-1 mb-2 text-[12px]">Profile</h4>
                         <p class="text-slate-600">{{ $summary['text'] ?? '' }}</p>
                     </div>
-                    
+
                     @if(!empty($experience['items']))
+                    {{-- @dd($experience) --}}
                         <div>
                             <h4 class="font-extrabold text-blue-950 uppercase border-b pb-1 mb-2 text-[12px]">Experience</h4>
                             <div class="flex flex-col gap-4">
                                 @foreach($experience['items'] as $job)
                                     <div>
                                         <div class="flex justify-between items-start">
-                                            <strong class="text-blue-950 text-xs">{{ $job['role'] }}</strong>
-                                            <span class="text-[10px] text-slate-500">{{ $job['duration'] }}</span>
+                                            <strong class="text-blue-950 text-xs">{{ $job['role'] ?? "" }}</strong>
+                                            <span class="text-[10px] text-slate-500">{{ $job['duration'] ?? "" }}</span>
                                         </div>
-                                        <p class="text-[11px] font-semibold text-blue-800">{{ $job['company'] }}</p>
-                                        <p class="text-slate-600 text-[11px] mt-1">{{ $job['description'] }}</p>
+                                        <p class="text-[11px] font-semibold text-blue-800">{{ $job['company'] ?? "" }}</p>
+                                        <p class="text-slate-600 text-[11px] mt-1">{{ $job['description'] ?? "" }}</p>
                                     </div>
                                 @endforeach
                             </div>
@@ -178,6 +179,7 @@
                                 @foreach($education['items'] as $edu)
                                     <div>
                                         <div class="flex justify-between items-start">
+                                            
                                             <strong class="text-blue-950 text-[11px]">{{ $edu['degree'] ?? '' }}</strong>
                                             <span class="text-[10px] text-slate-500">{{ $edu['year'] ?? '' }}</span>
                                         </div>
@@ -204,7 +206,7 @@
                     @endif
                 </div>
             </div>
-            
+
         @elseif($layout === 'header-banner-split')
             <!-- PROFESSIONAL -->
             <div class="flex flex-col gap-6">
@@ -300,7 +302,7 @@
             <div class="flex gap-8">
                 <!-- Left stripe band -->
                 <div class="w-3 rounded-full flex-shrink-0" style="background-color: {{ $primaryColor }}"></div>
-                
+
                 <div class="flex-1 flex flex-col gap-5">
                     <div class="pb-4 border-b">
                         <div class="flex justify-between items-start gap-4">
@@ -312,7 +314,7 @@
                                 <img src="{{ $contact['photo'] }}" alt="Profile photo" class="w-16 h-16 rounded-xl object-cover border border-slate-200">
                             @endif
                         </div>
-                        
+
                         <div class="flex flex-wrap gap-4 mt-3 text-[11px] text-slate-500">
                             <span><i class="fa-regular fa-envelope mr-1.5" style="color: {{ $primaryColor }}"></i>{{ $contact['email'] ?? '' }}</span>
                             <span><i class="fa-solid fa-phone mr-1.5" style="color: {{ $primaryColor }}"></i>{{ $contact['phone'] ?? '' }}</span>
@@ -409,11 +411,11 @@
                             @foreach($experience['items'] as $job)
                                 <div>
                                     <div class="flex justify-between font-bold text-slate-900">
-                                        <span>{{ $job['role'] }}</span>
-                                        <span class="text-xs text-slate-400 font-normal">{{ $job['duration'] }}</span>
+                                        <span>{{ $job['role'] ?? "" }}</span>
+                                        <span class="text-xs text-slate-400 font-normal">{{ $job['duration'] ?? "" }}</span>
                                     </div>
-                                    <p class="text-xs text-primary-600 font-semibold">{{ $job['company'] }}</p>
-                                    <p class="text-slate-650 mt-1">{{ $job['description'] }}</p>
+                                    <p class="text-xs text-primary-600 font-semibold">{{ $job['company']  ?? ""  }}</p>
+                                    <p class="text-slate-650 mt-1">{{ $job['description'] ?? ""}}</p>
                                 </div>
                             @endforeach
                         </div>
@@ -492,7 +494,7 @@
                     }
 
                     showToast('LaTeX compiled successfully!', 'success');
-                    
+
                     setTimeout(() => {
                         window.open(data.file.download_url, '_blank');
                     }, 500);
@@ -506,11 +508,11 @@
 
             copyShareLink() {
                 const link = `${window.location.origin}/resumes/shared/${this.resumeId}`;
-                
+
                 navigator.clipboard.writeText(link).then(() => {
                     this.shareText = 'Copied!';
                     showToast('Public link copied to clipboard!', 'success');
-                    
+
                     setTimeout(() => {
                         this.shareText = 'Copy Share Link';
                     }, 2000);
