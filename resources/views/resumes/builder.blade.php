@@ -8,14 +8,209 @@
     .builder-container {
         height: calc(100vh - 4.5rem);
     }
+
+    /* ─── TEMPLATE PREVIEW GLOBAL STYLE WRAPPERS ─── */
+    .tpl-professional { font-family: 'Plus Jakarta Sans', sans-serif; color: #1e293b; line-height: 1.6; }
+    .tpl-professional .hdr { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%); color: #fff; padding: 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .tpl-professional .hdr h1 { font-size: 26px; font-weight: 800; line-height: 1.1; margin-bottom: 4px; }
+    .tpl-professional .hdr .title { color: #93c5fd; font-size: 13px; font-weight: 600; }
+    .tpl-professional .hdr-right-wrap { display: flex; align-items: center; gap: 12px; }
+    .tpl-professional .hdr-right { text-align: right; display: flex; flex-direction: column; gap: 4px; }
+    .tpl-professional .hdr-contact-item { font-size: 11px; color: #cbd5e1; display: flex; align-items: center; justify-content: flex-end; gap: 5px; }
+    .tpl-professional .photo { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; border: 2px solid rgba(255,255,255,.2); }
+    .tpl-professional .body { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; padding: 20px; }
+    .tpl-professional .col-left { border-right: 1px solid #f1f5f9; padding-right: 16px; }
+    .tpl-professional .col-right { padding-left: 8px; }
+    .tpl-professional .sec { margin-bottom: 18px; }
+    .tpl-professional .sec-title { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: #2563eb; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .tpl-professional .sec-title::after { content: ''; flex: 1; height: 1px; background: #e2e8f0; }
+    .tpl-professional .item { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #f1f5f9; }
+    .tpl-professional .item-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .tpl-professional .item-role { font-size: 13px; font-weight: 700; color: #0f172a; }
+    .tpl-professional .item-dur { font-size: 10px; color: #64748b; background: #e2e8f0; padding: 1px 6px; border-radius: 12px; }
+    .tpl-professional .item-company { font-size: 11.5px; color: #2563eb; font-weight: 600; margin-bottom: 4px; }
+    .tpl-professional .item-desc { font-size: 11px; color: #475569; }
+    .tpl-professional .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+    .tpl-professional .tag { background: #dbeafe; color: #1d4ed8; font-size: 10.5px; font-weight: 600; padding: 3px 8px; border-radius: 6px; }
+    .tpl-professional .edu-item { margin-bottom: 10px; padding: 10px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; }
+    .tpl-professional .edu-degree { font-size: 12px; font-weight: 700; color: #0f172a; }
+    .tpl-professional .edu-school { font-size: 11px; color: #2563eb; font-weight: 500; }
+    .tpl-professional .edu-year { font-size: 10.5px; color: #94a3b8; }
+    .tpl-professional .lang-item { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid #f1f5f9; font-size: 11.5px; }
+    .tpl-professional .lang-level { color: #2563eb; background: #dbeafe; padding: 1px 6px; border-radius: 10px; font-size: 10px; }
+    .tpl-professional .cert-item { margin-bottom: 10px; padding: 8px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; }
+    .tpl-professional .cert-name { font-size: 12px; font-weight: 700; color: #0f172a; }
+    .tpl-professional .cert-org { font-size: 11px; color: #2563eb; }
+    .tpl-professional .cert-date { font-size: 10px; color: #94a3b8; }
+    .tpl-professional .summary-text { font-size: 12px; color: #475569; }
+
+    /* ─── TPL: MODERN ─── */
+    .tpl-modern { font-family: 'Nunito', sans-serif; color: #1e293b; line-height: 1.6; display: flex; min-height: 100%; }
+    .tpl-modern .sidebar { width: 200px; background: linear-gradient(180deg, #1e40af 0%, #1d4ed8 60%, #2563eb 100%); color: #fff; padding: 20px 14px; display: flex; flex-direction: column; gap: 20px; }
+    .tpl-modern .avatar-wrap { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+    .tpl-modern .avatar { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,.4); }
+    .tpl-modern .avatar-initials { width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; }
+    .tpl-modern .sidebar-name { font-size: 15px; font-weight: 800; }
+    .tpl-modern .sidebar-title { font-size: 11px; color: #bfdbfe; }
+    .tpl-modern .s-sec { display: flex; flex-direction: column; gap: 6px; }
+    .tpl-modern .s-label { font-size: 9px; font-weight: 800; text-transform: uppercase; tracking-wider; color: #93c5fd; }
+    .tpl-modern .contact-row { display: flex; align-items: center; gap: 6px; font-size: 10.5px; color: #e0e7ff; }
+    .tpl-modern .contact-row i { color: #60a5fa; width: 12px; text-align: center; }
+    .tpl-modern .skill-bar-wrap { display: flex; flex-direction: column; gap: 6px; }
+    .tpl-modern .skill-name { font-size: 11px; color: #e0e7ff; }
+    .tpl-modern .skill-bar { height: 4px; background: rgba(255,255,255,.2); border-radius: 4px; margin-top: 2px; }
+    .tpl-modern .skill-bar-fill { height: 100%; width: 75%; background: #60a5fa; border-radius: 4px; }
+    .tpl-modern .lang-row { display: flex; justify-content: space-between; font-size: 11px; border-bottom: 1px solid rgba(255,255,255,.1); padding: 4px 0; }
+    .tpl-modern .main { flex: 1; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+    .tpl-modern .m-sec { display: flex; flex-direction: column; gap: 8px; }
+    .tpl-modern .m-title { font-size: 10px; font-weight: 900; text-transform: uppercase; color: #1d4ed8; border-bottom: 2px solid #dbeafe; padding-bottom: 4px; }
+    .tpl-modern .summary-text { font-size: 12px; color: #475569; }
+    .tpl-modern .item { padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
+    .tpl-modern .item-role { font-size: 13px; font-weight: 700; color: #0f172a; }
+    .tpl-modern .item-dur { font-size: 9.5px; color: #64748b; background: #f1f5f9; padding: 1px 6px; border-radius: 10px; }
+    .tpl-modern .item-company { font-size: 11px; color: #1d4ed8; font-weight: 600; }
+    .tpl-modern .item-desc { font-size: 11px; color: #475569; }
+    .tpl-modern .edu-item { background: #f8fafc; border-left: 3px solid #2563eb; padding: 8px 10px; border-radius: 4px; }
+    .tpl-modern .edu-degree { font-size: 12.5px; font-weight: 700; }
+    .tpl-modern .edu-school { font-size: 11px; color: #1d4ed8; }
+    .tpl-modern .edu-year { font-size: 10px; color: #94a3b8; }
+    .tpl-modern .cert-item { padding: 4px 0; border-bottom: 1px solid #f1f5f9; }
+    .tpl-modern .cert-name { font-size: 12px; font-weight: 700; }
+    .tpl-modern .cert-org { font-size: 11px; color: #1d4ed8; }
+
+    /* ─── TPL: ELEGANT ─── */
+    .tpl-elegant { font-family: 'Lato', sans-serif; color: #2d2d2d; line-height: 1.6; }
+    .tpl-elegant .hdr { text-align: center; padding: 24px; border-bottom: 2px solid #c8a96e; position: relative; }
+    .tpl-elegant .hdr h1 { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 800; color: #1a1a1a; }
+    .tpl-elegant .hdr .job-title { font-size: 12px; color: #c8a96e; letter-spacing: 3px; text-transform: uppercase; margin-top: 4px; }
+    .tpl-elegant .hdr-contact { display: flex; justify-content: center; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+    .tpl-elegant .hdr-contact-item { font-size: 11px; color: #555; display: flex; align-items: center; gap: 4px; }
+    .tpl-elegant .hdr-contact-item i { color: #c8a96e; }
+    .tpl-elegant .photo { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 2px solid #c8a96e; margin: 0 auto 10px; display: block; }
+    .tpl-elegant .body { display: grid; grid-template-columns: 1fr 180px; gap: 20px; padding: 24px; }
+    .tpl-elegant .sec { margin-bottom: 20px; }
+    .tpl-elegant .sec-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: #1a1a1a; margin-bottom: 10px; padding-bottom: 4px; border-bottom: 1px solid #c8a96e; display: flex; align-items: center; gap: 6px; }
+    .tpl-elegant .sec-title::before { content: ''; width: 3px; height: 12px; background: #c8a96e; }
+    .tpl-elegant .item { margin-bottom: 14px; }
+    .tpl-elegant .item-head { display: flex; justify-content: space-between; align-items: baseline; }
+    .tpl-elegant .item-role { font-size: 13px; font-weight: 700; color: #1a1a1a; }
+    .tpl-elegant .item-dur { font-size: 10.5px; color: #c8a96e; font-style: italic; }
+    .tpl-elegant .item-company { font-size: 11px; color: #666; font-style: italic; }
+    .tpl-elegant .item-desc { font-size: 11px; color: #555; }
+    .tpl-elegant .tag { font-size: 11px; color: #2d2d2d; padding: 4px 8px; background: #fdf8f0; border-left: 2px solid #c8a96e; margin-bottom: 4px; display: block; }
+    .tpl-elegant .edu-item { margin-bottom: 10px; }
+    .tpl-elegant .edu-degree { font-size: 12px; font-weight: 700; }
+    .tpl-elegant .edu-school { font-size: 11px; color: #666; }
+    .tpl-elegant .edu-year { font-size: 10.5px; color: #c8a96e; }
+    .tpl-elegant .lang-item { display: flex; justify-content: space-between; font-size: 11px; padding: 4px 0; border-bottom: 1px dotted #e8d5a3; }
+
+    /* ─── TPL: CIRCULAR ─── */
+    .tpl-circular { font-family: 'Plus Jakarta Sans', sans-serif; color: #1e293b; line-height: 1.6; display: flex; min-height: 100%; }
+    .tpl-circular .sidebar { width: 190px; background: #0c1a2e; padding: 0 0 20px; display: flex; flex-direction: column; gap: 16px; }
+    .tpl-circular .sidebar-top { background: linear-gradient(160deg, #0f2d52, #1a4080); padding: 20px 14px; text-align: center; }
+    .tpl-circular .avatar { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,.3); margin: 0 auto 10px; }
+    .tpl-circular .avatar-initials { width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,.1); color: #fff; font-size: 22px; font-weight: 800; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
+    .tpl-circular .s-name { color: #fff; font-size: 14px; font-weight: 800; }
+    .tpl-circular .s-title { color: #93c5fd; font-size: 11px; }
+    .tpl-circular .s-section { padding: 0 14px; }
+    .tpl-circular .s-label { font-size: 9px; font-weight: 800; text-transform: uppercase; color: #60a5fa; margin-bottom: 6px; }
+    .tpl-circular .contact-item { display: flex; gap: 6px; font-size: 10.5px; color: #94a3b8; margin-bottom: 6px; }
+    .tpl-circular .contact-item i { color: #60a5fa; }
+    .tpl-circular .skill-chip { display: inline-block; background: rgba(255,255,255,.08); color: #e2e8f0; font-size: 10.5px; padding: 3px 6px; border-radius: 4px; margin: 2px; border: 1px solid rgba(255,255,255,.1); }
+    .tpl-circular .lang-row { display: flex; justify-content: space-between; font-size: 11px; padding: 4px 0; color: #cbd5e1; }
+    .tpl-circular .main { flex: 1; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+    .tpl-circular .m-sec { margin-bottom: 8px; }
+    .tpl-circular .m-title { font-size: 9.5px; font-weight: 800; text-transform: uppercase; color: #0c1a2e; border-bottom: 2px solid #0c1a2e; padding-bottom: 4px; margin-bottom: 12px; }
+    .tpl-circular .timeline { border-left: 2px solid #e2e8f0; padding-left: 14px; margin-left: 4px; }
+    .tpl-circular .tl-item { position: relative; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #f8fafc; }
+    .tpl-circular .tl-dot { position: absolute; left: -19px; top: 4px; width: 8px; height: 8px; border-radius: 50%; background: #0c1a2e; border: 2px solid #fff; box-shadow: 0 0 0 1px #0c1a2e; }
+    .tpl-circular .item-role { font-size: 13px; font-weight: 700; }
+    .tpl-circular .item-dur { font-size: 9.5px; color: #64748b; background: #f1f5f9; padding: 1px 6px; border-radius: 10px; }
+    .tpl-circular .item-company { font-size: 11px; color: #1a4080; font-weight: 600; }
+    .tpl-circular .edu-card { background: #f8fafc; border-left: 3px solid #0c1a2e; padding: 8px 10px; margin-bottom: 8px; border-radius: 4px; display: flex; justify-content: space-between; }
+    .tpl-circular .edu-degree { font-size: 12.5px; font-weight: 700; }
+
+    /* ─── TPL: CHRONO ─── */
+    .tpl-chrono { font-family: 'Inter', sans-serif; color: #1e293b; }
+    .tpl-chrono .hdr { background: #059669; padding: 24px; color: #fff; }
+    .tpl-chrono .hdr h1 { font-size: 26px; font-weight: 900; }
+    .tpl-chrono .hdr .role { font-size: 13px; color: #a7f3d0; margin-bottom: 12px; }
+    .tpl-chrono .contact-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tpl-chrono .pill { display: flex; align-items: center; gap: 4px; font-size: 11px; background: rgba(255,255,255,.15); padding: 3px 8px; border-radius: 12px; }
+    .tpl-chrono .photo { width: 64px; height: 64px; border-radius: 8px; object-fit: cover; border: 2px solid rgba(255,255,255,.3); }
+    .tpl-chrono .body { padding: 20px; columns: 2; column-gap: 20px; }
+    .tpl-chrono .sec { break-inside: avoid; margin-bottom: 18px; }
+    .tpl-chrono .sec-title { font-size: 9.5px; font-weight: 800; text-transform: uppercase; color: #059669; border-bottom: 2px solid #d1fae5; padding-bottom: 4px; margin-bottom: 10px; }
+    .tpl-chrono .item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f0fdf4; }
+    .tpl-chrono .item-role { font-size: 12.5px; font-weight: 700; }
+    .tpl-chrono .item-dur { font-size: 9.5px; color: #64748b; background: #f0fdf4; padding: 1px 6px; border-radius: 10px; }
+    .tpl-chrono .item-company { font-size: 11px; color: #059669; font-weight: 600; }
+    .tpl-chrono .tag { background: #ecfdf5; color: #065f46; font-size: 10.5px; font-weight: 600; padding: 3px 6px; border-radius: 4px; border: 1px solid #a7f3d0; margin: 2px; display: inline-block; }
+    .tpl-chrono .edu-item { background: #f0fdf4; padding: 8px 10px; border-radius: 6px; margin-bottom: 8px; }
+
+    /* ─── TPL: VERTICAL ─── */
+    .tpl-vertical { font-family: 'Montserrat', sans-serif; color: #1e293b; display: flex; min-height: 100%; }
+    .tpl-vertical .stripe { width: 8px; background: linear-gradient(180deg, #7c3aed, #c084fc); }
+    .tpl-vertical .sidebar { width: 185px; background: #1e1b4b; padding: 24px 14px; display: flex; flex-direction: column; gap: 20px; color: #fff; }
+    .tpl-vertical .avatar { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 2px solid #7c3aed; margin: 0 auto; display: block; }
+    .tpl-vertical .avatar-initials { width: 64px; height: 64px; border-radius: 50%; background: rgba(124,58,237,.2); color: #c4b5fd; font-size: 24px; font-weight: 800; display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+    .tpl-vertical .s-name { font-size: 14px; font-weight: 800; text-align: center; }
+    .tpl-vertical .s-title { font-size: 11px; color: #a78bfa; text-align: center; }
+    .tpl-vertical .s-label { font-size: 9px; font-weight: 800; text-transform: uppercase; color: #7c3aed; }
+    .tpl-vertical .c-item { display: flex; gap: 6px; font-size: 10.5px; color: #94a3b8; }
+    .tpl-vertical .skill-track { height: 3px; background: rgba(255,255,255,.1); border-radius: 4px; margin-top: 2px; }
+    .tpl-vertical .skill-fill { height: 100%; width: 75%; background: #7c3aed; border-radius: 4px; }
+    .tpl-vertical .main { flex: 1; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+    .tpl-vertical .m-sec-title { font-size: 9.5px; font-weight: 800; text-transform: uppercase; color: #7c3aed; border-bottom: 2px solid #ede9fe; padding-bottom: 4px; }
+    .tpl-vertical .item { padding-bottom: 12px; border-bottom: 1px solid #f5f3ff; }
+    .tpl-vertical .item-role { font-size: 12.5px; font-weight: 700; }
+    .tpl-vertical .item-dur { font-size: 9.5px; color: #64748b; background: #f5f3ff; padding: 1px 6px; border-radius: 10px; }
+    .tpl-vertical .item-company { font-size: 11px; color: #7c3aed; font-weight: 600; }
+    .tpl-vertical .edu-block { background: #faf5ff; border-left: 3px solid #7c3aed; padding: 8px 10px; border-radius: 4px; }
+
+    /* ─── TPL: HORIZONTAL ─── */
+    .tpl-horizontal { font-family: 'Inter', sans-serif; color: #1e293b; }
+    .tpl-horizontal .hdr { background: #dc2626; padding: 24px; color: #fff; }
+    .tpl-horizontal .hdr-inner { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+    .tpl-horizontal .photo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,.4); }
+    .tpl-horizontal .avatar-initials { width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,.2); font-size: 22px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+    .tpl-horizontal .hdr-title h1 { font-size: 26px; font-weight: 900; }
+    .tpl-horizontal .hdr-title .role { font-size: 12px; color: #fca5a5; }
+    .tpl-horizontal .contact-row { display: flex; flex-wrap: wrap; gap: 12px; border-top: 1px solid rgba(255,255,255,.15); padding-top: 10px; }
+    .tpl-horizontal .c-pill { display: flex; align-items: center; gap: 4px; font-size: 11.5px; }
+    .tpl-horizontal .body { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 20px; }
+    .tpl-horizontal .col-a { border-right: 1px solid #fef2f2; padding-right: 12px; }
+    .tpl-horizontal .sec-title { font-size: 9.5px; font-weight: 800; text-transform: uppercase; color: #dc2626; border-bottom: 2px solid #fecaca; padding-bottom: 4px; margin-bottom: 12px; }
+    .tpl-horizontal .item { padding-bottom: 10px; border-bottom: 1px solid #fef2f2; margin-bottom: 10px; }
+    .tpl-horizontal .item-role { font-size: 13px; font-weight: 700; }
+    .tpl-horizontal .item-dur { font-size: 9.5px; color: #64748b; background: #fef2f2; padding: 1px 6px; border-radius: 10px; }
+    .tpl-horizontal .item-company { font-size: 11px; color: #dc2626; font-weight: 600; }
+    .tpl-horizontal .edu-card { background: #fff5f5; border-left: 3px solid #dc2626; padding: 8px 10px; border-radius: 4px; margin-bottom: 8px; }
+
+    /* ─── TPL: LUXURIOUS ─── */
+    .tpl-luxurious { font-family: 'Source Sans 3', sans-serif; color: #1a1a1a; }
+    .tpl-luxurious .hdr { padding: 24px; position: relative; border-bottom: 1px solid #e8c84a; }
+    .tpl-luxurious .hdr::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #b7860f, #e8c84a, #d4a017); }
+    .tpl-luxurious .hdr-inner { display: flex; justify-content: space-between; align-items: center; }
+    .tpl-luxurious .hdr-left h1 { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 800; }
+    .tpl-luxurious .hdr-left .role { font-size: 11px; color: #b7860f; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+    .tpl-luxurious .hdr-right { text-align: right; font-size: 11px; color: #555; }
+    .tpl-luxurious .photo { width: 56px; height: 56px; border-radius: 6px; object-fit: cover; border: 1.5px solid #e8c84a; }
+    .tpl-luxurious .body { display: grid; grid-template-columns: 1fr 190px; gap: 20px; padding: 24px; }
+    .tpl-luxurious .sec-title { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: #0d0d0d; border-left: 3px solid #b7860f; padding-left: 8px; margin-bottom: 12px; }
+    .tpl-luxurious .item { padding-bottom: 12px; border-bottom: 1px solid #f5f0e8; margin-bottom: 12px; }
+    .tpl-luxurious .item-role { font-size: 13px; font-weight: 700; }
+    .tpl-luxurious .item-dur { font-size: 10px; color: #b7860f; }
+    .tpl-luxurious .tag { display: block; font-size: 11px; padding: 4px 8px; background: #fdf8ec; border-left: 2px solid #b7860f; margin-bottom: 4px; }
+    .tpl-luxurious .edu-item { margin-bottom: 8px; border-bottom: 1px dotted #e8c84a; padding-bottom: 6px; }
 </style>
 @endsection
 
 @section('content')
-<div x-data="resumeBuilder()" data-resume-builder class="grid grid-cols-1 lg:grid-cols-12 gap-8 builder-container -mt-6">
+<div x-data="resumeBuilder()" data-resume-builder class="grid grid-cols-1 lg:grid-cols-12 gap-6 builder-container -mt-6">
     
-    <!-- LEFT COLUMN: Forms and Inputs (lg:col-span-6) -->
-    <div class="lg:col-span-6 flex flex-col h-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm">
+    <!-- LEFT COLUMN: Forms and Inputs (lg:col-span-5) -->
+    <div class="lg:col-span-5 flex flex-col h-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm">
         
         <!-- Header Bar -->
         <div class="p-5 border-b border-slate-200 dark:border-slate-850 flex items-center justify-between gap-4">
@@ -220,11 +415,78 @@
                                 <x-input label="Company Name" name="job_company" placeholder="Google" x-model="job.company" @input="triggerAutoSave()" />
                                 <x-input label="Job Role / Position" name="job_role" placeholder="Software Engineer" x-model="job.role" @input="triggerAutoSave()" />
                             </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <x-input label="Duration (Dates)" name="job_duration" placeholder="Jan 2024 - Present" x-model="job.duration" @input="triggerAutoSave()" />
-                                <div></div>
+
+                            {{-- DATE RANGE PICKER
+                                WHY: Free-text duration is replaced with structured month/year selects.
+                                The `start_date` and `end_date` are stored as "YYYY-MM" strings.
+                                The `is_present` flag disables end date and sets display to "Present".
+                                ResumeTemplateRenderer::formatDateRange() turns them into display text.
+                            --}}
+                            <div class="p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900/60">
+                                <div class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">Duration</div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <!-- Start Date -->
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-500 mb-1">Start Date</label>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <select x-model="job.start_month"
+                                                @change="job.start_date = (job.start_year || '') + '-' + (job.start_month || ''); triggerAutoSave();"
+                                                class="w-full px-2 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition text-xs">
+                                                <option value="">Month</option>
+                                                <option value="01">Jan</option><option value="02">Feb</option><option value="03">Mar</option>
+                                                <option value="04">Apr</option><option value="05">May</option><option value="06">Jun</option>
+                                                <option value="07">Jul</option><option value="08">Aug</option><option value="09">Sep</option>
+                                                <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+                                            </select>
+                                            <select x-model="job.start_year"
+                                                @change="job.start_date = (job.start_year || '') + '-' + (job.start_month || ''); triggerAutoSave();"
+                                                class="w-full px-2 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition text-xs">
+                                                <option value="">Year</option>
+                                                <template x-for="y in yearRange" :key="y"><option :value="y" x-text="y"></option></template>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- End Date -->
+                                    <div :class="job.is_present ? 'opacity-50 pointer-events-none' : ''">
+                                        <label class="block text-xs font-medium text-slate-500 mb-1">
+                                            End Date
+                                            <span x-show="job.is_present" class="text-emerald-600 font-bold ml-1">→ Present</span>
+                                        </label>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <select x-model="job.end_month"
+                                                :disabled="job.is_present"
+                                                @change="job.end_date = (job.end_year || '') + '-' + (job.end_month || ''); triggerAutoSave();"
+                                                class="w-full px-2 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition text-xs">
+                                                <option value="">Month</option>
+                                                <option value="01">Jan</option><option value="02">Feb</option><option value="03">Mar</option>
+                                                <option value="04">Apr</option><option value="05">May</option><option value="06">Jun</option>
+                                                <option value="07">Jul</option><option value="08">Aug</option><option value="09">Sep</option>
+                                                <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+                                            </select>
+                                            <select x-model="job.end_year"
+                                                :disabled="job.is_present"
+                                                @change="job.end_date = (job.end_year || '') + '-' + (job.end_month || ''); triggerAutoSave();"
+                                                class="w-full px-2 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition text-xs">
+                                                <option value="">Year</option>
+                                                <template x-for="y in yearRange" :key="y"><option :value="y" x-text="y"></option></template>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Currently working checkbox -->
+                                <label class="flex items-center gap-2 mt-3 cursor-pointer">
+                                    <input type="checkbox" x-model="job.is_present"
+                                        @change="if(job.is_present){job.end_date=null;job.end_month='';job.end_year='';} triggerAutoSave();"
+                                        class="w-4 h-4 rounded text-primary-600 focus:ring-primary-500">
+                                    <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">I currently work here</span>
+                                </label>
+                                <!-- Display preview of formatted duration -->
+                                <div class="mt-2 text-xs text-slate-500" x-show="job.start_date || job.is_present">
+                                    <span class="font-semibold text-slate-700 dark:text-slate-400">Preview: </span>
+                                    <span x-text="formatDateRange(job)" class="text-primary-600 font-bold"></span>
+                                </div>
                             </div>
-                            
+
                             <div>
                                 <div class="flex justify-between items-center mb-1">
                                     <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Description / Achievements</label>
@@ -263,9 +525,69 @@
                                 <x-input label="School / University" name="edu_school" placeholder="Stanford University" x-model="edu.school" @input="triggerAutoSave()" />
                                 <x-input label="Degree / Program" name="edu_degree" placeholder="B.S. Computer Science" x-model="edu.degree" @input="triggerAutoSave()" />
                             </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <x-input label="Graduation Year" name="edu_year" placeholder="2024" x-model="edu.year" @input="triggerAutoSave()" />
-                                <div></div>
+
+                            {{-- Education Date Range
+                                WHY: "Graduation Year" as a free-text field was too vague.
+                                Now we store start_date and end_date for education too.
+                                is_present means "currently enrolled".
+                            --}}
+                            <div class="p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900/60">
+                                <div class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">Study Period</div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <!-- Start Date -->
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-500 mb-1">Start Date</label>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <select x-model="edu.start_month"
+                                                @change="edu.start_date = (edu.start_year||'') + '-' + (edu.start_month||''); triggerAutoSave();"
+                                                class="w-full px-2 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition text-xs">
+                                                <option value="">Month</option>
+                                                <option value="01">Jan</option><option value="02">Feb</option><option value="03">Mar</option>
+                                                <option value="04">Apr</option><option value="05">May</option><option value="06">Jun</option>
+                                                <option value="07">Jul</option><option value="08">Aug</option><option value="09">Sep</option>
+                                                <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+                                            </select>
+                                            <select x-model="edu.start_year"
+                                                @change="edu.start_date = (edu.start_year||'') + '-' + (edu.start_month||''); triggerAutoSave();"
+                                                class="w-full px-2 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition text-xs">
+                                                <option value="">Year</option>
+                                                <template x-for="y in yearRange" :key="y"><option :value="y" x-text="y"></option></template>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- End / Graduation Date -->
+                                    <div :class="edu.is_present ? 'opacity-50 pointer-events-none' : ''">
+                                        <label class="block text-xs font-medium text-slate-500 mb-1">
+                                            End Date
+                                            <span x-show="edu.is_present" class="text-emerald-600 font-bold ml-1">→ Present</span>
+                                        </label>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <select x-model="edu.end_month"
+                                                :disabled="edu.is_present"
+                                                @change="edu.end_date = (edu.end_year||'') + '-' + (edu.end_month||''); triggerAutoSave();"
+                                                class="w-full px-2 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition text-xs">
+                                                <option value="">Month</option>
+                                                <option value="01">Jan</option><option value="02">Feb</option><option value="03">Mar</option>
+                                                <option value="04">Apr</option><option value="05">May</option><option value="06">Jun</option>
+                                                <option value="07">Jul</option><option value="08">Aug</option><option value="09">Sep</option>
+                                                <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+                                            </select>
+                                            <select x-model="edu.end_year"
+                                                :disabled="edu.is_present"
+                                                @change="edu.end_date = (edu.end_year||'') + '-' + (edu.end_month||''); triggerAutoSave();"
+                                                class="w-full px-2 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition text-xs">
+                                                <option value="">Year</option>
+                                                <template x-for="y in yearRange" :key="y"><option :value="y" x-text="y"></option></template>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label class="flex items-center gap-2 mt-3 cursor-pointer">
+                                    <input type="checkbox" x-model="edu.is_present"
+                                        @change="if(edu.is_present){edu.end_date=null;edu.end_month='';edu.end_year='';} triggerAutoSave();"
+                                        class="w-4 h-4 rounded text-primary-600 focus:ring-primary-500">
+                                    <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Currently enrolled</span>
+                                </label>
                             </div>
                         </div>
                     </template>
@@ -345,337 +667,618 @@
         </div>
     </div>
 
-    <!-- RIGHT COLUMN: Live Resume Preview (lg:col-span-6) -->
-    <div class="lg:col-span-6 flex flex-col h-full bg-slate-200/50 dark:bg-slate-950 border border-slate-350 dark:border-slate-850/80 rounded-3xl overflow-hidden shadow-inner p-6 relative">
-        <div class="absolute top-3 right-5 z-20 text-[10px] uppercase font-extrabold tracking-wider bg-slate-800 text-white px-2 py-0.5 rounded-md shadow-sm">
-            Live Preview (Scrollable)
+    <!-- RIGHT COLUMN: Live Resume Preview (lg:col-span-7) -->
+    <div class="lg:col-span-7 flex flex-col h-full bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-850/80 rounded-3xl overflow-hidden shadow-inner relative">
+        <div class="absolute top-3 right-4 z-20 text-[10px] uppercase font-extrabold tracking-wider bg-slate-800 text-white px-2 py-0.5 rounded-md shadow-sm opacity-70">
+            Live Preview
         </div>
 
-        <!-- Renderable Resume Box -->
-        <div class="w-full flex-1 overflow-y-auto bg-white text-slate-900 shadow-xl rounded-2xl border border-slate-300/40 p-8 flex flex-col gap-6 text-[13px] leading-relaxed select-text"
+        <!-- Renderable Resume Box — full width, scrollable, no extra padding -->
+        <div class="w-full flex-1 overflow-y-auto bg-white shadow-xl select-text"
              :style="getPreviewFontStyle()">
-            
-            <!-- LAYOUTS STYLING ENGINE -->
-            <!-- 1. CIRCULAR -->
-            <template x-if="selectedStyle === 'circular'">
-                <div class="flex h-full gap-6">
-                    <!-- Left circular header / Accent Column -->
-                    <div class="w-1/3 border-r border-slate-100 pr-4 flex flex-col gap-4">
-                        <div class="pb-4 border-b border-slate-100">
-                            <!-- Circular styled curved block -->
-                            <div class="w-14 h-14 rounded-full bg-blue-900 text-white flex items-center justify-center font-extrabold text-lg mb-3 overflow-hidden">
-                                <template x-if="contact.photo">
-                                    <img :src="contact.photo" alt="Profile photo" class="w-full h-full object-cover">
-                                </template>
-                                <template x-if="!contact.photo">
-                                    <span x-text="contact.name ? contact.name.charAt(0) : 'J'"></span>
-                                </template>
-                            </div>
-                            <h2 class="font-extrabold text-blue-950 text-base" x-text="contact.name || 'Your Name'"></h2>
-                            <p class="text-xs text-blue-700 font-semibold mt-0.5" x-text="contact.title || 'Job Title'"></p>
-                        </div>
-                        <div class="flex flex-col gap-2 text-[11px] text-slate-600">
-                            <p><i class="fa-regular fa-envelope mr-1.5 text-blue-900"></i><span x-text="contact.email || 'email@example.com'"></span></p>
-                            <p><i class="fa-solid fa-phone mr-1.5 text-blue-900"></i><span x-text="contact.phone || 'Phone Number'"></span></p>
-                            <p><i class="fa-solid fa-location-dot mr-1.5 text-blue-900"></i><span x-text="contact.address || 'Location'"></span></p>
-                        </div>
-                        
-                        <!-- Skills (Dot representations) -->
-                        <div class="mt-4">
-                            <h4 class="font-extrabold text-[12px] text-blue-950 uppercase mb-2">Skills</h4>
-                            <div class="flex flex-col gap-1.5">
-                                <template x-for="skill in skills.list">
-                                    <div class="flex items-center justify-between">
-                                        <span x-text="skill" class="text-[11px]"></span>
-                                        <div class="flex gap-0.5">
-                                            <span class="w-1.5 h-1.5 bg-blue-900 rounded-full"></span>
-                                            <span class="w-1.5 h-1.5 bg-blue-900 rounded-full"></span>
-                                            <span class="w-1.5 h-1.5 bg-blue-900 rounded-full"></span>
-                                            <span class="w-1.5 h-1.5 bg-blue-300 rounded-full"></span>
-                                        </div>
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Right details column -->
-                    <div class="flex-1 flex flex-col gap-5">
-                        <div>
-                            <h4 class="font-extrabold text-blue-950 uppercase border-b pb-1 mb-2 text-[12px]">Profile</h4>
-                            <p class="text-slate-650" x-text="summary.text || 'Write your professional profile summary...'"></p>
-                        </div>
-                        <div>
-                            <h4 class="font-extrabold text-blue-950 uppercase border-b pb-1 mb-2 text-[12px]">Experience</h4>
-                            <div class="flex flex-col gap-4">
-                                <template x-for="job in experience.items">
-                                    <div>
-                                        <div class="flex justify-between items-start">
-                                            <strong class="text-blue-950 text-xs" x-text="job.role"></strong>
-                                            <span class="text-[10px] text-slate-500" x-text="job.duration"></span>
-                                        </div>
-                                        <p class="text-[11px] font-semibold text-blue-800" x-text="job.company"></p>
-                                        <p class="text-slate-650 text-[11px] mt-1" x-text="job.description"></p>
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="font-extrabold text-blue-950 uppercase border-b pb-1 mb-2 text-[12px]">Education</h4>
-                            <div class="flex flex-col gap-3">
-                                <template x-for="edu in education.items">
-                                    <div>
-                                        <div class="flex justify-between items-start">
-                                            <strong class="text-blue-950 text-[11px]" x-text="edu.degree"></strong>
-                                            <span class="text-[10px] text-slate-500" x-text="edu.year"></span>
-                                        </div>
-                                        <p class="text-[11px] text-blue-800" x-text="edu.school"></p>
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="font-extrabold text-blue-950 uppercase border-b pb-1 mb-2 text-[12px]">Certifications</h4>
-                            <div class="flex flex-col gap-3">
-                                <template x-for="certificate in certifications.items">
-                                    <div>
-                                        <strong class="text-blue-950 text-[11px]" x-text="certificate.name"></strong>
-                                        <p class="text-[10px] font-semibold text-blue-800" x-text="certificate.organization"></p>
-                                        <p class="text-slate-650 text-[11px] mt-1" x-text="certificate.issue_date"></p>
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </template>
-
-            <!-- 2. PROFESSIONAL -->
+            <!-- 1. PROFESSIONAL -->
             <template x-if="selectedStyle === 'professional'">
-                <div class="flex flex-col gap-5">
-                    <!-- Dark Slate Header -->
-                    <div class="bg-slate-900 text-white p-6 rounded-xl flex justify-between items-center gap-4">
-                        <div>
-                            <h2 class="text-xl font-extrabold" x-text="contact.name || 'Your Name'"></h2>
-                            <p class="text-slate-300 font-semibold" x-text="contact.title || 'Job Title'"></p>
+                <div class="tpl-professional">
+                    <div class="hdr">
+                        <div class="hdr-left">
+                            <h1 x-text="contact.name || 'Your Name'"></h1>
+                            <div class="title" x-text="contact.title || 'Professional Title'"></div>
                         </div>
-                        <div class="flex items-center gap-3">
-                            <div class="text-right text-[11px] text-slate-300 flex flex-col gap-0.5">
-                                <p><i class="fa-regular fa-envelope mr-1.5"></i><span x-text="contact.email"></span></p>
-                                <p><i class="fa-solid fa-phone mr-1.5"></i><span x-text="contact.phone"></span></p>
-                                <p><i class="fa-solid fa-location-dot mr-1.5"></i><span x-text="contact.address"></span></p>
+                        <div class="hdr-right-wrap">
+                            <div class="hdr-right">
+                                <template x-if="contact.email"><div class="hdr-contact-item"><i class="fa-regular fa-envelope"></i><span x-text="contact.email"></span></div></template>
+                                <template x-if="contact.phone"><div class="hdr-contact-item"><i class="fa-solid fa-phone"></i><span x-text="contact.phone"></span></div></template>
+                                <template x-if="contact.address"><div class="hdr-contact-item"><i class="fa-solid fa-location-dot"></i><span x-text="contact.address"></span></div></template>
                             </div>
                             <template x-if="contact.photo">
-                                <img :src="contact.photo" alt="Profile photo" class="w-14 h-14 rounded-xl object-cover border border-white/20">
+                                <img :src="contact.photo" class="photo" alt="photo">
                             </template>
                         </div>
                     </div>
-
-                    <!-- Summary -->
-                    <div>
-                        <h4 class="font-bold text-slate-900 border-b pb-1.5 mb-2 uppercase text-xs">Profile Summary</h4>
-                        <p class="text-slate-600" x-text="summary.text"></p>
-                    </div>
-
-                    <!-- Experience / Education side-by-side -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <h4 class="font-bold text-slate-900 border-b pb-1.5 mb-2 uppercase text-xs">Experience</h4>
-                            <div class="flex flex-col gap-4">
-                                <template x-for="job in experience.items">
-                                    <div>
-                                        <div class="flex justify-between items-start">
-                                            <strong class="text-slate-900 text-[12px]" x-text="job.role"></strong>
-                                            <span class="text-[9px] text-slate-400" x-text="job.duration"></span>
-                                        </div>
-                                        <p class="text-[10px] text-slate-500" x-text="job.company"></p>
-                                        <p class="text-slate-600 text-[11px] mt-1" x-text="job.description"></p>
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col gap-5">
-                            <div>
-                                <h4 class="font-bold text-slate-900 border-b pb-1.5 mb-2 uppercase text-xs">Education</h4>
-                                <div class="flex flex-col gap-3">
-                                    <template x-for="edu in education.items">
-                                        <div>
-                                            <div class="flex justify-between">
-                                                <strong class="text-slate-900 text-[11px]" x-text="edu.degree"></strong>
-                                                <span class="text-[9px] text-slate-400" x-text="edu.year"></span>
+                    <div class="body">
+                        <div class="col-left">
+                            <template x-if="summary.text">
+                                <div class="sec">
+                                    <div class="sec-title">Profile Summary</div>
+                                    <p class="summary-text" x-text="summary.text"></p>
+                                </div>
+                            </template>
+                            <template x-if="experience.items && experience.items.length > 0">
+                                <div class="sec">
+                                    <div class="sec-title">Experience</div>
+                                    <template x-for="job in experience.items">
+                                        <div class="item">
+                                            <div class="item-head">
+                                                <span class="item-role" x-text="job.role"></span>
+                                                <span class="item-dur" x-text="formatDateRange(job)"></span>
                                             </div>
-                                            <p class="text-[10px] text-slate-500" x-text="edu.school"></p>
+                                            <div class="item-company" x-text="job.company"></div>
+                                            <div class="item-desc" x-text="job.description"></div>
                                         </div>
                                     </template>
                                 </div>
-                            </div>
-
-                            <div>
-                                <h4 class="font-bold text-slate-900 border-b pb-1.5 mb-2 uppercase text-xs">Skills</h4>
-                                <div class="flex flex-wrap gap-1.5">
-                                    <template x-for="skill in skills.list">
-                                        <span class="px-2 py-1 bg-slate-100 text-slate-700 font-bold rounded-md text-[10px]" x-text="skill"></span>
-                                    </template>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h4 class="font-bold text-slate-900 border-b pb-1.5 mb-2 uppercase text-xs">Certifications</h4>
-                                <div class="flex flex-col gap-3">
-                                    <template x-for="certificate in certifications.items">
-                                        <div>
-                                            <strong class="text-slate-900 text-[11px]" x-text="certificate.name"></strong>
-                                            <p class="text-[10px] text-slate-500" x-text="certificate.organization"></p>
-                                            <p class="text-slate-600 text-[11px] mt-1" x-text="certificate.issue_date"></p>
-                                        </div>
-                                    </template>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </template>
-
-            <!-- 3. VERTICAL -->
-            <template x-if="selectedStyle === 'vertical'">
-                <div class="flex gap-6 h-full">
-                    <!-- Left stripe band -->
-                    <div class="w-2.5 h-full rounded-full bg-red-850 flex-shrink-0"></div>
-                    
-                    <div class="flex-1 flex flex-col gap-5">
-                        <div class="pb-4 border-b flex justify-between gap-4">
-                            <div>
-                                <h2 class="text-2xl font-black text-slate-900" x-text="contact.name || 'Your Name'"></h2>
-                                <p class="text-red-700 font-bold text-sm tracking-wide" x-text="contact.title || 'Job Title'"></p>
-                            </div>
-                            <template x-if="contact.photo">
-                                <img :src="contact.photo" alt="Profile photo" class="w-16 h-16 rounded-xl object-cover border border-slate-200">
                             </template>
-                            
-                            <div class="flex flex-wrap gap-4 mt-3 text-[11px] text-slate-500">
-                                <span><i class="fa-regular fa-envelope mr-1.5 text-red-700"></i><span x-text="contact.email"></span></span>
-                                <span><i class="fa-solid fa-phone mr-1.5 text-red-700"></i><span x-text="contact.phone"></span></span>
-                                <span><i class="fa-solid fa-location-dot mr-1.5 text-red-700"></i><span x-text="contact.address"></span></span>
-                            </div>
                         </div>
-
-                        <div>
-                            <h4 class="font-bold text-slate-900 uppercase text-xs tracking-wider text-red-800 mb-2">Professional Summary</h4>
-                            <p class="text-slate-650" x-text="summary.text"></p>
-                        </div>
-
-                        <div>
-                            <h4 class="font-bold text-slate-900 uppercase text-xs tracking-wider text-red-800 mb-3">Employment Details</h4>
-                            <div class="flex flex-col gap-4">
-                                <template x-for="job in experience.items">
-                                    <div class="pl-3 border-l-2 border-slate-200">
-                                        <div class="flex justify-between items-start">
-                                            <strong class="text-slate-900 text-xs" x-text="job.role"></strong>
-                                            <span class="text-[10px] text-slate-400" x-text="job.duration"></span>
-                                        </div>
-                                        <p class="text-[11px] text-red-700 font-semibold" x-text="job.company"></p>
-                                        <p class="text-slate-600 text-[11px] mt-1" x-text="job.description"></p>
+                        <div class="col-right">
+                            <template x-if="skills.list && skills.list.length > 0">
+                                <div class="sec">
+                                    <div class="sec-title">Skills</div>
+                                    <div class="tags">
+                                        <template x-for="sk in skills.list">
+                                            <span class="tag" x-text="sk"></span>
+                                        </template>
                                     </div>
-                                </template>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <div>
-                                <h4 class="font-bold text-slate-900 uppercase text-xs tracking-wider text-red-800 mb-2">Education</h4>
-                                <div class="flex flex-col gap-3">
+                                </div>
+                            </template>
+                            <template x-if="education.items && education.items.length > 0">
+                                <div class="sec">
+                                    <div class="sec-title">Education</div>
                                     <template x-for="edu in education.items">
-                                        <div class="pl-3 border-l-2 border-slate-200">
-                                            <strong class="text-slate-900 text-[11px]" x-text="edu.degree"></strong>
-                                            <p class="text-[11px] text-red-700 font-semibold" x-text="edu.school"></p>
-                                            <p class="text-[10px] text-slate-400" x-text="edu.year"></p>
+                                        <div class="edu-item">
+                                            <div class="edu-degree" x-text="edu.degree"></div>
+                                            <div class="edu-school" x-text="edu.school"></div>
+                                            <div class="edu-year" x-text="edu.year"></div>
                                         </div>
                                     </template>
                                 </div>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900 uppercase text-xs tracking-wider text-red-800 mb-2">Certifications</h4>
-                                <div class="flex flex-col gap-3">
-                                    <template x-for="certificate in certifications.items">
-                                        <div class="pl-3 border-l-2 border-slate-200">
-                                            <strong class="text-slate-900 text-[11px]" x-text="certificate.name"></strong>
-                                            <p class="text-[10px] text-red-700 font-semibold" x-text="certificate.organization"></p>
-                                            <p class="text-slate-600 text-[11px] mt-1" x-text="certificate.issue_date"></p>
+                            </template>
+                            <template x-if="certifications.items && certifications.items.length > 0">
+                                <div class="sec">
+                                    <div class="sec-title">Certifications</div>
+                                    <template x-for="cert in certifications.items">
+                                        <div class="cert-item">
+                                            <div class="cert-name" x-text="cert.name"></div>
+                                            <div class="cert-org" x-text="cert.organization"></div>
+                                            <div class="cert-date" x-text="cert.issue_date"></div>
                                         </div>
                                     </template>
                                 </div>
-                            </div>
+                            </template>
+                            <template x-if="languages.items && languages.items.length > 0">
+                                <div class="sec">
+                                    <div class="sec-title">Languages</div>
+                                    <template x-for="lang in languages.items">
+                                        <div class="lang-item">
+                                            <span class="lang-name" x-text="lang.language"></span>
+                                            <span class="lang-level" x-text="lang.level"></span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
                         </div>
                     </div>
                 </div>
             </template>
 
-            <!-- FALLBACK/OTHER STYLES RENDER AS GENERIC DOUBLE COLUMN -->
-            <template x-if="['circular', 'professional', 'vertical'].indexOf(selectedStyle) === -1">
-                <div class="flex flex-col gap-6">
-                    <div class="border-b pb-4 flex justify-between items-start gap-4">
-                        <div>
-                            <h2 class="text-2xl font-bold text-slate-900" x-text="contact.name || 'Your Name'"></h2>
-                            <p class="text-primary-600 font-bold" x-text="contact.title || 'Job Title'"></p>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="text-right text-[11px] text-slate-500">
-                                <p x-text="contact.email"></p>
-                                <p x-text="contact.phone"></p>
-                                <p x-text="contact.address"></p>
-                            </div>
+            <!-- 2. MODERN -->
+            <template x-if="selectedStyle === 'modern'">
+                <div class="tpl-modern">
+                    <div class="sidebar">
+                        <div class="avatar-wrap">
                             <template x-if="contact.photo">
-                                <img :src="contact.photo" alt="Profile photo" class="w-14 h-14 rounded-xl object-cover border border-slate-200">
+                                <img :src="contact.photo" class="avatar" alt="photo">
+                            </template>
+                            <template x-if="!contact.photo">
+                                <div class="avatar-initials" x-text="contact.name ? contact.name.charAt(0) : 'U'"></div>
+                            </template>
+                            <div>
+                                <div class="sidebar-name" x-text="contact.name || 'Your Name'"></div>
+                                <div class="sidebar-title" x-text="contact.title || 'Professional Title'"></div>
+                            </div>
+                        </div>
+                        <div class="s-sec">
+                            <div class="s-label">Contact</div>
+                            <template x-if="contact.email"><div class="contact-row"><i class="fa-regular fa-envelope"></i><span x-text="contact.email"></span></div></template>
+                            <template x-if="contact.phone"><div class="contact-row"><i class="fa-solid fa-phone"></i><span x-text="contact.phone"></span></div></template>
+                            <template x-if="contact.address"><div class="contact-row"><i class="fa-solid fa-location-dot"></i><span x-text="contact.address"></span></div></template>
+                        </div>
+                        <template x-if="skills.list && skills.list.length > 0">
+                            <div class="s-sec">
+                                <div class="s-label">Skills</div>
+                                <div class="skill-bar-wrap">
+                                    <template x-for="sk in skills.list">
+                                        <div>
+                                            <div class="skill-name" x-text="sk"></div>
+                                            <div class="skill-bar"><div class="skill-bar-fill"></div></div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                        <template x-if="languages.items && languages.items.length > 0">
+                            <div class="s-sec">
+                                <div class="s-label">Languages</div>
+                                <template x-for="lang in languages.items">
+                                    <div class="lang-row">
+                                        <span class="lang-n" x-text="lang.language"></span>
+                                        <span class="lang-l" x-text="lang.level"></span>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="main">
+                        <template x-if="summary.text">
+                            <div class="m-sec">
+                                <div class="m-title">About Me</div>
+                                <p class="summary-text" x-text="summary.text"></p>
+                            </div>
+                        </template>
+                        <template x-if="experience.items && experience.items.length > 0">
+                            <div class="m-sec">
+                                <div class="m-title">Experience</div>
+                                <template x-for="job in experience.items">
+                                    <div class="item">
+                                        <div class="item-head">
+                                            <span class="item-role" x-text="job.role"></span>
+                                            <span class="item-dur" x-text="formatDateRange(job)"></span>
+                                        </div>
+                                        <div class="item-company" x-text="job.company"></div>
+                                        <div class="item-desc" x-text="job.description"></div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                        <template x-if="education.items && education.items.length > 0">
+                            <div class="m-sec">
+                                <div class="m-title">Education</div>
+                                <template x-for="edu in education.items">
+                                    <div class="edu-item">
+                                        <div class="edu-degree" x-text="edu.degree"></div>
+                                        <div class="edu-school" x-text="edu.school"></div>
+                                        <div class="edu-year" x-text="edu.year"></div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                        <template x-if="certifications.items && certifications.items.length > 0">
+                            <div class="m-sec">
+                                <div class="m-title">Certifications</div>
+                                <template x-for="cert in certifications.items">
+                                    <div class="cert-item">
+                                        <div class="cert-name" x-text="cert.name"></div>
+                                        <div class="cert-org" x-text="cert.organization"></div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- 3. ELEGANT -->
+            <template x-if="selectedStyle === 'elegant'">
+                <div class="tpl-elegant">
+                    <div class="hdr">
+                        <template x-if="contact.photo">
+                            <img :src="contact.photo" class="photo" alt="photo">
+                        </template>
+                        <h1 x-text="contact.name || 'Your Name'"></h1>
+                        <div class="job-title" x-text="contact.title || 'Professional Title'"></div>
+                        <div class="hdr-contact">
+                            <template x-if="contact.email"><div class="hdr-contact-item"><i class="fa-regular fa-envelope"></i><span x-text="contact.email"></span></div></template>
+                            <template x-if="contact.phone"><div class="hdr-contact-item"><i class="fa-solid fa-phone"></i><span x-text="contact.phone"></span></div></template>
+                            <template x-if="contact.address"><div class="hdr-contact-item"><i class="fa-solid fa-location-dot"></i><span x-text="contact.address"></span></div></template>
+                        </div>
+                    </div>
+                    <div class="body">
+                        <div>
+                            <template x-if="summary.text">
+                                <div class="sec">
+                                    <div class="sec-title">Profile</div>
+                                    <p class="summary-text" x-text="summary.text"></p>
+                                </div>
+                            </template>
+                            <template x-if="experience.items && experience.items.length > 0">
+                                <div class="sec">
+                                    <div class="sec-title">Experience</div>
+                                    <template x-for="job in experience.items">
+                                        <div class="item">
+                                            <div class="item-head">
+                                                <span class="item-role" x-text="job.role"></span>
+                                                <span class="item-dur" x-text="formatDateRange(job)"></span>
+                                            </div>
+                                            <div class="item-company" x-text="job.company"></div>
+                                            <div class="item-desc" x-text="job.description"></div>
+                                        </div>
+                                    </template>
+                                </div>
                             </template>
                         </div>
-                    </div>
-
-                    <div>
-                        <h4 class="font-bold text-slate-900 uppercase border-b pb-1 mb-2">Summary</h4>
-                        <p class="text-slate-600" x-text="summary.text"></p>
-                    </div>
-
-                    <div>
-                        <h4 class="font-bold text-slate-900 uppercase border-b pb-1 mb-3">Experience</h4>
-                        <div class="flex flex-col gap-4">
-                            <template x-for="job in experience.items">
-                                <div>
-                                    <div class="flex justify-between font-bold text-slate-900">
-                                        <span x-text="job.role"></span>
-                                        <span class="text-xs text-slate-400 font-normal" x-text="job.duration"></span>
-                                    </div>
-                                    <p class="text-xs text-primary-600" x-text="job.company"></p>
-                                    <p class="text-slate-600 mt-1" x-text="job.description"></p>
+                        <div>
+                            <template x-if="skills.list && skills.list.length > 0">
+                                <div class="sec">
+                                    <div class="sec-title">Skills</div>
+                                    <template x-for="sk in skills.list">
+                                        <div class="tag" x-text="sk"></div>
+                                    </template>
+                                </div>
+                            </template>
+                            <template x-if="education.items && education.items.length > 0">
+                                <div class="sec">
+                                    <div class="sec-title">Education</div>
+                                    <template x-for="edu in education.items">
+                                        <div class="edu-item">
+                                            <div class="edu-degree" x-text="edu.degree"></div>
+                                            <div class="edu-school" x-text="edu.school"></div>
+                                            <div class="edu-year" x-text="edu.year"></div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                            <template x-if="languages.items && languages.items.length > 0">
+                                <div class="sec">
+                                    <div class="sec-title">Languages</div>
+                                    <template x-for="lang in languages.items">
+                                        <div class="lang-item">
+                                            <span x-text="lang.language"></span>
+                                            <span class="lang-level" x-text="lang.level"></span>
+                                        </div>
+                                    </template>
                                 </div>
                             </template>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div>
-                            <h4 class="font-bold text-slate-900 uppercase border-b pb-1 mb-3">Education</h4>
-                            <div class="flex flex-col gap-3">
-                                <template x-for="edu in education.items">
-                                    <div>
-                                        <div class="flex justify-between font-bold text-slate-900">
-                                            <span x-text="edu.degree"></span>
-                                            <span class="text-xs text-slate-400 font-normal" x-text="edu.year"></span>
-                                        </div>
-                                        <p class="text-xs text-primary-600" x-text="edu.school"></p>
+                </div>
+            </template>
+
+            <!-- 4. CIRCULAR -->
+            <template x-if="selectedStyle === 'circular'">
+                <div class="tpl-circular">
+                    <div class="sidebar">
+                        <div class="sidebar-top">
+                            <template x-if="contact.photo">
+                                <img :src="contact.photo" class="avatar" alt="photo">
+                            </template>
+                            <template x-if="!contact.photo">
+                                <div class="avatar-initials" x-text="contact.name ? contact.name.charAt(0) : 'U'"></div>
+                            </template>
+                            <div class="s-name" x-text="contact.name || 'Your Name'"></div>
+                            <div class="s-title" x-text="contact.title || ''"></div>
+                        </div>
+                        <div class="s-section">
+                            <div class="s-label">Contact</div>
+                            <template x-if="contact.email"><div class="contact-item"><i class="fa-regular fa-envelope"></i><span x-text="contact.email"></span></div></template>
+                            <template x-if="contact.phone"><div class="contact-item"><i class="fa-solid fa-phone"></i><span x-text="contact.phone"></span></div></template>
+                            <template x-if="contact.address"><div class="contact-item"><i class="fa-solid fa-location-dot"></i><span x-text="contact.address"></span></div></template>
+                        </div>
+                        <template x-if="skills.list && skills.list.length > 0">
+                            <div class="s-section">
+                                <div class="s-label">Skills</div>
+                                <div>
+                                    <template x-for="sk in skills.list">
+                                        <span class="skill-chip" x-text="sk"></span>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                        <template x-if="languages.items && languages.items.length > 0">
+                            <div class="s-section">
+                                <div class="s-label">Languages</div>
+                                <template x-for="lang in languages.items">
+                                    <div class="lang-row">
+                                        <span class="lang-name" x-text="lang.language"></span>
+                                        <span class="lang-badge" x-text="lang.level"></span>
                                     </div>
                                 </template>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="main">
+                        <template x-if="summary.text">
+                            <div class="m-sec">
+                                <div class="m-title">About</div>
+                                <p class="summary-text" x-text="summary.text"></p>
+                            </div>
+                        </template>
+                        <template x-if="experience.items && experience.items.length > 0">
+                            <div class="m-sec">
+                                <div class="m-title">Work Experience</div>
+                                <div class="timeline">
+                                    <template x-for="job in experience.items">
+                                        <div class="tl-item">
+                                            <div class="tl-dot"></div>
+                                            <div class="item-role" x-text="job.role"></div>
+                                            <span class="item-dur" x-text="formatDateRange(job)"></span>
+                                            <div class="item-company" x-text="job.company"></div>
+                                            <div class="item-desc" x-text="job.description"></div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                        <template x-if="education.items && education.items.length > 0">
+                            <div class="m-sec">
+                                <div class="m-title">Education</div>
+                                <template x-for="edu in education.items">
+                                    <div class="edu-card">
+                                        <div>
+                                            <div class="edu-degree" x-text="edu.degree"></div>
+                                            <div class="edu-school" x-text="edu.school"></div>
+                                        </div>
+                                        <div class="edu-year" x-text="edu.year"></div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- 5. CHRONO -->
+            <template x-if="selectedStyle === 'chrono'">
+                <div class="tpl-chrono">
+                    <div class="hdr">
+                        <h1 x-text="contact.name || 'Your Name'"></h1>
+                        <div class="role" x-text="contact.title || ''"></div>
+                        <div class="contact-pills">
+                            <template x-if="contact.email"><div class="pill"><i class="fa-regular fa-envelope"></i><span x-text="contact.email"></span></div></template>
+                            <template x-if="contact.phone"><div class="pill"><i class="fa-solid fa-phone"></i><span x-text="contact.phone"></span></div></template>
+                            <template x-if="contact.address"><div class="pill"><i class="fa-solid fa-location-dot"></i><span x-text="contact.address"></span></div></template>
+                        </div>
+                    </div>
+                    <div class="body">
+                        <template x-if="summary.text">
+                            <div class="sec">
+                                <div class="sec-title">Profile</div>
+                                <p class="summary-text" x-text="summary.text"></p>
+                            </div>
+                        </template>
+                        <template x-if="experience.items && experience.items.length > 0">
+                            <div class="sec">
+                                <div class="sec-title">Experience</div>
+                                <template x-for="job in experience.items">
+                                    <div class="item">
+                                        <div class="item-role" x-text="job.role"></div>
+                                        <span class="item-dur" x-text="formatDateRange(job)"></span>
+                                        <div class="item-company" x-text="job.company"></div>
+                                        <div class="item-desc" x-text="job.description"></div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                        <template x-if="skills.list && skills.list.length > 0">
+                            <div class="sec">
+                                <div class="sec-title">Skills</div>
+                                <template x-for="sk in skills.list">
+                                    <span class="tag" x-text="sk"></span>
+                                </template>
+                            </div>
+                        </template>
+                        <template x-if="education.items && education.items.length > 0">
+                            <div class="sec">
+                                <div class="sec-title">Education</div>
+                                <template x-for="edu in education.items">
+                                    <div class="edu-item">
+                                        <div class="edu-degree" x-text="edu.degree"></div>
+                                        <div class="edu-school" x-text="edu.school"></div>
+                                        <div class="edu-year" x-text="edu.year"></div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- 6. VERTICAL -->
+            <template x-if="selectedStyle === 'vertical'">
+                <div class="tpl-vertical">
+                    <div class="stripe"></div>
+                    <div class="sidebar">
+                        <template x-if="contact.photo">
+                            <img :src="contact.photo" class="avatar" alt="photo">
+                        </template>
+                        <template x-if="!contact.photo">
+                            <div class="avatar-initials" x-text="contact.name ? contact.name.charAt(0) : 'U'"></div>
+                        </template>
+                        <div class="s-name" x-text="contact.name || 'Your Name'"></div>
+                        <div class="s-title" x-text="contact.title || ''"></div>
+                        <div>
+                            <div class="s-label">Contact</div>
+                            <template x-if="contact.email"><div class="c-item"><i class="fa-regular fa-envelope"></i><span x-text="contact.email"></span></div></template>
+                            <template x-if="contact.phone"><div class="c-item"><i class="fa-solid fa-phone"></i><span x-text="contact.phone"></span></div></template>
+                            <template x-if="contact.address"><div class="c-item"><i class="fa-solid fa-location-dot"></i><span x-text="contact.address"></span></div></template>
+                        </div>
+                        <template x-if="skills.list && skills.list.length > 0">
+                            <div>
+                                <div class="s-label">Skills</div>
+                                <template x-for="sk in skills.list">
+                                    <div style="margin-bottom:6px">
+                                        <div x-text="sk"></div>
+                                        <div class="skill-track"><div class="skill-fill"></div></div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="main">
+                        <template x-if="summary.text">
+                            <div>
+                                <div class="m-sec-title">About Me</div>
+                                <p class="summary-text" x-text="summary.text"></p>
+                            </div>
+                        </template>
+                        <template x-if="experience.items && experience.items.length > 0">
+                            <div>
+                                <div class="m-sec-title">Work Experience</div>
+                                <template x-for="job in experience.items">
+                                    <div class="item">
+                                        <div class="item-role" x-text="job.role"></div>
+                                        <span class="item-dur" x-text="formatDateRange(job)"></span>
+                                        <div class="item-company" x-text="job.company"></div>
+                                        <div class="item-desc" x-text="job.description"></div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                        <template x-if="education.items && education.items.length > 0">
+                            <div>
+                                <div class="m-sec-title">Education</div>
+                                <template x-for="edu in education.items">
+                                    <div class="edu-block">
+                                        <div class="edu-degree" x-text="edu.degree"></div>
+                                        <div class="edu-school" x-text="edu.school"></div>
+                                        <div class="edu-year" x-text="edu.year"></div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- 7. HORIZONTAL -->
+            <template x-if="selectedStyle === 'horizontal'">
+                <div class="tpl-horizontal">
+                    <div class="hdr">
+                        <div class="hdr-inner">
+                            <template x-if="contact.photo">
+                                <img :src="contact.photo" class="photo" alt="photo">
+                            </template>
+                            <div class="hdr-title">
+                                <h1 x-text="contact.name || 'Your Name'"></h1>
+                                <div class="role" x-text="contact.title || ''"></div>
                             </div>
                         </div>
+                        <div class="contact-row">
+                            <template x-if="contact.email"><div class="c-pill"><i class="fa-regular fa-envelope"></i><span x-text="contact.email"></span></div></template>
+                            <template x-if="contact.phone"><div class="c-pill"><i class="fa-solid fa-phone"></i><span x-text="contact.phone"></span></div></template>
+                            <template x-if="contact.address"><div class="c-pill"><i class="fa-solid fa-location-dot"></i><span x-text="contact.address"></span></div></template>
+                        </div>
+                    </div>
+                    <div class="body">
+                        <div class="col-a">
+                            <template x-if="summary.text">
+                                <div class="sec">
+                                    <div class="sec-title">Profile</div>
+                                    <p class="summary-text" x-text="summary.text"></p>
+                                </div>
+                            </template>
+                            <template x-if="experience.items && experience.items.length > 0">
+                                <div class="sec">
+                                    <div class="sec-title">Experience</div>
+                                    <template x-for="job in experience.items">
+                                        <div class="item">
+                                            <div class="item-role" x-text="job.role"></div>
+                                            <span class="item-dur" x-text="formatDateRange(job)"></span>
+                                            <div class="item-company" x-text="job.company"></div>
+                                            <div class="item-desc" x-text="job.description"></div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
                         <div>
-                            <h4 class="font-bold text-slate-900 uppercase border-b pb-1 mb-3">Certifications</h4>
-                            <div class="flex flex-col gap-3">
-                                <template x-for="certificate in certifications.items">
-                                    <div>
-                                        <strong class="text-slate-900" x-text="certificate.name"></strong>
-                                        <p class="text-xs text-primary-600" x-text="certificate.organization"></p>
-                                        <p class="text-slate-600 mt-1" x-text="certificate.issue_date"></p>
+                            <template x-if="skills.list && skills.list.length > 0">
+                                <div class="sec">
+                                    <div class="sec-title">Skills</div>
+                                    <div class="tags">
+                                        <template x-for="sk in skills.list">
+                                            <span class="tag" x-text="sk"></span>
+                                        </template>
                                     </div>
-                                </template>
+                                </div>
+                            </template>
+                            <template x-if="education.items && education.items.length > 0">
+                                <div class="sec">
+                                    <div class="sec-title">Education</div>
+                                    <template x-for="edu in education.items">
+                                        <div class="edu-card">
+                                            <div class="edu-degree" x-text="edu.degree"></div>
+                                            <div class="edu-school" x-text="edu.school"></div>
+                                            <div class="edu-year" x-text="edu.year"></div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- 8. LUXURIOUS -->
+            <template x-if="selectedStyle === 'luxurious'">
+                <div class="tpl-luxurious">
+                    <div class="hdr">
+                        <div class="hdr-inner">
+                            <div class="hdr-left">
+                                <h1 x-text="contact.name || 'Your Name'"></h1>
+                                <div class="role" x-text="contact.title || ''"></div>
                             </div>
+                            <div class="hdr-right">
+                                <template x-if="contact.email"><div x-text="contact.email"></div></template>
+                                <template x-if="contact.phone"><div x-text="contact.phone"></div></template>
+                                <template x-if="contact.address"><div x-text="contact.address"></div></template>
+                            </div>
+                            <template x-if="contact.photo">
+                                <img :src="contact.photo" class="photo" alt="photo">
+                            </template>
+                        </div>
+                    </div>
+                    <div class="body">
+                        <div>
+                            <template x-if="summary.text">
+                                <div class="sec">
+                                    <div class="sec-title">Profile</div>
+                                    <p class="summary-text" x-text="summary.text"></p>
+                                </div>
+                            </template>
+                            <template x-if="experience.items && experience.items.length > 0">
+                                <div class="sec">
+                                    <div class="sec-title">Experience</div>
+                                    <template x-for="job in experience.items">
+                                        <div class="item">
+                                            <div class="item-role" x-text="job.role"></div>
+                                            <span class="item-dur" x-text="formatDateRange(job)"></span>
+                                            <div class="item-company" x-text="job.company"></div>
+                                            <div class="item-desc" x-text="job.description"></div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                        <div>
+                            <template x-if="skills.list && skills.list.length > 0">
+                                <div class="sec">
+                                    <div class="sec-title">Skills</div>
+                                    <template x-for="sk in skills.list">
+                                        <span class="tag" x-text="sk"></span>
+                                    </template>
+                                </div>
+                            </template>
+                            <template x-if="education.items && education.items.length > 0">
+                                <div class="sec">
+                                    <div class="sec-title">Education</div>
+                                    <template x-for="edu in education.items">
+                                        <div class="edu-item">
+                                            <div class="edu-degree" x-text="edu.degree"></div>
+                                            <div class="edu-school" x-text="edu.school"></div>
+                                            <div class="edu-year" x-text="edu.year"></div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -849,6 +1452,11 @@
             hasUnsavedChanges: false,
             jobRole: '',
             selectedRole: null,
+
+            // yearRange is used by the date picker selects in Experience and Education tabs.
+            // WHY COMPUTED HERE: Avoids hardcoding years in the template.
+            // Range: 2 years into future (for expected graduation) to 1980.
+            yearRange: Array.from({ length: new Date().getFullYear() + 3 - 1980 }, (_, i) => new Date().getFullYear() + 2 - i),
             jobRoles: [
                 { name: 'Backend Developer', skills: ['PHP', 'Laravel', 'PostgreSQL', 'Redis', 'Docker', 'REST API'], summary: 'Backend Developer with experience building scalable web applications using Laravel and PostgreSQL.', experience: 'Built REST APIs, optimized database queries, and integrated Redis caching for high-traffic services.' },
                 { name: 'Frontend Developer', skills: ['JavaScript', 'Vue', 'React', 'Tailwind CSS', 'API Integration'], summary: 'Frontend Developer focused on responsive interfaces, reusable components, and accessible user experiences.', experience: 'Developed interactive dashboards and integrated frontend workflows with REST APIs.' },
@@ -983,12 +1591,40 @@
             },
 
             addJob() {
-                this.experience.items.push({ company: '', role: '', duration: '', description: '' });
+                // New structured fields: start_date, end_date, is_present
+                // WHY: Storing dates as "YYYY-MM" strings instead of free-text "Jan 2024 - Present"
+                // allows consistent display formatting and future date validation.
+                this.experience.items.push({
+                    company: '',
+                    role: '',
+                    description: '',
+                    start_date: '',
+                    end_date: null,
+                    is_present: false,
+                    start_month: '',
+                    start_year: '',
+                    end_month: '',
+                    end_year: '',
+                    // `duration` is kept for backward compatibility with old data
+                    // and is computed dynamically by ResumeTemplateRenderer
+                    duration: ''
+                });
                 this.triggerAutoSave();
             },
 
             addEducation() {
-                this.education.items.push({ school: '', degree: '', year: '' });
+                this.education.items.push({
+                    school: '',
+                    degree: '',
+                    start_date: '',
+                    end_date: null,
+                    is_present: false,
+                    start_month: '',
+                    start_year: '',
+                    end_month: '',
+                    end_year: '',
+                    year: ''
+                });
                 this.triggerAutoSave();
             },
 
@@ -1037,6 +1673,43 @@
                 this.saveTimeout = setTimeout(() => {
                     this.saveData();
                 }, 1000);
+            },
+
+            /**
+             * formatDateRange — compute a human-readable duration string from structured data.
+             *
+             * WHY THIS EXISTS IN JS:
+             * The live preview in the builder is rendered by Alpine.js (client-side).
+             * The PDF/server-side preview uses ResumeTemplateRenderer::formatDateRange() (PHP).
+             * Both use the same logic so the preview and PDF always match.
+             *
+             * INPUT:  { start_date: "2022-01", end_date: "2025-03", is_present: false }
+             * OUTPUT: "Jan 2022 – Mar 2025"
+             */
+            formatDateRange(item) {
+                const months = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+                const fmtDate = (dateStr) => {
+                    if (!dateStr) return '';
+                    const parts = dateStr.split('-');
+                    if (parts.length < 2) return dateStr;
+                    const m = parseInt(parts[1], 10);
+                    return (months[m] || '') + ' ' + parts[0];
+                };
+
+                const start = fmtDate(item.start_date);
+
+                if (item.is_present) {
+                    return start ? `${start} – Present` : 'Present';
+                }
+
+                if (item.end_date) {
+                    const end = fmtDate(item.end_date);
+                    return start && end ? `${start} – ${end}` : (start || end);
+                }
+
+                return start;
             },
 
             async saveData() {

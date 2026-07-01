@@ -177,7 +177,7 @@
                         
                         // Download the file
                         setTimeout(() => {
-                            window.open(data.file.download_url, '_blank');
+                            window.location.href = data.file.download_url;
                         }, 800);
 
                     } catch (err) {

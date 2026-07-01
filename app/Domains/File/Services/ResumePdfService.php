@@ -3,29 +3,66 @@
 namespace App\Domains\File\Services;
 
 use App\Domains\Resume\Models\Resume;
+use App\Domains\Resume\Services\ResumeTemplateRenderer;
 use Spatie\Browsershot\Browsershot;
+
+/**
+ * ResumePdfService — PDF Generation using Browsershot (headless Chrome)
+ *
+ * WHY BROWSERSHOT:
+ * DomPDF cannot render modern CSS (flexbox, grid, custom fonts, CSS variables).
+ * wkhtmltopdf is unmaintained. Browsershot uses real Chrome, so the PDF looks
+ * identical to the browser preview — including colors, fonts, icons, and layout.
+ *
+ * WHY WE USE ResumeTemplateRenderer HERE:
+ * Previously this service called `view('resumes.pdf', ...)` directly — a single
+ * generic template that ignored the selected template style. Now it delegates to
+ * ResumeTemplateRenderer which picks the correct Blade file per template.style.
+ *
+ * WHAT PROBLEM IT SOLVES:
+ * Exported PDF now visually matches the live preview — same colors, fonts,
+ * layout, sidebar, icons, profile photo, and template-specific styling.
+ */
 
 class ResumePdfService
 {
+    public function __construct(
+        protected ResumeTemplateRenderer $templateRenderer
+    ) {}
+
+    /**
+     * Render the resume as an HTML string using the correct template.
+     *
+     * WHY: Previously used a hardcoded `resumes.pdf` view that ignored the
+     * selected template. Now delegates to ResumeTemplateRenderer which selects
+     * the correct Blade file based on template->style.
+     */
     public function renderHtml(Resume $resume): string
     {
-        $resume->loadMissing(['sections', 'template']);
-
-        return view('resumes.pdf', [
-            'resume' => $resume,
-        ])->render();
+        return $this->templateRenderer->renderForPdf($resume);
     }
 
+    /**
+     * Generate a real PDF binary string using headless Chrome (Browsershot).
+     *
+     * noSandbox() is required for Linux/Docker environments where Chrome
+     * cannot run with its default sandbox (kernel permission restrictions).
+     *
+     * If Browsershot fails (e.g. Chrome not installed), falls back to a minimal
+     * plain-text PDF so the user always gets something downloadable.
+     */
     public function generate(Resume $resume): string
     {
         $html = $this->renderHtml($resume);
 
         try {
             return Browsershot::html($html)
+                ->noSandbox()           // Required for Linux / Docker environments
                 ->format('A4')
-                ->margins(8, 8, 8, 8)
-                ->showBackground()
-                ->waitUntilNetworkIdle()
+                ->margins(10, 10, 10, 10)
+                ->showBackground()      // Preserve background colors in sidebar templates
+                ->waitUntilNetworkIdle() // Wait for Google Fonts to load
+                ->timeout(60)
                 ->pdf();
         } catch (\Throwable $e) {
             report($e);

@@ -11,7 +11,8 @@ class FrontendController extends Controller
 {
     public function __construct(
         protected ResumeRepositoryInterface $resumeRepository,
-        protected TemplateRepositoryInterface $templateRepository
+        protected TemplateRepositoryInterface $templateRepository,
+        protected \App\Domains\Resume\Services\ResumeTemplateRenderer $templateRenderer
     ) {}
 
     // Guest Auth Views
@@ -103,7 +104,12 @@ class FrontendController extends Controller
             abort(403, 'Unauthorized access to resume.');
         }
 
-        return view('resumes.preview', ['resume' => $resume]);
+        $renderedHtml = $this->templateRenderer->render($resume, false);
+
+        return view('resumes.preview', [
+            'resume' => $resume,
+            'renderedHtml' => $renderedHtml,
+        ]);
     }
 
     public function shared(string $id)
@@ -114,10 +120,13 @@ class FrontendController extends Controller
             abort(404, 'Resume not found.');
         }
 
+        $renderedHtml = $this->templateRenderer->render($resume, false);
+
         // Public preview has no auth check
         return view('resumes.preview', [
             'resume' => $resume,
-            'isShared' => true
+            'isShared' => true,
+            'renderedHtml' => $renderedHtml,
         ]);
     }
 
