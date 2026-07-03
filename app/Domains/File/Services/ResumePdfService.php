@@ -59,7 +59,7 @@ class ResumePdfService
             return Browsershot::html($html)
                 ->noSandbox()           // Required for Linux / Docker environments
                 ->format('A4')
-                ->margins(10, 10, 10, 10)
+                ->margins(0, 0, 0, 0)
                 ->showBackground()      // Preserve background colors in sidebar templates
                 ->waitUntilNetworkIdle() // Wait for Google Fonts to load
                 ->timeout(60)

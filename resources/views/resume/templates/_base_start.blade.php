@@ -19,9 +19,26 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 210mm; min-height: 297mm; background: #fff; }
   body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body.resume-pdf .sheet {
+    width: 210mm !important;
+    min-height: 297mm !important;
+  }
+  body.resume-pdf .sheet > .body {
+    flex: 1;
+    min-height: 220mm;
+  }
 </style>
 </head>
-<body style="--primary: {{ $primaryColor ?? '#2563eb' }}; --accent: {{ $accentColor ?? '#60a5fa' }};">
+<body class="resume-pdf" style="--primary: {{ $primaryColor ?? '#2563eb' }}; --accent: {{ $accentColor ?? '#60a5fa' }};">
 @else
-<div class="resume-wrapper" style="--primary: {{ $primaryColor ?? '#2563eb' }}; --accent: {{ $accentColor ?? '#60a5fa' }};">
+<style>
+  .resume-wrapper > .sheet {
+    min-height: 1122px !important;
+  }
+  .resume-wrapper > .sheet > .body {
+    flex: 1;
+    min-height: 830px;
+  }
+</style>
+<div class="resume-wrapper" style="--primary: {{ $primaryColor ?? '#2563eb' }}; --accent: {{ $accentColor ?? '#60a5fa' }}; min-height: 1122px;">
 @endif
