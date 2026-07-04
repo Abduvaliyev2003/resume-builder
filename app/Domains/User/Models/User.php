@@ -10,10 +10,12 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Domains\Resume\Models\Resume;
 use App\Domains\Analytics\Models\ActivityLog;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable, HasUUID, HasRoles;
 
@@ -57,4 +59,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(TelegramSession::class);
     }
+
+    public function canAccessPanel(Panel $panel): bool
+{
+    return $panel->getId() === 'admin'
+        && $this->hasRole('super_admin');
+}
 }

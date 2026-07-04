@@ -18,22 +18,39 @@ class RolesAndPermissionsSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]
             ->forgetCachedPermissions();
 
-        Permission::create(['name' => 'manage users']);
-        Permission::create(['name' => 'manage resumes']);
-        Permission::create(['name' => 'manage templates']);
-        Permission::create(['name' => 'manage ai']);
-        Permission::create(['name' => 'manage files']);
+        collect([
+            'manage users',
+            'manage resumes',
+            'manage templates',
+            'manage ai',
+            'manage files',
+            'access admin panel',
+        ])->each(fn (string $permission) => Permission::firstOrCreate([
+            'name' => $permission,
+        ]));
 
-        $admin = Role::firstOrCreate([
-            'name' => 'Super Admin'
+        $superAdmin = Role::firstOrCreate([
+            'name' => 'Super Admin',
         ]);
 
-        $admin->givePermissionTo(Permission::all());
+        $admin = Role::firstOrCreate([
+            'name' => 'Admin',
+        ]);
+
+        $superAdmin->syncPermissions(Permission::all());
+        $admin->syncPermissions(Permission::whereIn('name', [
+            'manage users',
+            'manage resumes',
+            'manage templates',
+            'manage ai',
+            'manage files',
+            'access admin panel',
+        ])->get());
 
         $user = User::first();
 
-        if ($user) {
-            $user->assignRole($admin);
+        if ($user && ! $user->hasAnyRole(['Super Admin', 'Admin'])) {
+            $user->assignRole($superAdmin);
         }
     }
 }
