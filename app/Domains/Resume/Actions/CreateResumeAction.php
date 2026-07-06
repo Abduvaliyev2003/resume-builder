@@ -20,6 +20,8 @@ class CreateResumeAction
     public function execute(string $userId, ResumeDTO $dto): Resume
     {
         return DB::transaction(function () use ($userId, $dto) {
+            $user = auth()->user();
+
             $resume = $this->resumeRepository->create([
                 'user_id' => $userId,
                 'template_id' => $dto->template_id ?? $this->templateRepository->allActive()->first()?->id,
@@ -28,10 +30,20 @@ class CreateResumeAction
             ]);
 
             foreach ($dto->sections as $secDto) {
+                $content = $secDto->content;
+
+                if (
+                    $secDto->section_type === 'contact' &&
+                    empty($content['email']) &&
+                    $user instanceof \App\Domains\User\Models\User
+                ) {
+                    $content['email'] = $user->email;
+                }
+
                 $this->resumeRepository->updateOrCreateSection(
                     $resume->id,
                     $secDto->section_type,
-                    $secDto->content,
+                    $content,
                     $secDto->order_index
                 );
             }

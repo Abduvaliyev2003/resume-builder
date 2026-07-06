@@ -8,6 +8,7 @@ use Database\Seeders\TemplateSeeder;
 use App\Domains\User\Models\User;
 use App\Domains\Template\Models\Template;
 use App\Domains\Resume\Models\Resume;
+use App\Domains\Resume\Services\ResumeTemplateRenderer;
 use Laravel\Sanctum\Sanctum;
 
 class ResumeTest extends TestCase
@@ -24,7 +25,7 @@ class ResumeTest extends TestCase
         $this->seed(TemplateSeeder::class);
         $this->user = User::factory()->create();
         $this->template = Template::first();
-        
+
         Sanctum::actingAs($this->user);
     }
 
@@ -76,6 +77,64 @@ class ResumeTest extends TestCase
 
         // Expecting contact (+20) + summary (+15) = 35 score
         $this->assertEquals(35, $response->json('resume.score'));
+    }
+
+    public function test_resume_creation_inherits_authenticated_user_email(): void
+    {
+        $response = $this->postJson('/api/resumes', [
+            'title' => 'Auto Email Resume',
+            'template_id' => $this->template->id,
+            'sections' => [
+                [
+                    'section_type' => 'contact',
+                    'content' => [
+                        'name' => 'John Doe',
+                        'phone' => '1234567890',
+                    ],
+                    'order_index' => 1
+                ],
+            ]
+        ]);
+
+        $response->assertStatus(201);
+
+        $contactSection = collect($response->json('resume.sections'))
+            ->firstWhere('section_type', 'contact');
+
+        $this->assertSame($this->user->email, $contactSection['content']['email']);
+    }
+
+    public function test_resume_html_renders_authenticated_user_email(): void
+    {
+        $resume = Resume::create([
+            'user_id' => $this->user->id,
+            'title' => 'HTML Resume',
+            'template_id' => $this->template->id,
+        ]);
+
+        $resume->sections()->create([
+            'section_type' => 'contact',
+            'content' => ['name' => 'John Doe', 'phone' => '1234567890'],
+            'order_index' => 1,
+        ]);
+
+        $html = app(ResumeTemplateRenderer::class)->render($resume);
+
+        $this->assertStringContainsString($this->user->email, $html);
+    }
+
+    public function test_builder_view_does_not_prompt_for_email(): void
+    {
+        $resume = Resume::create([
+            'user_id' => $this->user->id,
+            'title' => 'Builder Resume',
+            'template_id' => $this->template->id,
+        ]);
+
+        $response = $this->actingAs($this->user)->get("/resumes/{$resume->id}/builder");
+
+        $response->assertStatus(200)
+            ->assertDontSee('Email Address');
     }
 
     public function test_user_can_update_resume(): void
@@ -158,7 +217,7 @@ class ResumeTest extends TestCase
             ]);
 
         $downloadUrl = $exportResponse->json('file.download_url');
-        
+
         // Extract token
         $urlParts = explode('/', $downloadUrl);
         $token = end($urlParts);

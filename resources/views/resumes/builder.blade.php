@@ -208,18 +208,18 @@
 
 @section('content')
 <div x-data="resumeBuilder()" data-resume-builder class="grid grid-cols-1 lg:grid-cols-12 gap-6 builder-container -mt-6">
-    
+
     <!-- LEFT COLUMN: Forms and Inputs (lg:col-span-5) -->
     <div class="lg:col-span-5 flex flex-col h-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm">
-        
+
         <!-- Header Bar -->
         <div class="p-5 border-b border-slate-200 dark:border-slate-850 flex items-center justify-between gap-4">
             <div class="flex-1 min-w-0">
                 <!-- Editable Resume Title -->
-                <input 
-                    type="text" 
-                    x-model="title" 
-                    @input="triggerAutoSave()" 
+                <input
+                    type="text"
+                    x-model="title"
+                    @input="triggerAutoSave()"
                     class="text-lg font-extrabold font-outfit text-slate-900 dark:text-slate-100 bg-transparent border-b border-transparent hover:border-slate-300 focus:border-primary-500 focus:outline-none w-full pb-0.5 truncate"
                 />
                 <div class="flex items-center gap-2 mt-1">
@@ -236,7 +236,7 @@
                         </button>
                         <div x-show="open" @click.away="open = false" x-cloak class="absolute left-0 mt-1.5 w-48 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-705 rounded-xl shadow-lg z-50 py-1.5 text-xs text-slate-700 dark:text-slate-350">
                             @foreach($templates as $tpl)
-                                <button @click="switchTemplate(@js($tpl->id), @js($tpl->style)); open = false" 
+                                <button @click="switchTemplate(@js($tpl->id), @js($tpl->style)); open = false"
                                         :class="templateId === '{{ $tpl->id }}' ? 'bg-primary-50 dark:bg-primary-950/20 text-primary-600 font-bold' : ''"
                                         class="w-full text-left px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-750 transition">
                                     {{ $tpl->name }}
@@ -272,7 +272,7 @@
         <!-- Form Navigation Tabs -->
         <div class="flex border-b border-slate-200 dark:border-slate-850 overflow-x-auto scrollbar-none px-4 bg-slate-50/50 dark:bg-slate-900/50">
             <template x-for="tab in tabs" :key="tab.id">
-                <button 
+                <button
                     @click="activeTab = tab.id"
                     :class="activeTab === tab.id ? 'border-primary-500 text-primary-600 dark:text-primary-400 font-bold' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:hover:text-slate-300'"
                     class="whitespace-nowrap py-3.5 px-3 border-b-2 font-medium text-xs transition duration-150 flex items-center gap-1.5"
@@ -305,7 +305,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- CONTACT DETAILS TAB -->
             <div x-show="activeTab === 'contact'" class="flex flex-col gap-5">
                 <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-850 pb-2">Personal Contact Information</h3>
@@ -330,8 +330,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <x-input label="Email Address" name="c_email" type="email" placeholder="john@example.com" model="contact.email" @input="triggerAutoSave()" />
+                <div class="grid grid-cols-1 gap-4">
                     <div>
                         <label for="c_phone" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Phone Number</label>
                         <div class="flex gap-2">
@@ -361,13 +360,13 @@
             <!-- SKILLS TAB -->
             <div x-show="activeTab === 'skills'" class="flex flex-col gap-4">
                 <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-850 pb-2">Core Skills & Competencies</h3>
-                
+
                 <!-- Tag Input Controller -->
                 <div x-data="{ newSkill: '' }" class="flex flex-col gap-3">
                     <div class="flex gap-2">
-                        <input 
-                            type="text" 
-                            x-model="newSkill" 
+                        <input
+                            type="text"
+                            x-model="newSkill"
                             @keydown.enter.prevent="if(newSkill.trim()) { skills.list.push(newSkill.trim()); newSkill = ''; triggerAutoSave(); }"
                             placeholder="Add skill (e.g. PHP, Kubernetes) and press Enter"
                             class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition duration-150 text-sm"
@@ -1315,7 +1314,7 @@
                         <div class="text-3xl font-black font-outfit" :class="atsResult.score >= 70 ? 'text-emerald-500' : 'text-amber-500'" x-text="atsResult.score + '%'"></div>
                         <div class="text-xs text-slate-500">Recommended score: 75% for enterprise ATS engines.</div>
                     </div>
-                    
+
                     <!-- Suggestions list -->
                     <div>
                         <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200 mb-1">ATS Optimization Suggestions:</h5>
@@ -1360,7 +1359,7 @@
                 <div class="flex flex-col gap-3">
                     <x-input label="Target Job Title" name="job_title_target" placeholder="Senior Backend Developer" model="jobTitle" />
                     <x-textarea label="Paste Job Description" name="job_desc_target" placeholder="Paste the job listing requirements here..." model="jobDesc" rows="4" />
-                    
+
                     <button @click="runJobMatch()" class="w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition" :disabled="loading || !jobTitle || !jobDesc">
                         <span x-show="!loading">Analyze Alignment</span>
                         <span x-show="loading"><i class="fa-solid fa-spinner animate-spin"></i> Analyzing...</span>
@@ -1435,7 +1434,7 @@
             title: @js($resume->title),
             templateId: @js($resume->template_id),
             selectedStyle: @js($builderSelectedStyle),
-            
+
             // Sections data
             contact: @js($builderContact),
             summary: @js($builderSummary),
@@ -1487,7 +1486,7 @@
                 { code: '+966', label: 'SA +966' },
                 { code: '+90', label: 'TR +90' },
             ],
-            
+
             tabs: [
                 { id: 'contact', name: 'Contact', icon: 'fa-regular fa-address-card' },
                 { id: 'summary', name: 'Summary', icon: 'fa-regular fa-file-text' },
@@ -1648,14 +1647,9 @@
             applyJobRole() {
                 this.selectedRole = this.jobRoles.find((role) => role.name === this.jobRole) || null;
                 if (!this.selectedRole) return;
-                if (!this.summary.text) this.summary.text = this.selectedRole.summary;
-                this.selectedRole.skills.forEach((skill) => {
-                    if (!this.skills.list.includes(skill)) this.skills.list.push(skill);
-                });
-                if (this.experience.items.length === 0) {
-                    this.experience.items.push({ company: '', role: this.selectedRole.name, duration: '', start_date: '', end_date: '', is_present: false, description: this.selectedRole.experience });
-                }
-                this.triggerAutoSave();
+
+                // Only show suggestions for the selected job role.
+                // Do not auto-fill summary, skills, or experience so the user can edit them manually.
             },
 
             switchTemplate(id, style) {
@@ -1667,9 +1661,9 @@
             triggerAutoSave() {
                 this.saveStatus = 'Unsaved';
                 this.hasUnsavedChanges = true;
-                
+
                 if (this.saveTimeout) clearTimeout(this.saveTimeout);
-                
+
                 this.saveTimeout = setTimeout(() => {
                     this.saveData();
                 }, 1000);
@@ -1735,7 +1729,7 @@
                     });
 
                     if (!response.ok) throw new Error('Auto-save failed.');
-                    
+
                     this.saveStatus = 'Saved';
                     this.hasUnsavedChanges = false;
                 } catch (e) {
@@ -1787,9 +1781,9 @@
                         headers: getAuthHeaders(),
                         body: JSON.stringify({ text: val })
                     });
-                    
+
                     const data = await response.json();
-                    
+
                     if (response.ok && data.review && data.review.feedback_data) {
                         const improved = data.review.feedback_data.improved_text || val + " (AI-Optimized)";
                         // Set value

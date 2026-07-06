@@ -25,10 +25,20 @@ class UpdateResumeAction
             ]);
 
             foreach ($dto->sections as $secDto) {
+                $content = $secDto->content;
+
+                if (
+                    $secDto->section_type === 'contact' &&
+                    empty($content['email']) &&
+                    auth()->check()
+                ) {
+                    $content['email'] = auth()->user()->email;
+                }
+
                 $this->resumeRepository->updateOrCreateSection(
                     $resume->id,
                     $secDto->section_type,
-                    $secDto->content,
+                    $content,
                     $secDto->order_index
                 );
             }

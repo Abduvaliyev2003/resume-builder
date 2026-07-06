@@ -119,6 +119,10 @@ class ResumeTemplateRenderer
         $sections = $resume->sections->keyBy('section_type');
 
         $contact        = $sections->get('contact')?->content        ?? [];
+        if (empty($contact['email']) && auth()->check()) {
+            $contact['email'] = auth()->user()->email;
+        }
+
         $summary        = $sections->get('summary')?->content        ?? [];
         $skills         = $sections->get('skills')?->content         ?? [];
         $experience     = $sections->get('experience')?->content     ?? [];
