@@ -64,6 +64,7 @@
           @if(!empty($contact['email']))<div class="c-item"><i class="fa-regular fa-envelope"></i>{{ $contact['email'] }}</div>@endif
           @if(!empty($contact['phone']))<div class="c-item"><i class="fa-solid fa-phone"></i>{{ $contact['phone'] }}</div>@endif
           @if(!empty($contact['address']))<div class="c-item"><i class="fa-solid fa-location-dot"></i>{{ $contact['address'] }}</div>@endif
+          @if(!empty($contact['date_of_birth']))<div class="c-item"><i class="fa-regular fa-calendar"></i>{{ $contact['date_of_birth'] }}</div>@endif
         </div>
         @if(!empty($contact['photo']))<img src="{{ $contact['photo'] }}" class="photo" alt="photo">@endif
       </div>

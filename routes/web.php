@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontendController;
 use App\Domains\User\Controllers\AuthController;
+use App\Domains\Profile\Controllers\ProfileController;
 
 // Public shared view (no auth needed)
 Route::get('/resumes/shared/{id}', [FrontendController::class, 'shared'])->name('resumes.shared');
@@ -32,4 +33,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/resumes/{id}/preview', [FrontendController::class, 'preview'])->name('resumes.preview')->middleware('verified');
     Route::get('/resumes/{id}/ai-feedback', [FrontendController::class, 'aiFeedback'])->name('resumes.ai-feedback')->middleware('verified');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Profile routes
+    Route::middleware('verified')->prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'show'])->name('show');
+        Route::post('/update', [ProfileController::class, 'updateProfile'])->name('update');
+        Route::post('/password', [ProfileController::class, 'updatePassword'])->name('password');
+        Route::post('/settings', [ProfileController::class, 'updateSettings'])->name('settings');
+        Route::post('/logout-other-devices', [ProfileController::class, 'logoutOtherDevices'])->name('logout-other-devices');
+        Route::delete('/delete', [ProfileController::class, 'deleteAccount'])->name('delete');
+    });
 });
+

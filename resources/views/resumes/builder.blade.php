@@ -343,7 +343,13 @@
                         </div>
                     </div>
                 </div>
-                <x-input label="Location/Address" name="c_address" placeholder="San Francisco, CA" model="contact.address" @input="triggerAutoSave()" />
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <x-input label="Location/Address" name="c_address" placeholder="San Francisco, CA" model="contact.address" @input="triggerAutoSave()" />
+                    <div class="w-full">
+                        <label for="c_dob" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Date of Birth</label>
+                        <input id="c_dob" name="c_dob" type="date" x-model="contact.date_of_birth" @input="triggerAutoSave()" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition duration-150 text-sm">
+                    </div>
+                </div>
             </div>
 
             <!-- SUMMARY TAB -->
@@ -688,6 +694,7 @@
                                 <template x-if="contact.email"><div class="hdr-contact-item"><i class="fa-regular fa-envelope"></i><span x-text="contact.email"></span></div></template>
                                 <template x-if="contact.phone"><div class="hdr-contact-item"><i class="fa-solid fa-phone"></i><span x-text="contact.phone"></span></div></template>
                                 <template x-if="contact.address"><div class="hdr-contact-item"><i class="fa-solid fa-location-dot"></i><span x-text="contact.address"></span></div></template>
+                                <template x-if="contact.date_of_birth"><div class="hdr-contact-item"><i class="fa-regular fa-calendar"></i><span x-text="contact.date_of_birth"></span></div></template>
                             </div>
                             <template x-if="contact.photo">
                                 <img :src="contact.photo" class="photo" alt="photo">
@@ -790,6 +797,7 @@
                             <template x-if="contact.email"><div class="contact-row"><i class="fa-regular fa-envelope"></i><span x-text="contact.email"></span></div></template>
                             <template x-if="contact.phone"><div class="contact-row"><i class="fa-solid fa-phone"></i><span x-text="contact.phone"></span></div></template>
                             <template x-if="contact.address"><div class="contact-row"><i class="fa-solid fa-location-dot"></i><span x-text="contact.address"></span></div></template>
+                            <template x-if="contact.date_of_birth"><div class="contact-row"><i class="fa-regular fa-calendar"></i><span x-text="contact.date_of_birth"></span></div></template>
                         </div>
                         <template x-if="skills.list && skills.list.length > 0">
                             <div class="s-sec">
@@ -878,6 +886,7 @@
                             <template x-if="contact.email"><div class="hdr-contact-item"><i class="fa-regular fa-envelope"></i><span x-text="contact.email"></span></div></template>
                             <template x-if="contact.phone"><div class="hdr-contact-item"><i class="fa-solid fa-phone"></i><span x-text="contact.phone"></span></div></template>
                             <template x-if="contact.address"><div class="hdr-contact-item"><i class="fa-solid fa-location-dot"></i><span x-text="contact.address"></span></div></template>
+                            <template x-if="contact.date_of_birth"><div class="hdr-contact-item"><i class="fa-regular fa-calendar"></i><span x-text="contact.date_of_birth"></span></div></template>
                         </div>
                     </div>
                     <div class="body">
@@ -960,6 +969,7 @@
                             <template x-if="contact.email"><div class="contact-item"><i class="fa-regular fa-envelope"></i><span x-text="contact.email"></span></div></template>
                             <template x-if="contact.phone"><div class="contact-item"><i class="fa-solid fa-phone"></i><span x-text="contact.phone"></span></div></template>
                             <template x-if="contact.address"><div class="contact-item"><i class="fa-solid fa-location-dot"></i><span x-text="contact.address"></span></div></template>
+                            <template x-if="contact.date_of_birth"><div class="contact-item"><i class="fa-regular fa-calendar"></i><span x-text="contact.date_of_birth"></span></div></template>
                         </div>
                         <template x-if="skills.list && skills.list.length > 0">
                             <div class="s-section">
@@ -1034,6 +1044,7 @@
                             <template x-if="contact.email"><div class="pill"><i class="fa-regular fa-envelope"></i><span x-text="contact.email"></span></div></template>
                             <template x-if="contact.phone"><div class="pill"><i class="fa-solid fa-phone"></i><span x-text="contact.phone"></span></div></template>
                             <template x-if="contact.address"><div class="pill"><i class="fa-solid fa-location-dot"></i><span x-text="contact.address"></span></div></template>
+                            <template x-if="contact.date_of_birth"><div class="pill"><i class="fa-regular fa-calendar"></i><span x-text="contact.date_of_birth"></span></div></template>
                         </div>
                     </div>
                     <div class="body">
@@ -1098,6 +1109,7 @@
                             <template x-if="contact.email"><div class="c-item"><i class="fa-regular fa-envelope"></i><span x-text="contact.email"></span></div></template>
                             <template x-if="contact.phone"><div class="c-item"><i class="fa-solid fa-phone"></i><span x-text="contact.phone"></span></div></template>
                             <template x-if="contact.address"><div class="c-item"><i class="fa-solid fa-location-dot"></i><span x-text="contact.address"></span></div></template>
+                            <template x-if="contact.date_of_birth"><div class="c-item"><i class="fa-regular fa-calendar"></i><span x-text="contact.date_of_birth"></span></div></template>
                         </div>
                         <template x-if="skills.list && skills.list.length > 0">
                             <div>
@@ -1164,6 +1176,7 @@
                             <template x-if="contact.email"><div class="c-pill"><i class="fa-regular fa-envelope"></i><span x-text="contact.email"></span></div></template>
                             <template x-if="contact.phone"><div class="c-pill"><i class="fa-solid fa-phone"></i><span x-text="contact.phone"></span></div></template>
                             <template x-if="contact.address"><div class="c-pill"><i class="fa-solid fa-location-dot"></i><span x-text="contact.address"></span></div></template>
+                            <template x-if="contact.date_of_birth"><div class="c-pill"><i class="fa-regular fa-calendar"></i><span x-text="contact.date_of_birth"></span></div></template>
                         </div>
                     </div>
                     <div class="body">
@@ -1229,6 +1242,7 @@
                                 <template x-if="contact.email"><div x-text="contact.email"></div></template>
                                 <template x-if="contact.phone"><div x-text="contact.phone"></div></template>
                                 <template x-if="contact.address"><div x-text="contact.address"></div></template>
+                                <template x-if="contact.date_of_birth"><div x-text="contact.date_of_birth"></div></template>
                             </div>
                             <template x-if="contact.photo">
                                 <img :src="contact.photo" class="photo" alt="photo">
@@ -1391,7 +1405,7 @@
 @section('scripts')
 @php
     $builderSelectedStyle = $resume->template?->style ?? 'professional';
-    $builderContact = $sections->get('contact')?->content ?? ['name' => '', 'title' => '', 'email' => '', 'phone' => '', 'phone_country' => '+998', 'address' => '', 'photo' => ''];
+    $builderContact = $sections->get('contact')?->content ?? ['name' => '', 'title' => '', 'email' => '', 'phone' => '', 'phone_country' => '+998', 'address' => '', 'photo' => '', 'date_of_birth' => ''];
     $builderSummary = $sections->get('summary')?->content ?? ['text' => ''];
     $builderSkills = $sections->get('skills')?->content ?? ['list' => []];
     $builderExperience = $sections->get('experience')?->content ?? ['items' => []];

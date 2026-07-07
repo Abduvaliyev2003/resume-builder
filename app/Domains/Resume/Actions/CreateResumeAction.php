@@ -34,10 +34,31 @@ class CreateResumeAction
 
                 if (
                     $secDto->section_type === 'contact' &&
-                    empty($content['email']) &&
                     $user instanceof \App\Domains\User\Models\User
                 ) {
-                    $content['email'] = $user->email;
+                    if (empty($content['email'])) {
+                        $content['email'] = $user->email;
+                    }
+                    if (empty($content['name'])) {
+                        $content['name'] = $user->name;
+                    }
+                    if ($user->profile) {
+                        if (empty($content['phone'])) {
+                            $content['phone'] = $user->profile->phone;
+                        }
+                        if (empty($content['photo']) && $user->profile->avatar) {
+                            $content['photo'] = $user->profile->avatar_url;
+                        }
+                        if (empty($content['address'])) {
+                            $addressParts = array_filter([$user->profile->city, $user->profile->country]);
+                            if (!empty($addressParts)) {
+                                $content['address'] = implode(', ', $addressParts);
+                            }
+                        }
+                        if (empty($content['date_of_birth'])) {
+                            $content['date_of_birth'] = $user->profile->date_of_birth?->format('Y-m-d');
+                        }
+                    }
                 }
 
                 $this->resumeRepository->updateOrCreateSection(

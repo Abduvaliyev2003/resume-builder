@@ -33,11 +33,12 @@ class TelegramAuthService
         if (! $user) {
             // Yangi user — Telegram bot tomonidan yaratiladi, random password qo'yiladi.
             // Password tekshiruvi shart emas, chunki bot parolni bilmaydi.
-            $user = User::create([
-                'name' => $dto->telegramFirstName ?: $dto->telegramUsername ?: 'Telegram User',
-                'email' => $dto->email,
-                'password' => Hash::make(Str::random(24)),
-            ]);
+            $user = new User();
+            $user->name = $dto->telegramFirstName ?: $dto->telegramUsername ?: 'Telegram User';
+            $user->email = $dto->email;
+            $user->password = Hash::make(Str::random(24));
+            $user->email_verified_at = now();
+            $user->save();
             $created = true;
         } else {
             // Mavjud user — ularning paroli tekshiriladi
@@ -49,6 +50,12 @@ class TelegramAuthService
                     '',
                     'Invalid credentials.'
                 );
+            }
+
+            // Telegram orqali kirganda email avtomatik tasdiqlangan deb belgilanadi
+            if (is_null($user->email_verified_at)) {
+                $user->email_verified_at = now();
+                $user->save();
             }
         }
 

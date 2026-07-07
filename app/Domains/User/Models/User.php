@@ -15,6 +15,7 @@ use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Domains\Profile\Models\UserProfile;
 
 class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 {
@@ -59,6 +60,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     public function telegramSession(): HasOne
     {
         return $this->hasOne(TelegramSession::class);
+    }
+
+    public function profile(): HasOne
+    {
+        return $this->hasOne(UserProfile::class, 'user_id');
     }
 
     public function emailVerificationCodes(): HasMany

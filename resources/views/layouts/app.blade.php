@@ -149,10 +149,38 @@
                     </button>
 
                     <!-- Authenticated Links -->
-                    <div x-show="isAuthenticated" class="hidden md:flex items-center gap-4">
+                    <div x-show="isAuthenticated" class="hidden md:flex items-center gap-3">
                         <a href="/dashboard" class="text-sm font-medium hover:text-primary-600 transition">Dashboard</a>
                         <a href="/templates" class="text-sm font-medium hover:text-primary-600 transition">Templates</a>
-                        <button onclick="logoutUser()" class="text-sm font-medium text-rose-500 hover:text-rose-600 transition">Logout</button>
+                        <!-- User Avatar Dropdown -->
+                        <div class="relative" x-data="{ userMenuOpen: false }" @click.outside="userMenuOpen = false">
+                            <button @click="userMenuOpen = !userMenuOpen"
+                                    class="flex items-center gap-2 p-1 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                                <div id="nav-avatar-wrapper" class="w-8 h-8 rounded-full overflow-hidden bg-primary-100 dark:bg-primary-900 flex items-center justify-center">
+                                    <i class="fa-solid fa-user text-primary-600 dark:text-primary-400 text-sm"></i>
+                                </div>
+                                <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-200" :class="{ 'rotate-180': userMenuOpen }"></i>
+                            </button>
+                            <div x-show="userMenuOpen" x-cloak
+                                 x-transition:enter="transition ease-out duration-150"
+                                 x-transition:enter-start="transform opacity-0 scale-95 translate-y-1"
+                                 x-transition:enter-end="transform opacity-100 scale-100 translate-y-0"
+                                 x-transition:leave="transition ease-in duration-100"
+                                 x-transition:leave-start="transform opacity-100 scale-100 translate-y-0"
+                                 x-transition:leave-end="transform opacity-0 scale-95 translate-y-1"
+                                 class="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-lg py-1 z-50">
+                                <a href="/profile" class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+                                    <i class="fa-solid fa-user-circle text-slate-400 w-4 text-center"></i> My Profile
+                                </a>
+                                <a href="/dashboard" class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+                                    <i class="fa-solid fa-gauge text-slate-400 w-4 text-center"></i> Dashboard
+                                </a>
+                                <div class="border-t border-slate-100 dark:border-slate-800 my-1"></div>
+                                <button onclick="logoutUser()" class="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-rose-500 hover:bg-rose-50/50 dark:hover:bg-rose-950/20 transition text-left">
+                                    <i class="fa-solid fa-arrow-right-from-bracket w-4 text-center"></i> Logout
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Guest Links -->
@@ -174,6 +202,7 @@
             <div x-show="isAuthenticated" class="flex flex-col gap-2">
                 <a href="/dashboard" class="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition text-sm">Dashboard</a>
                 <a href="/templates" class="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition text-sm">Templates</a>
+                <a href="/profile" class="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition text-sm">My Profile</a>
                 <button onclick="logoutUser()" class="px-3 py-2 rounded-lg text-rose-500 hover:bg-rose-50/50 dark:hover:bg-rose-950/20 text-left text-sm font-medium">Logout</button>
             </div>
             <div x-show="!isAuthenticated" class="flex flex-col gap-2">

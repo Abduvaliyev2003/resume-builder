@@ -49,7 +49,7 @@ class AuthTest extends TestCase
         Notification::assertSentTo($user, \App\Domains\User\Notifications\EmailVerificationCodeNotification::class);
     }
 
-    public function test_telegram_login_creates_new_user_and_sends_verification_email(): void
+    public function test_telegram_login_creates_new_user_auto_verifies_email(): void
     {
         Notification::fake();
 
@@ -66,7 +66,8 @@ class AuthTest extends TestCase
 
         $user = User::where('email', 'telegram-new@example.com')->first();
         $this->assertNotNull($user);
-        Notification::assertSentTo($user, \App\Domains\User\Notifications\EmailVerificationCodeNotification::class);
+        $this->assertNotNull($user->email_verified_at);
+        Notification::assertNotSentTo($user, \App\Domains\User\Notifications\EmailVerificationCodeNotification::class);
     }
 
     public function test_telegram_login_existing_user_does_not_send_verification_email(): void

@@ -83,7 +83,7 @@
                             sections: [
                                 {
                                     section_type: 'contact',
-                                    content: { name: '', title: '', email: '', phone: '', phone_country: '+998', address: '', photo: '' },
+                                    content: { name: '', title: '', email: '', phone: '', phone_country: '+998', address: '', photo: '', date_of_birth: '' },
                                     order_index: 1
                                 },
                                 {
