@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 
 class EmailVerificationService
 {
+    private const CODE_TTL_MINUTES = 10;
+
     /**
      * Generate a new verification code for the user and send it.
      */
@@ -25,7 +27,7 @@ class EmailVerificationService
             EmailVerificationCode::create([
                 'user_id' => $user->id,
                 'code' => $code,
-                'expires_at' => now()->addMinutes(10),
+                'expires_at' => now()->addMinutes(self::CODE_TTL_MINUTES),
             ]);
 
             // Send notification

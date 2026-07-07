@@ -173,6 +173,25 @@ class AuthTest extends TestCase
             ->assertJson(['verified' => true]);
     }
 
+    public function test_verification_code_expires_in_ten_minutes(): void
+    {
+        $user = User::factory()->unverified()->create([
+            'email' => 'expiry@example.com',
+            'password' => bcrypt('password123'),
+        ]);
+
+        app(\App\Domains\User\Services\EmailVerificationService::class)->generateCode($user);
+
+        $verificationCode = \App\Domains\User\Models\EmailVerificationCode::where('user_id', $user->id)->first();
+
+        $this->assertNotNull($verificationCode);
+        $this->assertEqualsWithDelta(
+            now()->addMinutes(10)->timestamp,
+            $verificationCode->expires_at->timestamp,
+            5
+        );
+    }
+
     public function test_send_verification_notification(): void
     {
         Notification::fake();
