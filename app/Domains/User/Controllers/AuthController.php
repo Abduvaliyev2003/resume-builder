@@ -12,6 +12,7 @@ use App\Domains\User\Resources\UserResource;
 use App\Domains\User\Requests\TelegramLoginRequest;
 use App\Domains\User\DTOs\TelegramLoginDTO;
 use App\Domains\User\Services\TelegramAuthService;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +28,7 @@ class AuthController extends Controller
     {
         $dto = UserRegisterDTO::fromArray($request->validated());
         $result = $this->userService->register($dto);
+        event(new Registered($result['user']));
         auth()->login($result['user']);
 
         return response()->json([
@@ -85,6 +87,10 @@ class AuthController extends Controller
         $result = $this->telegramAuthService
             ->login($dto);
 
+        if (!empty($result['created'])) {
+            event(new Registered($result['user']));
+        }
+
         return response()->json([
 
             'message' => 'Telegram login successful.',
@@ -95,6 +101,72 @@ class AuthController extends Controller
 
             'token' => $result['token'],
 
+        ]);
+    }
+
+    public function getVerificationStatus(Request $request): JsonResponse
+    {
+        return response()->json([
+            'verified' => (bool) $request->user()?->hasVerifiedEmail(),
+        ]);
+    }
+
+    public function sendVerificationNotification(Request $request): JsonResponse
+    {
+        $user = $request->user();
+
+        if (! $user) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'Email already verified.',
+            ]);
+        }
+
+        $user->sendEmailVerificationNotification();
+
+        return response()->json([
+            'message' => 'Verification code sent.',
+        ]);
+    }
+
+    public function verifyCode(Request $request): JsonResponse
+    {
+        $request->validate([
+            'code' => ['required', 'string', 'size:6'],
+        ]);
+
+        $user = $request->user();
+
+        if (! $user) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'Email already verified.',
+            ]);
+        }
+
+        $verified = app(\App\Domains\User\Services\EmailVerificationService::class)
+            ->verifyCode($user, $request->input('code'));
+
+        if (!$verified) {
+            return response()->json([
+                'message' => 'The provided verification code is invalid or has expired.',
+                'errors' => [
+                    'code' => ['The provided verification code is invalid or has expired.']
+                ]
+            ], 422);
+        }
+
+        // Trigger Laravel Verified event if desired (optional but good practice)
+        event(new \Illuminate\Auth\Events\Verified($user));
+
+        return response()->json([
+            'message' => 'Email verified successfully.',
         ]);
     }
 
@@ -122,7 +194,7 @@ class AuthController extends Controller
 
         ]);
     }
-    
+
     public function telegramMe(
     Request $request,
 ): JsonResponse {

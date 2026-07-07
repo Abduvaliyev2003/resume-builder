@@ -6,6 +6,7 @@ use App\Domains\User\DTOs\TelegramLoginDTO;
 use App\Domains\User\Models\User;
 use App\Domains\User\Repositories\TelegramSessionRepository;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class TelegramAuthService
@@ -27,24 +28,28 @@ class TelegramAuthService
             'email',
             $dto->email,
         )->first();
+        $created = false;
 
         if (! $user) {
-
-            throw new UnauthorizedHttpException(
-                '',
-                'Invalid credentials.'
-            );
-        }
-
-        if (! Hash::check(
-            $dto->password,
-            $user->password,
-        )) {
-
-            throw new UnauthorizedHttpException(
-                '',
-                'Invalid credentials.'
-            );
+            // Yangi user — Telegram bot tomonidan yaratiladi, random password qo'yiladi.
+            // Password tekshiruvi shart emas, chunki bot parolni bilmaydi.
+            $user = User::create([
+                'name' => $dto->telegramFirstName ?: $dto->telegramUsername ?: 'Telegram User',
+                'email' => $dto->email,
+                'password' => Hash::make(Str::random(24)),
+            ]);
+            $created = true;
+        } else {
+            // Mavjud user — ularning paroli tekshiriladi
+            if (! Hash::check(
+                $dto->password,
+                $user->password,
+            )) {
+                throw new UnauthorizedHttpException(
+                    '',
+                    'Invalid credentials.'
+                );
+            }
         }
 
         /*
@@ -81,6 +86,8 @@ class TelegramAuthService
             'user' => $user,
 
             'token' => $token,
+
+            'created' => $created,
 
         ];
     }

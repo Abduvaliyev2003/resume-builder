@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Domains\Resume\Repositories\ResumeRepositoryInterface;
 use App\Domains\Template\Repositories\TemplateRepositoryInterface;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -40,11 +42,68 @@ class FrontendController extends Controller
         return view('auth.forgot-password');
     }
 
+    public function verifyEmailNotice(Request $request)
+    {
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect()->route('dashboard');
+        }
+
+        $email = $request->user()->email;
+        $parts = explode('@', $email);
+        $name = $parts[0];
+        $domain = $parts[1];
+        if (strlen($name) > 4) {
+            $maskedName = substr($name, 0, 2) . '***' . substr($name, -2);
+        } else {
+            $maskedName = substr($name, 0, 1) . '***';
+        }
+        $maskedEmail = $maskedName . '@' . $domain;
+
+        return view('auth.verify-email', [
+            'email' => $maskedEmail
+        ]);
+    }
+
+    public function verifyEmailCode(Request $request)
+    {
+        $request->validate([
+            'code' => ['required', 'string', 'size:6'],
+        ]);
+
+        $user = $request->user();
+
+        if ($user->hasVerifiedEmail()) {
+            return redirect()->route('dashboard');
+        }
+
+        $verified = app(\App\Domains\User\Services\EmailVerificationService::class)
+            ->verifyCode($user, $request->input('code'));
+
+        if (!$verified) {
+            return back()->withErrors(['code' => 'The verification code is invalid or has expired.']);
+        }
+
+        event(new \Illuminate\Auth\Events\Verified($user));
+
+        return redirect()->route('dashboard')->with('status', 'email-verified');
+    }
+
+    public function sendVerificationNotification(Request $request)
+    {
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect()->route('dashboard');
+        }
+
+        $request->user()->sendEmailVerificationNotification();
+
+        return back()->with('status', 'verification-code-sent');
+    }
+
     // Protected Views
     public function dashboard(Request $request)
     {
         $resumes = $this->resumeRepository->getUserResumes(auth()->id());
-        
+
         // Calculate basic stats for user feedback dashboard
         $totalResumes = $resumes->count();
         $averageScore = $resumes->avg('score') ?? 0;
@@ -73,14 +132,14 @@ class FrontendController extends Controller
         if (!$resume) {
             abort(404, 'Resume not found.');
         }
-        
+
         // Authorize access
         if ($resume->user_id !== auth()->id()) {
             abort(403, 'Unauthorized access to resume.');
         }
 
         $templates = $this->templateRepository->allActive();
-        
+
         // Structure sections nicely by section_type
         $sections = $resume->sections->keyBy('section_type');
 

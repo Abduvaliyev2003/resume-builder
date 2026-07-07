@@ -12,10 +12,11 @@ use App\Domains\Analytics\Models\ActivityLog;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable, HasUUID, HasRoles;
 
@@ -58,6 +59,16 @@ class User extends Authenticatable implements FilamentUser
     public function telegramSession(): HasOne
     {
         return $this->hasOne(TelegramSession::class);
+    }
+
+    public function emailVerificationCodes(): HasMany
+    {
+        return $this->hasMany(EmailVerificationCode::class, 'user_id');
+    }
+
+    public function sendEmailVerificationNotification(): void
+    {
+        app(\App\Domains\User\Services\EmailVerificationService::class)->generateCode($this);
     }
 
     public function canAccessPanel(Panel $panel): bool

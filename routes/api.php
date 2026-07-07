@@ -24,29 +24,32 @@ Route::middleware('auth:sanctum')->group(function () {
     // Auth profile
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
-    
+    Route::get('/email/verify-status', [AuthController::class, 'getVerificationStatus']);
+    Route::post('/email/verification-notification', [AuthController::class, 'sendVerificationNotification'])->middleware('throttle:6,1');
+    Route::post('/email/verify-code', [AuthController::class, 'verifyCode']);
+
 
     Route::post('/telegram/logout', [AuthController::class, 'telegramLogout']);
 
     Route::get('/telegram/me', [AuthController::class, 'telegramMe']);
 
     // Resumes CRUD & Duplication
-    Route::get('/resumes', [ResumeController::class, 'index']);
-    Route::post('/resumes', [ResumeController::class, 'store']);
-    Route::get('/resumes/{id}', [ResumeController::class, 'show']);
-    Route::put('/resumes/{id}', [ResumeController::class, 'update']);
-    Route::delete('/resumes/{id}', [ResumeController::class, 'destroy']);
-    Route::post('/resumes/{id}/duplicate', [ResumeController::class, 'duplicate']);
+    Route::get('/resumes', [ResumeController::class, 'index'])->middleware('verified');
+    Route::post('/resumes', [ResumeController::class, 'store'])->middleware('verified');
+    Route::get('/resumes/{id}', [ResumeController::class, 'show'])->middleware('verified');
+    Route::put('/resumes/{id}', [ResumeController::class, 'update'])->middleware('verified');
+    Route::delete('/resumes/{id}', [ResumeController::class, 'destroy'])->middleware('verified');
+    Route::post('/resumes/{id}/duplicate', [ResumeController::class, 'duplicate'])->middleware('verified');
 
     // AI Features
-    Route::post('/resumes/{id}/grammar-check', [AIController::class, 'grammarCheck']);
-    Route::post('/resumes/{id}/ats-analyze', [AIController::class, 'atsAnalyze']);
-    Route::post('/resumes/{id}/missing-sections', [AIController::class, 'missingSections']);
-    Route::post('/resumes/{id}/job-match', [AIController::class, 'jobMatch']);
-    Route::get('/resumes/{id}/ai-reviews', [AIController::class, 'history']);
+    Route::post('/resumes/{id}/grammar-check', [AIController::class, 'grammarCheck'])->middleware('verified');
+    Route::post('/resumes/{id}/ats-analyze', [AIController::class, 'atsAnalyze'])->middleware('verified');
+    Route::post('/resumes/{id}/missing-sections', [AIController::class, 'missingSections'])->middleware('verified');
+    Route::post('/resumes/{id}/job-match', [AIController::class, 'jobMatch'])->middleware('verified');
+    Route::get('/resumes/{id}/ai-reviews', [AIController::class, 'history'])->middleware('verified');
 
     // Exporting
-    Route::post('/resumes/{id}/export', [FileController::class, 'export']);
+    Route::post('/resumes/{id}/export', [FileController::class, 'export'])->middleware('verified');
 
     // Analytics
     Route::get('/analytics/stats', [AnalyticsController::class, 'stats']);
