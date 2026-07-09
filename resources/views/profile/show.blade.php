@@ -150,8 +150,6 @@
                         <label for="language" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Language</label>
                         <select id="language" name="language" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition duration-150 text-sm">
                             <option value="en" {{ old('language', $profile?->getSetting('language', 'en')) === 'en' ? 'selected' : '' }}>English</option>
-                            <option value="es" {{ old('language', $profile?->getSetting('language')) === 'es' ? 'selected' : '' }}>Español</option>
-                            <option value="fr" {{ old('language', $profile?->getSetting('language')) === 'fr' ? 'selected' : '' }}>Français</option>
                             <option value="uz" {{ old('language', $profile?->getSetting('language')) === 'uz' ? 'selected' : '' }}>O'zbekcha</option>
                             <option value="ru" {{ old('language', $profile?->getSetting('language')) === 'ru' ? 'selected' : '' }}>Русский</option>
                         </select>

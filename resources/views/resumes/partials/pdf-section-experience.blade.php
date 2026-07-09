@@ -1,6 +1,6 @@
 @if(!empty($experience['items']))
     <section class="section">
-        <div class="section-title">Experience</div>
+        <div class="section-title">{{ __('app.sec_experience') }}</div>
         @foreach($experience['items'] as $job)
             <div class="item">
                 <div class="item-head"><span>{{ $job['role'] ?? '' }}</span><span class="muted">{{ $job['duration'] ?? trim(($job['start_date'] ?? '').' - '.(!empty($job['is_present']) ? 'Present' : ($job['end_date'] ?? ''))) }}</span></div>

@@ -1,6 +1,6 @@
 @if(!empty($certifications['items']))
     <section class="section">
-        <div class="section-title">Certifications</div>
+        <div class="section-title">{{ __('app.sec_certifications') }}</div>
         @foreach($certifications['items'] as $certificate)
             <div class="item">
                 <div class="item-head"><span>{{ $certificate['name'] ?? '' }}</span><span class="muted">{{ $certificate['issue_date'] ?? '' }}</span></div>

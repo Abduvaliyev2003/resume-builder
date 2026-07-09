@@ -20,7 +20,7 @@ Route::get('/templates/{id}', [TemplateController::class, 'show']);
 Route::get('/downloads/{token}', [FileController::class, 'download'])->name('resumes.download');
 
 // Protected routes
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocale::class])->group(function () {
     // Auth profile
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);

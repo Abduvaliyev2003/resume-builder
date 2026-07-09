@@ -142,6 +142,33 @@
 
                 <!-- Right Side Actions -->
                 <div class="flex items-center gap-4">
+                    <!-- Language Switcher Dropdown -->
+                    <div class="relative" x-data="{ langOpen: false }" @click.outside="langOpen = false">
+                        <button @click="langOpen = !langOpen" 
+                                class="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center gap-1.5 text-sm font-semibold">
+                            <i class="fa-solid fa-globe"></i>
+                            <span class="uppercase">{{ app()->getLocale() }}</span>
+                        </button>
+                        <div x-show="langOpen" x-cloak
+                             x-transition:enter="transition ease-out duration-150"
+                             x-transition:enter-start="transform opacity-0 scale-95 translate-y-1"
+                             x-transition:enter-end="transform opacity-100 scale-100 translate-y-0"
+                             x-transition:leave="transition ease-in duration-100"
+                             x-transition:leave-start="transform opacity-100 scale-100 translate-y-0"
+                             x-transition:leave-end="transform opacity-0 scale-95 translate-y-1"
+                             class="absolute right-0 top-full mt-2 w-32 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-lg py-1 z-50">
+                            <button onclick="changeLanguage('en')" class="w-full flex items-center gap-2 px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition text-left">
+                                🇺🇸 {{ __('app.lang_en') }}
+                            </button>
+                            <button onclick="changeLanguage('uz')" class="w-full flex items-center gap-2 px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition text-left">
+                                🇺🇿 {{ __('app.lang_uz') }}
+                            </button>
+                            <button onclick="changeLanguage('ru')" class="w-full flex items-center gap-2 px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition text-left">
+                                🇷🇺 {{ __('app.lang_ru') }}
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- Dark Mode Toggle -->
                     <button @click="darkMode = !darkMode; localStorage.setItem('darkMode', darkMode)" 
                             class="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
@@ -150,8 +177,8 @@
 
                     <!-- Authenticated Links -->
                     <div x-show="isAuthenticated" class="hidden md:flex items-center gap-3">
-                        <a href="/dashboard" class="text-sm font-medium hover:text-primary-600 transition">Dashboard</a>
-                        <a href="/templates" class="text-sm font-medium hover:text-primary-600 transition">Templates</a>
+                        <a href="/dashboard" class="text-sm font-medium hover:text-primary-600 transition">{{ __('app.nav_dashboard') }}</a>
+                        <a href="/templates" class="text-sm font-medium hover:text-primary-600 transition">{{ __('app.nav_templates') }}</a>
                         <!-- User Avatar Dropdown -->
                         <div class="relative" x-data="{ userMenuOpen: false }" @click.outside="userMenuOpen = false">
                             <button @click="userMenuOpen = !userMenuOpen"
@@ -170,14 +197,14 @@
                                  x-transition:leave-end="transform opacity-0 scale-95 translate-y-1"
                                  class="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-lg py-1 z-50">
                                 <a href="/profile" class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition">
-                                    <i class="fa-solid fa-user-circle text-slate-400 w-4 text-center"></i> My Profile
+                                    <i class="fa-solid fa-user-circle text-slate-400 w-4 text-center"></i> {{ __('app.nav_profile') }}
                                 </a>
                                 <a href="/dashboard" class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition">
-                                    <i class="fa-solid fa-gauge text-slate-400 w-4 text-center"></i> Dashboard
+                                    <i class="fa-solid fa-gauge text-slate-400 w-4 text-center"></i> {{ __('app.nav_dashboard') }}
                                 </a>
                                 <div class="border-t border-slate-100 dark:border-slate-800 my-1"></div>
                                 <button onclick="logoutUser()" class="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-rose-500 hover:bg-rose-50/50 dark:hover:bg-rose-950/20 transition text-left">
-                                    <i class="fa-solid fa-arrow-right-from-bracket w-4 text-center"></i> Logout
+                                    <i class="fa-solid fa-arrow-right-from-bracket w-4 text-center"></i> {{ __('app.nav_logout') }}
                                 </button>
                             </div>
                         </div>
@@ -185,8 +212,8 @@
 
                     <!-- Guest Links -->
                     <div x-show="!isAuthenticated" class="hidden md:flex items-center gap-4">
-                        <a href="/login" class="text-sm font-medium hover:text-primary-600 transition">Login</a>
-                        <a href="/register" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-sm transition">Get Started</a>
+                        <a href="/login" class="text-sm font-medium hover:text-primary-600 transition">{{ __('app.nav_login') }}</a>
+                        <a href="/register" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-sm transition">{{ __('app.nav_register') }}</a>
                     </div>
 
                     <!-- Mobile Menu Button -->
@@ -200,14 +227,14 @@
         <!-- Mobile Menu -->
         <div x-show="open" x-cloak class="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 pt-2 pb-4 flex flex-col gap-2">
             <div x-show="isAuthenticated" class="flex flex-col gap-2">
-                <a href="/dashboard" class="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition text-sm">Dashboard</a>
-                <a href="/templates" class="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition text-sm">Templates</a>
-                <a href="/profile" class="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition text-sm">My Profile</a>
-                <button onclick="logoutUser()" class="px-3 py-2 rounded-lg text-rose-500 hover:bg-rose-50/50 dark:hover:bg-rose-950/20 text-left text-sm font-medium">Logout</button>
+                <a href="/dashboard" class="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition text-sm">{{ __('app.nav_dashboard') }}</a>
+                <a href="/templates" class="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition text-sm">{{ __('app.nav_templates') }}</a>
+                <a href="/profile" class="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition text-sm">{{ __('app.nav_profile') }}</a>
+                <button onclick="logoutUser()" class="px-3 py-2 rounded-lg text-rose-500 hover:bg-rose-50/50 dark:hover:bg-rose-950/20 text-left text-sm font-medium">{{ __('app.nav_logout') }}</button>
             </div>
             <div x-show="!isAuthenticated" class="flex flex-col gap-2">
-                <a href="/login" class="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition text-sm">Login</a>
-                <a href="/register" class="px-3 py-2 bg-primary-600 text-white rounded-lg text-center text-sm font-semibold transition">Get Started</a>
+                <a href="/login" class="px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition text-sm">{{ __('app.nav_login') }}</a>
+                <a href="/register" class="px-3 py-2 bg-primary-600 text-white rounded-lg text-center text-sm font-semibold transition">{{ __('app.nav_register') }}</a>
             </div>
         </div>
     </nav>
@@ -268,6 +295,21 @@
             localStorage.removeItem('auth_token');
             window.dispatchEvent(new Event('auth-change'));
             window.location.href = '/login';
+        }
+
+        async function changeLanguage(locale) {
+            try {
+                const response = await fetch('/language', {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({ locale })
+                });
+                if (response.ok) {
+                    window.location.reload();
+                }
+            } catch (e) {
+                showToast('Error changing language', 'error');
+            }
         }
 
         // Toast dispatch helper

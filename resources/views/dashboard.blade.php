@@ -9,7 +9,7 @@
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
             <h1 class="text-3xl font-extrabold font-outfit text-slate-900 dark:text-slate-100 flex items-center gap-2">
-                <span>Hello,</span>
+                <span>{{ __('app.hello') }},</span>
                 <span class="text-primary-600" x-text="userName">User</span>
                 <span class="animate-bounce">👋</span>
             </h1>
@@ -18,7 +18,7 @@
         <div>
             <a href="/templates" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold shadow-md hover:shadow-lg transition-all active:scale-[0.98]">
                 <i class="fa-solid fa-plus"></i>
-                <span>Create New Resume</span>
+                <span>{{ __('app.create_new') }}</span>
             </a>
         </div>
     </div>
@@ -31,7 +31,7 @@
                 <i class="fa-solid fa-file-invoice"></i>
             </div>
             <div>
-                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Resumes</p>
+                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('app.total_resumes') }}</p>
                 <h3 class="text-2xl font-black font-outfit mt-0.5" x-text="stats.total_resumes">{{ $stats['total_resumes'] }}</h3>
             </div>
         </div>
@@ -42,7 +42,7 @@
                 <i class="fa-solid fa-gauge-high"></i>
             </div>
             <div>
-                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Average ATS Score</p>
+                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('app.avg_ats_score') }}</p>
                 <h3 class="text-2xl font-black font-outfit mt-0.5"><span x-text="stats.average_score">{{ $stats['average_score'] }}</span>%</h3>
             </div>
         </div>
@@ -53,7 +53,7 @@
                 <i class="fa-solid fa-download"></i>
             </div>
             <div>
-                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Simulated Exports</p>
+                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('app.sim_exports') }}</p>
                 <h3 class="text-2xl font-black font-outfit mt-0.5" x-text="stats.total_exports">{{ $stats['total_exports'] }}</h3>
             </div>
         </div>
@@ -61,7 +61,7 @@
 
     <!-- Resume Listing -->
     <div>
-        <h2 class="text-lg font-bold font-outfit text-slate-900 dark:text-slate-100 mb-4">Your Resumes</h2>
+        <h2 class="text-lg font-bold font-outfit text-slate-900 dark:text-slate-100 mb-4">{{ __('app.your_resumes') }}</h2>
         
         @if($resumes->isEmpty())
             <!-- Empty State -->
@@ -70,12 +70,12 @@
                     <i class="fa-solid fa-folder-open"></i>
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">No resumes found</h3>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">{{ __('app.no_resumes') }}</h3>
                     <p class="text-sm text-slate-500 dark:text-slate-400 max-w-sm mx-auto mt-1">Kickstart your job search by designing a new resume layout using our custom-tuned templates.</p>
                 </div>
                 <a href="/templates" class="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold shadow-sm transition">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    <span>Choose Template</span>
+                    <span>{{ __('app.choose_template') }}</span>
                 </a>
             </div>
         @else

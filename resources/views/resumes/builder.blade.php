@@ -705,13 +705,13 @@
                         <div class="col-left">
                             <template x-if="summary.text">
                                 <div class="sec">
-                                    <div class="sec-title">Profile Summary</div>
+                                    <div class="sec-title" x-text="trans.about"></div>
                                     <p class="summary-text" x-text="summary.text"></p>
                                 </div>
                             </template>
                             <template x-if="experience.items && experience.items.length > 0">
                                 <div class="sec">
-                                    <div class="sec-title">Experience</div>
+                                    <div class="sec-title" x-text="trans.experience"></div>
                                     <template x-for="job in experience.items">
                                         <div class="item">
                                             <div class="item-head">
@@ -728,7 +728,7 @@
                         <div class="col-right">
                             <template x-if="skills.list && skills.list.length > 0">
                                 <div class="sec">
-                                    <div class="sec-title">Skills</div>
+                                    <div class="sec-title" x-text="trans.skills"></div>
                                     <div class="tags">
                                         <template x-for="sk in skills.list">
                                             <span class="tag" x-text="sk"></span>
@@ -738,7 +738,7 @@
                             </template>
                             <template x-if="education.items && education.items.length > 0">
                                 <div class="sec">
-                                    <div class="sec-title">Education</div>
+                                    <div class="sec-title" x-text="trans.education"></div>
                                     <template x-for="edu in education.items">
                                         <div class="edu-item">
                                             <div class="edu-degree" x-text="edu.degree"></div>
@@ -750,7 +750,7 @@
                             </template>
                             <template x-if="certifications.items && certifications.items.length > 0">
                                 <div class="sec">
-                                    <div class="sec-title">Certifications</div>
+                                    <div class="sec-title" x-text="trans.certifications"></div>
                                     <template x-for="cert in certifications.items">
                                         <div class="cert-item">
                                             <div class="cert-name" x-text="cert.name"></div>
@@ -762,7 +762,7 @@
                             </template>
                             <template x-if="languages.items && languages.items.length > 0">
                                 <div class="sec">
-                                    <div class="sec-title">Languages</div>
+                                    <div class="sec-title" x-text="trans.languages"></div>
                                     <template x-for="lang in languages.items">
                                         <div class="lang-item">
                                             <span class="lang-name" x-text="lang.language"></span>
@@ -793,7 +793,7 @@
                             </div>
                         </div>
                         <div class="s-sec">
-                            <div class="s-label">Contact</div>
+                            <div class="s-label" x-text="trans.contact"></div>
                             <template x-if="contact.email"><div class="contact-row"><i class="fa-regular fa-envelope"></i><span x-text="contact.email"></span></div></template>
                             <template x-if="contact.phone"><div class="contact-row"><i class="fa-solid fa-phone"></i><span x-text="contact.phone"></span></div></template>
                             <template x-if="contact.address"><div class="contact-row"><i class="fa-solid fa-location-dot"></i><span x-text="contact.address"></span></div></template>
@@ -801,7 +801,7 @@
                         </div>
                         <template x-if="skills.list && skills.list.length > 0">
                             <div class="s-sec">
-                                <div class="s-label">Skills</div>
+                                <div class="s-label" x-text="trans.skills"></div>
                                 <div class="skill-bar-wrap">
                                     <template x-for="sk in skills.list">
                                         <div>
@@ -814,7 +814,7 @@
                         </template>
                         <template x-if="languages.items && languages.items.length > 0">
                             <div class="s-sec">
-                                <div class="s-label">Languages</div>
+                                <div class="s-label" x-text="trans.languages"></div>
                                 <template x-for="lang in languages.items">
                                     <div class="lang-row">
                                         <span class="lang-n" x-text="lang.language"></span>
@@ -827,13 +827,13 @@
                     <div class="main">
                         <template x-if="summary.text">
                             <div class="m-sec">
-                                <div class="m-title">About Me</div>
+                                <div class="m-title" x-text="trans.about"></div>
                                 <p class="summary-text" x-text="summary.text"></p>
                             </div>
                         </template>
                         <template x-if="experience.items && experience.items.length > 0">
                             <div class="m-sec">
-                                <div class="m-title">Experience</div>
+                                <div class="m-title" x-text="trans.experience"></div>
                                 <template x-for="job in experience.items">
                                     <div class="item">
                                         <div class="item-head">
@@ -848,7 +848,7 @@
                         </template>
                         <template x-if="education.items && education.items.length > 0">
                             <div class="m-sec">
-                                <div class="m-title">Education</div>
+                                <div class="m-title" x-text="trans.education"></div>
                                 <template x-for="edu in education.items">
                                     <div class="edu-item">
                                         <div class="edu-degree" x-text="edu.degree"></div>
@@ -860,7 +860,7 @@
                         </template>
                         <template x-if="certifications.items && certifications.items.length > 0">
                             <div class="m-sec">
-                                <div class="m-title">Certifications</div>
+                                <div class="m-title" x-text="trans.certifications"></div>
                                 <template x-for="cert in certifications.items">
                                     <div class="cert-item">
                                         <div class="cert-name" x-text="cert.name"></div>
@@ -893,13 +893,13 @@
                         <div>
                             <template x-if="summary.text">
                                 <div class="sec">
-                                    <div class="sec-title">Profile</div>
+                                    <div class="sec-title" x-text="trans.about"></div>
                                     <p class="summary-text" x-text="summary.text"></p>
                                 </div>
                             </template>
                             <template x-if="experience.items && experience.items.length > 0">
                                 <div class="sec">
-                                    <div class="sec-title">Experience</div>
+                                    <div class="sec-title" x-text="trans.experience"></div>
                                     <template x-for="job in experience.items">
                                         <div class="item">
                                             <div class="item-head">
@@ -916,7 +916,7 @@
                         <div>
                             <template x-if="skills.list && skills.list.length > 0">
                                 <div class="sec">
-                                    <div class="sec-title">Skills</div>
+                                    <div class="sec-title" x-text="trans.skills"></div>
                                     <template x-for="sk in skills.list">
                                         <div class="tag" x-text="sk"></div>
                                     </template>
@@ -924,7 +924,7 @@
                             </template>
                             <template x-if="education.items && education.items.length > 0">
                                 <div class="sec">
-                                    <div class="sec-title">Education</div>
+                                    <div class="sec-title" x-text="trans.education"></div>
                                     <template x-for="edu in education.items">
                                         <div class="edu-item">
                                             <div class="edu-degree" x-text="edu.degree"></div>
@@ -936,7 +936,7 @@
                             </template>
                             <template x-if="languages.items && languages.items.length > 0">
                                 <div class="sec">
-                                    <div class="sec-title">Languages</div>
+                                    <div class="sec-title" x-text="trans.languages"></div>
                                     <template x-for="lang in languages.items">
                                         <div class="lang-item">
                                             <span x-text="lang.language"></span>
@@ -965,7 +965,7 @@
                             <div class="s-title" x-text="contact.title || ''"></div>
                         </div>
                         <div class="s-section">
-                            <div class="s-label">Contact</div>
+                            <div class="s-label" x-text="trans.contact"></div>
                             <template x-if="contact.email"><div class="contact-item"><i class="fa-regular fa-envelope"></i><span x-text="contact.email"></span></div></template>
                             <template x-if="contact.phone"><div class="contact-item"><i class="fa-solid fa-phone"></i><span x-text="contact.phone"></span></div></template>
                             <template x-if="contact.address"><div class="contact-item"><i class="fa-solid fa-location-dot"></i><span x-text="contact.address"></span></div></template>
@@ -973,7 +973,7 @@
                         </div>
                         <template x-if="skills.list && skills.list.length > 0">
                             <div class="s-section">
-                                <div class="s-label">Skills</div>
+                                <div class="s-label" x-text="trans.skills"></div>
                                 <div>
                                     <template x-for="sk in skills.list">
                                         <span class="skill-chip" x-text="sk"></span>
@@ -983,7 +983,7 @@
                         </template>
                         <template x-if="languages.items && languages.items.length > 0">
                             <div class="s-section">
-                                <div class="s-label">Languages</div>
+                                <div class="s-label" x-text="trans.languages"></div>
                                 <template x-for="lang in languages.items">
                                     <div class="lang-row">
                                         <span class="lang-name" x-text="lang.language"></span>
@@ -996,13 +996,13 @@
                     <div class="main">
                         <template x-if="summary.text">
                             <div class="m-sec">
-                                <div class="m-title">About</div>
+                                <div class="m-title" x-text="trans.about"></div>
                                 <p class="summary-text" x-text="summary.text"></p>
                             </div>
                         </template>
                         <template x-if="experience.items && experience.items.length > 0">
                             <div class="m-sec">
-                                <div class="m-title">Work Experience</div>
+                                <div class="m-title" x-text="trans.experience"></div>
                                 <div class="timeline">
                                     <template x-for="job in experience.items">
                                         <div class="tl-item">
@@ -1018,7 +1018,7 @@
                         </template>
                         <template x-if="education.items && education.items.length > 0">
                             <div class="m-sec">
-                                <div class="m-title">Education</div>
+                                <div class="m-title" x-text="trans.education"></div>
                                 <template x-for="edu in education.items">
                                     <div class="edu-card">
                                         <div>
@@ -1050,13 +1050,13 @@
                     <div class="body">
                         <template x-if="summary.text">
                             <div class="sec">
-                                <div class="sec-title">Profile</div>
+                                <div class="sec-title" x-text="trans.about"></div>
                                 <p class="summary-text" x-text="summary.text"></p>
                             </div>
                         </template>
                         <template x-if="experience.items && experience.items.length > 0">
                             <div class="sec">
-                                <div class="sec-title">Experience</div>
+                                <div class="sec-title" x-text="trans.experience"></div>
                                 <template x-for="job in experience.items">
                                     <div class="item">
                                         <div class="item-role" x-text="job.role"></div>
@@ -1069,7 +1069,7 @@
                         </template>
                         <template x-if="skills.list && skills.list.length > 0">
                             <div class="sec">
-                                <div class="sec-title">Skills</div>
+                                <div class="sec-title" x-text="trans.skills"></div>
                                 <template x-for="sk in skills.list">
                                     <span class="tag" x-text="sk"></span>
                                 </template>
@@ -1077,7 +1077,7 @@
                         </template>
                         <template x-if="education.items && education.items.length > 0">
                             <div class="sec">
-                                <div class="sec-title">Education</div>
+                                <div class="sec-title" x-text="trans.education"></div>
                                 <template x-for="edu in education.items">
                                     <div class="edu-item">
                                         <div class="edu-degree" x-text="edu.degree"></div>
@@ -1105,7 +1105,7 @@
                         <div class="s-name" x-text="contact.name || 'Your Name'"></div>
                         <div class="s-title" x-text="contact.title || ''"></div>
                         <div>
-                            <div class="s-label">Contact</div>
+                            <div class="s-label" x-text="trans.contact"></div>
                             <template x-if="contact.email"><div class="c-item"><i class="fa-regular fa-envelope"></i><span x-text="contact.email"></span></div></template>
                             <template x-if="contact.phone"><div class="c-item"><i class="fa-solid fa-phone"></i><span x-text="contact.phone"></span></div></template>
                             <template x-if="contact.address"><div class="c-item"><i class="fa-solid fa-location-dot"></i><span x-text="contact.address"></span></div></template>
@@ -1113,7 +1113,7 @@
                         </div>
                         <template x-if="skills.list && skills.list.length > 0">
                             <div>
-                                <div class="s-label">Skills</div>
+                                <div class="s-label" x-text="trans.skills"></div>
                                 <template x-for="sk in skills.list">
                                     <div style="margin-bottom:6px">
                                         <div x-text="sk"></div>
@@ -1126,13 +1126,13 @@
                     <div class="main">
                         <template x-if="summary.text">
                             <div>
-                                <div class="m-sec-title">About Me</div>
+                                <div class="m-sec-title" x-text="trans.about"></div>
                                 <p class="summary-text" x-text="summary.text"></p>
                             </div>
                         </template>
                         <template x-if="experience.items && experience.items.length > 0">
                             <div>
-                                <div class="m-sec-title">Work Experience</div>
+                                <div class="m-sec-title" x-text="trans.experience"></div>
                                 <template x-for="job in experience.items">
                                     <div class="item">
                                         <div class="item-role" x-text="job.role"></div>
@@ -1145,7 +1145,7 @@
                         </template>
                         <template x-if="education.items && education.items.length > 0">
                             <div>
-                                <div class="m-sec-title">Education</div>
+                                <div class="m-sec-title" x-text="trans.education"></div>
                                 <template x-for="edu in education.items">
                                     <div class="edu-block">
                                         <div class="edu-degree" x-text="edu.degree"></div>
@@ -1183,13 +1183,13 @@
                         <div class="col-a">
                             <template x-if="summary.text">
                                 <div class="sec">
-                                    <div class="sec-title">Profile</div>
+                                    <div class="sec-title" x-text="trans.about"></div>
                                     <p class="summary-text" x-text="summary.text"></p>
                                 </div>
                             </template>
                             <template x-if="experience.items && experience.items.length > 0">
                                 <div class="sec">
-                                    <div class="sec-title">Experience</div>
+                                    <div class="sec-title" x-text="trans.experience"></div>
                                     <template x-for="job in experience.items">
                                         <div class="item">
                                             <div class="item-role" x-text="job.role"></div>
@@ -1204,7 +1204,7 @@
                         <div>
                             <template x-if="skills.list && skills.list.length > 0">
                                 <div class="sec">
-                                    <div class="sec-title">Skills</div>
+                                    <div class="sec-title" x-text="trans.skills"></div>
                                     <div class="tags">
                                         <template x-for="sk in skills.list">
                                             <span class="tag" x-text="sk"></span>
@@ -1214,7 +1214,7 @@
                             </template>
                             <template x-if="education.items && education.items.length > 0">
                                 <div class="sec">
-                                    <div class="sec-title">Education</div>
+                                    <div class="sec-title" x-text="trans.education"></div>
                                     <template x-for="edu in education.items">
                                         <div class="edu-card">
                                             <div class="edu-degree" x-text="edu.degree"></div>
@@ -1253,13 +1253,13 @@
                         <div>
                             <template x-if="summary.text">
                                 <div class="sec">
-                                    <div class="sec-title">Profile</div>
+                                    <div class="sec-title" x-text="trans.about"></div>
                                     <p class="summary-text" x-text="summary.text"></p>
                                 </div>
                             </template>
                             <template x-if="experience.items && experience.items.length > 0">
                                 <div class="sec">
-                                    <div class="sec-title">Experience</div>
+                                    <div class="sec-title" x-text="trans.experience"></div>
                                     <template x-for="job in experience.items">
                                         <div class="item">
                                             <div class="item-role" x-text="job.role"></div>
@@ -1274,7 +1274,7 @@
                         <div>
                             <template x-if="skills.list && skills.list.length > 0">
                                 <div class="sec">
-                                    <div class="sec-title">Skills</div>
+                                    <div class="sec-title" x-text="trans.skills"></div>
                                     <template x-for="sk in skills.list">
                                         <span class="tag" x-text="sk"></span>
                                     </template>
@@ -1282,7 +1282,7 @@
                             </template>
                             <template x-if="education.items && education.items.length > 0">
                                 <div class="sec">
-                                    <div class="sec-title">Education</div>
+                                    <div class="sec-title" x-text="trans.education"></div>
                                     <template x-for="edu in education.items">
                                         <div class="edu-item">
                                             <div class="edu-degree" x-text="edu.degree"></div>
@@ -1449,6 +1449,17 @@
             templateId: @js($resume->template_id),
             selectedStyle: @js($builderSelectedStyle),
 
+            // Translations (server-injected, locale-aware)
+            trans: @js([
+                'about'          => __('app.sec_about'),
+                'experience'     => __('app.sec_experience'),
+                'education'      => __('app.sec_education'),
+                'skills'         => __('app.sec_skills'),
+                'languages'      => __('app.sec_languages'),
+                'certifications' => __('app.sec_certifications'),
+                'contact'        => __('app.sec_contact'),
+                'projects'       => __('app.sec_projects'),
+            ]),
             // Sections data
             contact: @js($builderContact),
             summary: @js($builderSummary),
@@ -1502,13 +1513,13 @@
             ],
 
             tabs: [
-                { id: 'contact', name: 'Contact', icon: 'fa-regular fa-address-card' },
-                { id: 'summary', name: 'Summary', icon: 'fa-regular fa-file-text' },
-                { id: 'skills', name: 'Skills', icon: 'fa-solid fa-code' },
-                { id: 'experience', name: 'Experience', icon: 'fa-solid fa-briefcase' },
-                { id: 'education', name: 'Education', icon: 'fa-solid fa-graduation-cap' },
-                { id: 'certifications', name: 'Certificates', icon: 'fa-solid fa-certificate' },
-                { id: 'languages', name: 'Languages', icon: 'fa-solid fa-language' }
+                { id: 'contact',        name: @js(__('app.sec_contact')),        icon: 'fa-regular fa-address-card' },
+                { id: 'summary',        name: @js(__('app.sec_about')),           icon: 'fa-regular fa-file-text' },
+                { id: 'skills',         name: @js(__('app.sec_skills')),          icon: 'fa-solid fa-code' },
+                { id: 'experience',     name: @js(__('app.sec_experience')),      icon: 'fa-solid fa-briefcase' },
+                { id: 'education',      name: @js(__('app.sec_education')),       icon: 'fa-solid fa-graduation-cap' },
+                { id: 'certifications', name: @js(__('app.sec_certifications')),  icon: 'fa-solid fa-certificate' },
+                { id: 'languages',      name: @js(__('app.sec_languages')),       icon: 'fa-solid fa-language' }
             ],
 
             init() {

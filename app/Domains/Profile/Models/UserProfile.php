@@ -18,12 +18,8 @@ class UserProfile extends Model
         'username',
         'phone',
         'date_of_birth',
-        'gender',
-        'job_title',
-        'company',
         'country',
         'city',
-        'website',
         'bio',
         'avatar',
         'settings',
@@ -72,5 +68,22 @@ class UserProfile extends Model
         $settings = $this->settings ?? [];
         data_set($settings, $key, $value);
         $this->settings = $settings;
+    }
+
+    /**
+     * Get the user's preferred locale from settings.
+     */
+    public function getLocaleAttribute(): string
+    {
+        return $this->getSetting('language', config('app.locale', 'en'));
+    }
+
+    /**
+     * Set the user's preferred locale in settings.
+     */
+    public function setLocaleAttribute(string $locale): void
+    {
+        $this->setSetting('language', $locale);
+        $this->save();
     }
 }

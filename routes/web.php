@@ -8,6 +8,25 @@ use App\Domains\Profile\Controllers\ProfileController;
 // Public shared view (no auth needed)
 Route::get('/resumes/shared/{id}', [FrontendController::class, 'shared'])->name('resumes.shared');
 
+// Language switcher
+Route::post('/language', function (\Illuminate\Http\Request $request) {
+    $supported = ['en', 'uz', 'ru'];
+    $locale    = $request->input('locale', 'en');
+    if (!in_array($locale, $supported)) {
+        $locale = 'en';
+    }
+    session(['locale' => $locale]);
+    app()->setLocale($locale);
+
+    // Save to user profile if authenticated
+    if ($request->user()?->profile) {
+        $request->user()->profile->update(['locale' => $locale]);
+    }
+
+    return response()->json(['locale' => $locale]);
+})->name('language.switch');
+
+
 // Guest routes
 Route::middleware('guest')->group(function () {
     Route::get('/', function () {

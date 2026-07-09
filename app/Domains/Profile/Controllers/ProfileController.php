@@ -97,6 +97,11 @@ class ProfileController extends Controller
         $dto = UpdateSettingsDTO::fromRequest($request);
         $this->updateSettingsAction->execute($request->user(), $dto);
 
+        if ($dto->language) {
+            session(['locale' => $dto->language]);
+            app()->setLocale($dto->language);
+        }
+
         $section = $request->input('settings_section', 'account');
 
         return redirect()->route('profile.show', ['section' => $section])

@@ -46,7 +46,7 @@
             @if(!empty($contact['photo']))<img src="{{ $contact['photo'] }}" class="photo" alt="">@endif
             <h1 class="name" style="font-size:20px">{{ $contact['name'] ?? $resume->title }}</h1>
             <div class="title" style="color:#fff">{{ $contact['title'] ?? '' }}</div>
-            <div class="section"><div class="section-title">Contact</div><div class="muted">{{ $contact['email'] ?? '' }}<br>{{ $contact['phone'] ?? '' }}<br>{{ $contact['address'] ?? '' }}</div></div>
+            <div class="section"><div class="section-title">{{ __('app.sec_contact') }}</div><div class="muted">{{ $contact['email'] ?? '' }}<br>{{ $contact['phone'] ?? '' }}<br>{{ $contact['address'] ?? '' }}</div></div>
             @include('resumes.partials.pdf-section-skills', ['skills' => $skills])
             @include('resumes.partials.pdf-section-languages', ['languages' => $languages])
         </aside>
@@ -65,7 +65,7 @@
         <main>
     @endif
 
-        @if(!empty($summary['text']))<section class="section"><div class="section-title">Profile</div>{{ $summary['text'] }}</section>@endif
+        @if(!empty($summary['text']))<section class="section"><div class="section-title">{{ __('app.sec_about') }}</div>{{ $summary['text'] }}</section>@endif
         @include('resumes.partials.pdf-section-experience', ['experience' => $experience])
         <div class="split">
             <div>
