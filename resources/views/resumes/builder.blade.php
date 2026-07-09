@@ -1522,6 +1522,9 @@
                 { id: 'languages',      name: @js(__('app.sec_languages')),       icon: 'fa-solid fa-language' }
             ],
 
+            // true while the resume was just created and user hasn't saved anything yet
+            isNewDraft: (new URLSearchParams(window.location.search)).get('new') === '1',
+
             init() {
                 // Ensure arrays are initialized
                 if (!this.skills.list) this.skills.list = [];
@@ -1531,13 +1534,33 @@
                 if (!this.languages.items) this.languages.items = [];
                 if (typeof this.contact.photo === 'undefined') this.contact.photo = '';
                 if (!this.contact.phone_country) this.contact.phone_country = this.detectPhoneCountry(this.contact.phone);
+
+                // Strip ?new=1 from URL without reloading (clean address bar)
+                if (this.isNewDraft) {
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('new');
+                    window.history.replaceState({}, '', url.toString());
+                }
+
                 this.autoSaveInterval = setInterval(() => {
                     if (this.hasUnsavedChanges) this.saveData();
                 }, 10000);
+
                 window.addEventListener('beforeunload', (event) => {
-                    if (!this.hasUnsavedChanges) return;
-                    event.preventDefault();
-                    event.returnValue = '';
+                    // If the user never saved anything on a brand-new resume, silently delete it
+                    if (this.isNewDraft && !this.hasUnsavedChanges) {
+                        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
+                        const data = new URLSearchParams({ _token: csrfToken });
+                        navigator.sendBeacon(`/resumes/${this.resumeId}/discard`, data);
+                        // No warning dialog — just let them leave
+                        return;
+                    }
+
+                    // Existing: warn if there are unsaved changes
+                    if (this.hasUnsavedChanges) {
+                        event.preventDefault();
+                        event.returnValue = '';
+                    }
                 });
             },
 
@@ -1757,6 +1780,7 @@
 
                     this.saveStatus = 'Saved';
                     this.hasUnsavedChanges = false;
+                    this.isNewDraft = false; // Resume is now persisted — no auto-delete on leave
                 } catch (e) {
                     this.saveStatus = 'Failed to save';
                 }

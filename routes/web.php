@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontendController;
 use App\Domains\User\Controllers\AuthController;
 use App\Domains\Profile\Controllers\ProfileController;
+use App\Domains\Resume\Services\ResumeService;
 
 // Public shared view (no auth needed)
 Route::get('/resumes/shared/{id}', [FrontendController::class, 'shared'])->name('resumes.shared');
@@ -52,6 +53,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/resumes/{id}/preview', [FrontendController::class, 'preview'])->name('resumes.preview')->middleware('verified');
     Route::get('/resumes/{id}/ai-feedback', [FrontendController::class, 'aiFeedback'])->name('resumes.ai-feedback')->middleware('verified');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Discard empty draft resume (called via sendBeacon when user leaves without saving)
+    Route::post('/resumes/{id}/discard', function (string $id, \Illuminate\Http\Request $request, ResumeService $resumeService) {
+        $resume = $resumeService->getResume($id);
+        if (!$resume || $resume->user_id !== $request->user()->id) {
+            return response()->json(['ok' => false], 403);
+        }
+        $resumeService->deleteResume($id);
+        return response()->json(['ok' => true]);
+    })->name('resumes.discard')->middleware('verified');
 
     // Profile routes
     Route::middleware('verified')->prefix('profile')->name('profile.')->group(function () {

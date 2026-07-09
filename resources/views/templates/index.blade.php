@@ -130,7 +130,7 @@
                     this.$dispatch('close-modal-create-resume');
 
                     setTimeout(() => {
-                        window.location.href = `/resumes/${data.resume.id}/builder`;
+                        window.location.href = `/resumes/${data.resume.id}/builder?new=1`;
                     }, 500);
 
                 } catch (err) {
