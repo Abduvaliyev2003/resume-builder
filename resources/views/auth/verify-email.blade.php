@@ -1,21 +1,21 @@
 @extends('layouts.app')
 
-@section('title', 'Verify your email')
+@section('title', __('app.verify_email_meta'))
 
 @section('content')
 <div class="max-w-md mx-auto rounded-3xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-800 dark:bg-slate-900">
     <div class="flex items-center gap-3 text-primary-600 mb-6">
         <i class="fa-solid fa-envelope-circle-check text-3xl"></i>
-        <h1 class="text-2xl font-extrabold font-outfit text-slate-900 dark:text-slate-100">Verify Email</h1>
+        <h1 class="text-2xl font-extrabold font-outfit text-slate-900 dark:text-slate-100">{{ __('app.verify_email_title') }}</h1>
     </div>
 
     <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-        We have sent a 6-digit verification code to <span class="font-semibold text-slate-900 dark:text-slate-100">{{ $email }}</span>. Please enter the code below to verify your account.
+        {!! __('app.verify_email_desc', ['email' => '<span class="font-semibold text-slate-900 dark:text-slate-100">' . e($email) . '</span>']) !!}
     </p>
 
     @if (session('status') === 'verification-code-sent')
         <div class="mt-4 rounded-xl border border-emerald-250 bg-emerald-50 dark:bg-emerald-950/20 p-3.5 text-sm text-emerald-700 dark:text-emerald-400">
-            <i class="fa-solid fa-circle-check mr-1.5"></i> A fresh verification code has been sent to your email.
+            <i class="fa-solid fa-circle-check mr-1.5"></i> {{ __('app.verify_email_sent') }}
         </div>
     @endif
 
@@ -50,7 +50,7 @@
             <input type="hidden" name="code" :value="code.join('')" />
             
             <button type="submit" class="w-full rounded-xl bg-primary-600 px-4 py-3 text-sm font-semibold text-white hover:bg-primary-700 shadow-lg shadow-primary-500/10 hover:shadow-primary-500/20 transition duration-150" ::disabled="code.join('').length !== 6">
-                Verify Account
+                {{ __('app.verify_button') }}
             </button>
         </form>
     </div>
@@ -59,9 +59,9 @@
         <form method="POST" action="{{ route('verification.send') }}">
             @csrf
             <p class="text-sm text-slate-500 dark:text-slate-400">
-                Didn't receive the code? 
+                {{ __('app.didnt_receive_code') }} 
                 <button type="submit" class="font-bold text-primary-600 hover:text-primary-700 transition">
-                    Resend Code
+                    {{ __('app.resend_code') }}
                 </button>
             </p>
         </form>

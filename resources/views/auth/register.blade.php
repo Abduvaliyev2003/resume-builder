@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Register')
+@section('title', __('app.create_account'))
 
 @section('content')
 <div class="flex items-center justify-center min-h-[75vh]" x-data="registerForm()">
     <div class="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-xl">
         <div class="text-center mb-8">
-            <h1 class="text-2xl font-extrabold font-outfit text-slate-900 dark:text-slate-100">Create Account</h1>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1.5">Join the modern AI-assisted resume ecosystem</p>
+            <h1 class="text-2xl font-extrabold font-outfit text-slate-900 dark:text-slate-100">{{ __('app.register_title') }}</h1>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1.5">{{ __('app.register_subtitle') }}</p>
         </div>
 
         <!-- Global Error Alert -->
@@ -18,7 +18,7 @@
 
         <form @submit.prevent="submit" class="flex flex-col gap-5">
             <x-input 
-                label="Full Name" 
+                label="{{ __('app.full_name') }}" 
                 name="name" 
                 placeholder="John Doe" 
                 required="true"
@@ -26,7 +26,7 @@
             />
 
             <x-input 
-                label="Email Address" 
+                label="{{ __('app.email_address') }}" 
                 name="email" 
                 type="email" 
                 placeholder="john@example.com" 
@@ -35,35 +35,35 @@
             />
 
             <x-input 
-                label="Password" 
+                label="{{ __('app.password') }}" 
                 name="password" 
                 type="password" 
-                placeholder="Min 8 characters" 
+                placeholder="{{ __('app.min_characters') }}" 
                 required="true"
                 model="password"
             />
 
             <x-input 
-                label="Confirm Password" 
+                label="{{ __('app.confirm_password') }}" 
                 name="password_confirmation" 
                 type="password" 
-                placeholder="Re-type password" 
+                placeholder="{{ __('app.retype_password') }}" 
                 required="true"
                 model="password_confirmation"
             />
 
             <x-button type="submit" variant="primary" class="w-full mt-2" ::disabled="loading">
-                <span x-show="!loading">Create Free Account</span>
+                <span x-show="!loading">{{ __('app.create_free_account') }}</span>
                 <span x-show="loading" x-cloak class="flex items-center gap-2">
-                    <i class="fa-solid fa-spinner animate-spin"></i> Creating Account...
+                    <i class="fa-solid fa-spinner animate-spin"></i> {{ __('app.creating_account') }}
                 </span>
             </x-button>
         </form>
 
         <div class="text-center mt-8 pt-6 border-t border-slate-100 dark:border-slate-850">
             <p class="text-sm text-slate-500 dark:text-slate-400">
-                Already have an account? 
-                <a href="/login" class="font-bold text-primary-600 hover:text-primary-700 transition">Sign In</a>
+                {{ __('app.already_have_account') }} 
+                <a href="/login" class="font-bold text-primary-600 hover:text-primary-700 transition">{{ __('app.sign_in') }}</a>
             </p>
         </div>
     </div>

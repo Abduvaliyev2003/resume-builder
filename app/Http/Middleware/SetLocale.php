@@ -17,7 +17,7 @@ class SetLocale
         app()->setLocale($locale);
 
         // Only persist to session on stateful (web) requests
-        if (!$request->expectsJson()) {
+        if ($request->hasSession()) {
             session(['locale' => $locale]);
         }
 
@@ -32,7 +32,7 @@ class SetLocale
         }
 
         // 2. Session (web only)
-        if (!$request->expectsJson() && session()->has('locale') && in_array(session('locale'), $this->supported)) {
+        if ($request->hasSession() && session()->has('locale') && in_array(session('locale'), $this->supported)) {
             return session('locale');
         }
 

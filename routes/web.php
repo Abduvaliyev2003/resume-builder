@@ -20,8 +20,10 @@ Route::post('/language', function (\Illuminate\Http\Request $request) {
     app()->setLocale($locale);
 
     // Save to user profile if authenticated
-    if ($request->user()?->profile) {
-        $request->user()->profile->update(['locale' => $locale]);
+    if ($user = $request->user()) {
+        $profile = $user->profile ?: $user->profile()->create(['user_id' => $user->id]);
+        $profile->locale = $locale;
+        $profile->save();
     }
 
     return response()->json(['locale' => $locale]);

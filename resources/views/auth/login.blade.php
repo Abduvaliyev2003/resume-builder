@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Login')
+@section('title', __('app.nav_login'))
 
 @section('content')
 <div class="flex items-center justify-center min-h-[70vh]" x-data="loginForm()">
     <div class="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-xl">
         <div class="text-center mb-8">
-            <h1 class="text-2xl font-extrabold font-outfit text-slate-900 dark:text-slate-100">Welcome Back</h1>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1.5">Sign in to resume creating with AI power</p>
+            <h1 class="text-2xl font-extrabold font-outfit text-slate-900 dark:text-slate-100">{{ __('app.login_welcome') }}</h1>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1.5">{{ __('app.login_subtitle') }}</p>
         </div>
 
         <!-- Global Error Alert -->
@@ -18,7 +18,7 @@
 
         <form @submit.prevent="submit" class="flex flex-col gap-5">
             <x-input 
-                label="Email Address" 
+                label="{{ __('app.email_address') }}" 
                 name="email" 
                 type="email" 
                 placeholder="you@example.com" 
@@ -29,9 +29,9 @@
             <div>
                 <div class="flex justify-between items-center mb-1.5">
                     <label for="password" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                        Password <span class="text-rose-500">*</span>
+                        {{ __('app.password') }} <span class="text-rose-500">*</span>
                     </label>
-                    <a href="/forgot-password" class="text-xs font-semibold text-primary-600 hover:text-primary-700 transition">Forgot password?</a>
+                    <a href="/forgot-password" class="text-xs font-semibold text-primary-600 hover:text-primary-700 transition">{{ __('app.forgot_password') }}</a>
                 </div>
                 <input 
                     type="password" 
@@ -45,17 +45,17 @@
             </div>
 
             <x-button type="submit" variant="primary" class="w-full mt-2" ::disabled="loading">
-                <span x-show="!loading">Sign In</span>
+                <span x-show="!loading">{{ __('app.sign_in') }}</span>
                 <span x-show="loading" x-cloak class="flex items-center gap-2">
-                    <i class="fa-solid fa-spinner animate-spin"></i> Signing In...
+                    <i class="fa-solid fa-spinner animate-spin"></i> {{ __('app.signing_in') }}
                 </span>
             </x-button>
         </form>
 
         <div class="text-center mt-8 pt-6 border-t border-slate-100 dark:border-slate-850">
             <p class="text-sm text-slate-500 dark:text-slate-400">
-                Don't have an account? 
-                <a href="/register" class="font-bold text-primary-600 hover:text-primary-700 transition">Create Account</a>
+                {{ __('app.dont_have_account') }} 
+                <a href="/register" class="font-bold text-primary-600 hover:text-primary-700 transition">{{ __('app.create_account') }}</a>
             </p>
         </div>
     </div>
