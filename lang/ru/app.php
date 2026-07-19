@@ -82,4 +82,5 @@ return [
     'verify_button' => 'Подтвердить аккаунт',
     'didnt_receive_code' => 'Не получили код?',
     'resend_code' => 'Отправить код еще раз',
+    'or_continue_with' => 'Или продолжите через',
 ];

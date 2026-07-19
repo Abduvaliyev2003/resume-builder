@@ -24,4 +24,11 @@ class UserRepository implements UserRepositoryInterface
     {
         return User::find($id);
     }
+
+    public function findByProvider(string $provider, string $providerId): ?User
+    {
+        return User::where('provider', $provider)
+            ->where('provider_id', $providerId)
+            ->first();
+    }
 }

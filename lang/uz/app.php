@@ -82,4 +82,5 @@ return [
     'verify_button' => 'Hisobni tasdiqlash',
     'didnt_receive_code' => "Kod kelmadimi?",
     'resend_code' => 'Kodni qayta yuborish',
+    'or_continue_with' => 'Yoki orqali davom eting',
 ];

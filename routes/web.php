@@ -43,6 +43,10 @@ Route::middleware('guest')->group(function () {
     Route::get('/forgot-password', [FrontendController::class, 'forgotPassword'])->name('password.request');
 });
 
+// Social OAuth routes (outside guest middleware — callback may arrive with an active session)
+Route::get('/auth/{provider}/redirect', [AuthController::class, 'redirectToProvider'])->name('oauth.redirect');
+Route::get('/auth/{provider}/callback', [AuthController::class, 'handleProviderCallback'])->name('oauth.callback');
+
 // Authenticated routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/email/verify', [FrontendController::class, 'verifyEmailNotice'])->name('verification.notice');

@@ -82,4 +82,5 @@ return [
     'verify_button' => 'Verify Account',
     'didnt_receive_code' => "Didn't receive the code?",
     'resend_code' => 'Resend Code',
+    'or_continue_with' => 'Or continue with',
 ];

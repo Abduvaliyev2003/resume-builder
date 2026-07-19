@@ -14,8 +14,12 @@ use App\Domains\User\DTOs\TelegramLoginDTO;
 use App\Domains\User\Services\TelegramAuthService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
+use Throwable;
 
 class AuthController extends Controller
 {
@@ -228,4 +232,79 @@ class AuthController extends Controller
 
     ]);
 }
+
+    // -------------------------------------------------------------------------
+    // Social OAuth
+    // -------------------------------------------------------------------------
+
+    /** Providers allowed for Social OAuth */
+    private const ALLOWED_PROVIDERS = ['google', 'facebook', 'github'];
+
+    /**
+     * Redirect the user to the OAuth provider's consent page.
+     */
+    public function redirectToProvider(string $provider): RedirectResponse
+    {
+        if (! in_array($provider, self::ALLOWED_PROVIDERS, true)) {
+            abort(404, "Unknown OAuth provider [{$provider}].");
+        }
+
+        return Socialite::driver($provider)->redirect();
+    }
+
+    /**
+     * Handle the callback from the OAuth provider.
+     *
+     * On success this stores the Sanctum token in localStorage via an inline
+     * HTML page (same pattern as the existing login flow) and redirects the
+     * browser to /dashboard.
+     */
+    public function handleProviderCallback(string $provider): Response|RedirectResponse
+    {
+        if (! in_array($provider, self::ALLOWED_PROVIDERS, true)) {
+            abort(404, "Unknown OAuth provider [{$provider}].");
+        }
+
+        try {
+            $socialUser = Socialite::driver($provider)->user();
+        } catch (Throwable $e) {
+            return redirect()->route('login')
+                ->with('error', 'OAuth authentication failed. Please try again.');
+        }
+
+        $result = $this->userService->socialLogin($provider, $socialUser);
+        $user   = $result['user'];
+        $token  = $result['token'];
+
+        if (! empty($result['created'])) {
+            event(new Registered($user));
+        }
+
+        // Log the user in to the web session as well
+        auth()->login($user);
+
+        // Pass the Sanctum token to the front-end via an inline script that
+        // mirrors what the existing JS login/register handlers do.
+        $dashboardUrl = route('dashboard');
+        $escapedToken = e($token);
+
+        return response(
+            <<<HTML
+            <!DOCTYPE html>
+            <html>
+            <head><meta charset="utf-8"><title>Redirecting…</title></head>
+            <body>
+            <script>
+                localStorage.setItem('auth_token', '{$escapedToken}');
+                window.dispatchEvent(new Event('auth-change'));
+                window.location.href = '{$dashboardUrl}';
+            </script>
+            <noscript>
+                <meta http-equiv="refresh" content="0;url={$dashboardUrl}">
+            </noscript>
+            </body>
+            </html>
+            HTML
+        );
+    }
 }
