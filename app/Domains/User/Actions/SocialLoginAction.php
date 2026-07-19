@@ -31,12 +31,15 @@ class SocialLoginAction
     {
         $created = false;
 
+        // Extract email, fallback to a dummy unique email if the provider doesn't return one (e.g. GitHub private email)
+        $email = $socialUser->getEmail() ?: $socialUser->getId() . '@' . $provider . '.oauth';
+
         // 1. Try to find by provider + provider_id
         $user = $this->userRepository->findByProvider($provider, $socialUser->getId());
 
         if (! $user) {
             // 2. Fall back to email match (link existing account)
-            $user = $this->userRepository->findByEmail($socialUser->getEmail());
+            $user = $this->userRepository->findByEmail($email);
         }
 
         if ($user) {
@@ -58,7 +61,7 @@ class SocialLoginAction
 
             $user = new User();
             $user->name              = $socialUser->getName() ?: $socialUser->getNickname() ?: 'User';
-            $user->email             = $socialUser->getEmail();
+            $user->email             = $email;
             $user->password          = null; // OAuth users have no password
             $user->provider          = $provider;
             $user->provider_id       = $socialUser->getId();
