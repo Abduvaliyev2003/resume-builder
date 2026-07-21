@@ -203,6 +203,49 @@
     .tpl-luxurious .item-dur { font-size: 10px; color: #b7860f; }
     .tpl-luxurious .tag { display: block; font-size: 11px; padding: 4px 8px; background: #fdf8ec; border-left: 2px solid #b7860f; margin-bottom: 4px; }
     .tpl-luxurious .edu-item { margin-bottom: 8px; border-bottom: 1px dotted #e8c84a; padding-bottom: 6px; }
+
+    /* ─── DRAG & DROP TAB STYLES ─── */
+    [draggable="true"] {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    /* Tab being dragged — ghosted */
+    .tab-dragging {
+        opacity: 0.45;
+        transform: scale(0.96);
+        transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    /* Drop target indicator — glowing left border */
+    .tab-drag-over {
+        background: rgba(37, 99, 235, 0.07);
+        border-radius: 6px;
+        box-shadow: inset 2px 0 0 0 #2563eb;
+    }
+    .dark .tab-drag-over {
+        background: rgba(96, 165, 250, 0.10);
+        box-shadow: inset 2px 0 0 0 #60a5fa;
+    }
+
+    /* Grip handle visible on hover */
+    .tab-grip {
+        opacity: 0;
+        transition: opacity 0.15s ease;
+        font-size: 8px;
+        color: #94a3b8;
+        cursor: grab;
+        margin-right: 3px;
+    }
+    button:hover .tab-grip,
+    button.tab-drag-over .tab-grip {
+        opacity: 1;
+    }
+
+    /* Prevent cursor flicker during drag */
+    .tabs-dragging-active * {
+        cursor: grabbing !important;
+    }
 </style>
 @endsection
 
@@ -269,16 +312,31 @@
             </div>
         </div>
 
-        <!-- Form Navigation Tabs -->
-        <div class="flex border-b border-slate-200 dark:border-slate-850 overflow-x-auto scrollbar-none px-4 bg-slate-50/50 dark:bg-slate-900/50">
+        <!-- Form Navigation Tabs (Drag & Drop to reorder) -->
+        <div class="flex border-b border-slate-200 dark:border-slate-850 overflow-x-auto scrollbar-none px-4 bg-slate-50/50 dark:bg-slate-900/50"
+             :class="{ 'tabs-dragging-active': draggingId !== null }">
             <template x-for="tab in tabs" :key="tab.id">
                 <button
-                    @click="activeTab = tab.id"
-                    :class="activeTab === tab.id ? 'border-primary-500 text-primary-600 dark:text-primary-400 font-bold' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:hover:text-slate-300'"
-                    class="whitespace-nowrap py-3.5 px-3 border-b-2 font-medium text-xs transition duration-150 flex items-center gap-1.5"
+                    @click="if (!wasDragged) activeTab = tab.id; wasDragged = false;"
+                    draggable="true"
+                    @dragstart="onTabDragStart($event, tab.id)"
+                    @dragover.prevent="onTabDragOver($event, tab.id)"
+                    @dragleave="onTabDragLeave($event)"
+                    @drop.prevent="onTabDrop($event, tab.id)"
+                    @dragend="onTabDragEnd()"
+                    :class="[
+                        activeTab === tab.id
+                            ? 'border-primary-500 text-primary-600 dark:text-primary-400 font-bold'
+                            : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:hover:text-slate-300',
+                        draggingId === tab.id  ? 'tab-dragging' : '',
+                        dragOverId === tab.id  ? 'tab-drag-over' : ''
+                    ]"
+                    class="whitespace-nowrap py-3.5 px-3 border-b-2 font-medium text-xs transition duration-150 flex items-center gap-1"
                 >
+                    <!-- Grip handle (visible on hover) -->
+                    <i class="fa-solid fa-grip-dots-vertical tab-grip"></i>
                     <i :class="tab.icon"></i>
-                    <span x-text="tab.name"></span>
+                    <span x-text="tab.name" class="ml-0.5"></span>
                 </button>
             </template>
         </div>
@@ -1522,6 +1580,11 @@
                 { id: 'languages',      name: @js(__('app.sec_languages')),       icon: 'fa-solid fa-language' }
             ],
 
+            // ── Drag & Drop state ──
+            draggingId: null,   // id of the tab currently being dragged
+            dragOverId:  null,  // id of the tab under the cursor
+            wasDragged:  false, // prevents click firing right after a drop
+
             // true while the resume was just created and user hasn't saved anything yet
             isNewDraft: (new URLSearchParams(window.location.search)).get('new') === '1',
 
@@ -1534,6 +1597,21 @@
                 if (!this.languages.items) this.languages.items = [];
                 if (typeof this.contact.photo === 'undefined') this.contact.photo = '';
                 if (!this.contact.phone_country) this.contact.phone_country = this.detectPhoneCountry(this.contact.phone);
+
+                // ── Restore saved tab order from localStorage ──
+                const savedOrder = localStorage.getItem('tabOrder_' + this.resumeId);
+                if (savedOrder) {
+                    try {
+                        const order = JSON.parse(savedOrder);
+                        this.tabs.sort((a, b) => {
+                            const ia = order.indexOf(a.id);
+                            const ib = order.indexOf(b.id);
+                            return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib);
+                        });
+                    } catch (e) {
+                        // ignore invalid stored order
+                    }
+                }
 
                 // Strip ?new=1 from URL without reloading (clean address bar)
                 if (this.isNewDraft) {
@@ -1569,6 +1647,56 @@
                 const match = this.phoneCountries.find((country) => value.startsWith(country.code));
                 return match ? match.code : '+998';
             },
+
+            // ── Drag & Drop Methods ──
+            onTabDragStart(event, id) {
+                this.draggingId = id;
+                this.wasDragged = false;
+                event.dataTransfer.effectAllowed = 'move';
+                // Set ghost drag image (transparent so we rely on CSS opacity)
+                event.dataTransfer.setData('text/plain', id);
+            },
+
+            onTabDragOver(event, id) {
+                if (id !== this.draggingId) {
+                    this.dragOverId = id;
+                }
+            },
+
+            onTabDragLeave(event) {
+                // Only clear if actually leaving the element (not entering child)
+                if (!event.currentTarget.contains(event.relatedTarget)) {
+                    this.dragOverId = null;
+                }
+            },
+
+            onTabDrop(event, targetId) {
+                if (!this.draggingId || this.draggingId === targetId) return;
+
+                const fromIdx = this.tabs.findIndex(t => t.id === this.draggingId);
+                const toIdx   = this.tabs.findIndex(t => t.id === targetId);
+
+                if (fromIdx === -1 || toIdx === -1) return;
+
+                // Reorder in place
+                const [moved] = this.tabs.splice(fromIdx, 1);
+                this.tabs.splice(toIdx, 0, moved);
+
+                // Persist to localStorage for next session
+                localStorage.setItem(
+                    'tabOrder_' + this.resumeId,
+                    JSON.stringify(this.tabs.map(t => t.id))
+                );
+
+                this.wasDragged = true;   // suppress click event on drop
+                this.dragOverId = null;
+            },
+
+            onTabDragEnd() {
+                this.draggingId = null;
+                this.dragOverId = null;
+            },
+
 
             applyPhoneCountry() {
                 const code = this.contact.phone_country || '+998';

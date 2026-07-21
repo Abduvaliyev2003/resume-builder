@@ -1,5 +1,64 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-50 dark:bg-slate-900" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }" :class="{ 'dark': darkMode }">
+<!-- FOUC Prevention: runs before Alpine.js, sets dark class synchronously -->
+<script>
+    (function () {
+        var stored = localStorage.getItem('darkMode');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        // 'true' → dark, 'false' → light, null → follow OS
+        if (stored === 'true' || (stored === null && prefersDark)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    })();
+</script>
+<html lang="en" class="h-full bg-slate-50 dark:bg-slate-900"
+      x-data="{
+          get darkMode() {
+              var stored = localStorage.getItem('darkMode');
+              if (stored === 'true') return true;
+              if (stored === 'false') return false;
+              return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          },
+          darkModeStored: localStorage.getItem('darkMode'),
+          toggleDarkMode() {
+              var stored = localStorage.getItem('darkMode');
+              if (stored === null) {
+                  // OS → force Light
+                  localStorage.setItem('darkMode', 'false');
+                  document.documentElement.classList.remove('dark');
+                  this.darkModeStored = 'false';
+              } else if (stored === 'false') {
+                  // Light → force Dark
+                  localStorage.setItem('darkMode', 'true');
+                  document.documentElement.classList.add('dark');
+                  this.darkModeStored = 'true';
+              } else {
+                  // Dark → reset to OS
+                  localStorage.removeItem('darkMode');
+                  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  if (prefersDark) {
+                      document.documentElement.classList.add('dark');
+                  } else {
+                      document.documentElement.classList.remove('dark');
+                  }
+                  this.darkModeStored = null;
+              }
+          },
+          getDarkIcon() {
+              var stored = localStorage.getItem('darkMode');
+              if (stored === 'true') return 'fa-moon';
+              if (stored === 'false') return 'fa-sun';
+              return 'fa-circle-half-stroke';
+          },
+          getDarkTooltip() {
+              var stored = localStorage.getItem('darkMode');
+              if (stored === 'true') return 'Dark mode (click → Auto)';
+              if (stored === 'false') return 'Light mode (click → Dark)';
+              return 'Auto (OS) mode (click → Light)';
+          }
+      }"
+      :class="{ 'dark': darkMode }">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -169,10 +228,14 @@
                         </div>
                     </div>
 
-                    <!-- Dark Mode Toggle -->
-                    <button @click="darkMode = !darkMode; localStorage.setItem('darkMode', darkMode)" 
-                            class="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                        <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
+                    <!-- Dark Mode Toggle (3-state: Auto → Light → Dark → Auto) -->
+                    <button @click="toggleDarkMode(); darkModeStored = localStorage.getItem('darkMode')"
+                            :title="getDarkTooltip()"
+                            class="relative p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200 group">
+                        <i class="fa-solid transition-transform duration-300 group-hover:scale-110" :class="getDarkIcon()"></i>
+                        <!-- Auto indicator dot -->
+                        <span x-show="darkModeStored === null"
+                              class="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-amber-400 ring-1 ring-white dark:ring-slate-900"></span>
                     </button>
 
                     <!-- Authenticated Links -->
